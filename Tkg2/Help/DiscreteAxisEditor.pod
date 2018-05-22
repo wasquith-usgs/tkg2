@@ -1,0 +1,171 @@
+
+=head1 THE DISCRETE AXIS EDITOR
+
+This POD file provides detailed description of the B<Discrete Axis Editor> dialog.  The plot editor is accessed either by selecting a plot and using the C<Plot / Plot Editor> menu option or double clicking within the borders of a plot.  This documentation file is located at B<Tkg2/Help/DiscreteAxisEditor.pod>.
+
+
+=head2 INTRODUCTION
+
+A discrete axis is created when the data incoming to the axis is a string category and not a number or time.  The axis itself is built around the plotting of integers on the axis to determine spacing and other features.  However, the axis is labeled with strings.
+
+
+The editor is accessed either by double-left clicking on an axis or using the buttons at the bottom of the Plot Editor dialog.  The Plot Editor is accessed by double clicking within the borders of a plot.
+
+
+Because of its very nature, there are fewer parameters to configure for a discrete axis than there are for the Continuous Axis.
+
+=head2 AXIS PARAMETERS
+
+=over 4
+
+=item Axis Title
+
+Specify the title of the axis in one or more lines.  Current versions of tkg2 do not support text rotation.
+
+=item Minimum
+
+Set the minimum axis limit.  If the entry is blank, the value defaults to the last dynamically determined axis limit.  If a plot is brand new, and no data has been read in, and the entry is blank, then an exception is thrown.
+
+=item Maximum
+
+Set the maximum axis limit.  See Minimum.
+
+=item Reverse Axis
+
+Reverse the sense of the axis.  Instead of the minimum and the maximum being on the left (bottom) and right (top) of the plot, respectively, place the minimum and the maximum on the right (top) and left (bottom) of the plot, respectively.
+
+=item Double Label
+
+Label the axis on both sides of the plot.
+
+=item Hide Numbers and Title
+
+Hide the axis labeling (numbers) and the axis title.
+
+=item Tick at group
+
+The tick if placed at the 'origin' of each category or group on the axis when this checkbutton is toggled.  Otherwise the tick is placed half way between successive categories.  For example, the following '|' ticks are placed at the group.  Each column of '*' represents a bar for a data point in the corresponding category.
+
+   *        *
+   **       *
+   ***      **
+   ***     ***
+   *|*     *|*
+  -------------
+  CatA    CatB
+
+Whereas, the following ticks are placed half way between the groups.  This is also the default setting.
+
+   *        *
+   **       *
+   ***      **
+   ***     ***
+   ***  |  ***
+  -------------
+  CatA    CatB
+  
+=item No. of Categories to Skip
+
+Set the number category labels to skip drawing on the plot.
+
+=item Stack or Cluster Data
+
+Toggle between the two plotting mechanisms.  If data is stacked in offsets from the center or origin of the category are not made.  This is called clustering.  The clustering is visually the easiest to view.  The stacking is likely not quite a complete feature because the stacking is not additive--that is one can not generate bar plots in which the bar for each data value is placed on top of the bar for a previous data value.  Perhaps an 'Additive Stack Data' radiobutton will be added for this feature in the future.  The three bars for each category in the description of the Tick at Group checkbutton above represent a cluster.  Here is a stacked example.  Each symbol represents the a bar for from the bottom of the plot up to the data value.
+
+            +
+    +       +
+    +       +
+    *       +
+    *       *
+    %       *
+    %       %
+  _____________
+  CatA    CatB
+
+An additive stack data plot would look like the following using the same 'data' in the above figure.
+
+    +
+    +       +
+    +       +
+    +       +
+    +       +
+    +       +
+    *       +
+    *       +
+    *       *
+    *       *
+    %       *
+    %       %
+  _____________  
+  CatA    CatB
+
+=item Cluster Spacing
+
+The spacing between catagorical elements in a clustered group is set by this entry field.  The default is zero inches.  This parameter has no effect unless the Cluster Data is toggled on.  It will be hard to see the effects of this parameter unless the bars for a plot are toggled on.  Normally this option would only be used for bar plots.  A word of warning is needed.  Because of internal design, it is not possible to build a smart cluster spacing setting, too large of cluster spacing can run the contents of one group onto and across another and give a false impression of the data contents.
+
+=back
+
+=head2 TITLE AND LABELS
+
+=over 4
+
+=item Axis title font style
+
+The axis title font, size, weight, slant, and color are configurable as are the same parameters for the axis labels.
+
+=item Vertically stack text of the title and labels.
+
+This checkbutton places a newline behind each character for mitigate against the current absence of text rotation.
+
+=item Do text blanking with with color
+
+Set the color of the background of the text for the title and the labels.
+
+=item Title Offset
+
+Controls the vertical (X axis) or horizontal (Y axis) offset for the axis title from the axis itself in units of inches.  Negative values are permissible.
+
+=item Title2 Offset
+
+Controls the horizontal (X axis) or vertical (Y axis) offset from the center of the axis in units of inches.  A zero value is default and a nonzero value is seldom used, but can be handy in situations in which the label minimum and label  maximum are considerably different from the actual minimum and maximum of the axis.  This way you can have the axis title centered within the labeled bounds of the axis.
+
+=item Label Offset
+
+Controls the vertical (X axis) or horizontal (Y axis) offset for the axis title from the axis itself in units of inches.  Negative values are permissible.  The sense of the Label Offset is the same as the Title Offset described above.
+
+=item Title and Label location
+
+The location of the axis title is controlled by this menu button.  For X axis, the choices are Top and Bottom; and for Y axis, the choices are Left and Right.  This setting is overrided for the labeling by the Double Label checkbutton on the Axis Parameters tab, but the title still honors the location setting.  Double rendering of the axis title is not supported.  A double Y axis plot nullifies the location setting.
+
+=back
+
+=head2 TICKS AND GRID
+
+The tick marks on the discrete axis are referred to a major ticks to stay parallel with the internal implementation.  There are no minor ticks for a discrete axis.  The same situation holds for the grid lines as well.
+
+=over 4
+
+=item Major Tick Length
+
+Set the length in inches of the major tick marks.
+
+=item Tick Width
+
+Set the line thickness width of the tick marks.
+
+=item Major Grid Lines:
+
+Grid lines can be toggled on and off, and their line thickness, color, and style (solid or various dashes) controlled.
+
+=back
+
+
+=head2 Further Discussion
+
+Developers interested in the Discrete Axis Editor should consult the following module:
+
+ Tkg2/Plot/Editors/DiscreteAxisEditor.pm
+
+
+
+Z<>

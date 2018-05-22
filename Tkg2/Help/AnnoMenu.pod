@@ -1,0 +1,133 @@
+
+=head1 THE ANNOTATION MENU
+
+This POD file provides detailed description of the B<Annotation> menu available at the top of each template container.  This documentation file is located at B<Tkg2/Help/AnnoMenu.pod>.
+
+=head2 INTRODUCTION
+
+Tkg2 support three types of annotation on the canvas: text, line, and symbol.  Each of these types is created from the Annotation menu.  The menu has the following entries:
+
+ Text
+ Line 
+ Symbol
+ ---------
+ Select Text
+ Select Symbol
+ Select Line
+ ---------
+ draw Anno first
+ ---------
+   draw Text first
+            second
+             third
+ draw Symbol first
+            second
+             third
+   draw Line first
+            second
+             third
+
+The first three entries create a new annotation object.  The user will see that the cursor changes to a plus sign.  When the first mouse button is pressed, the text and symbol annotation is placed--its origin determined.  Subsequently, the Editor for the corresponding annotation type is launched.  The user then can configure the annotation and pressing the OK button will show the results.  Line annotation is slightly different, on the first press of the mouse button the line begins and is moved until the mouse button is pressed again.  The line annotation editor is not automatically launched.
+
+
+The second three entries provide a scale or selection dialog for the corresponding annotation type.  Each scale identifies all annotation objects that are on the canvas, whether visible or not.  This is an important feature, because it provides a means to grab and edit objects otherwise untouchable by the mouse.  Examples of untouchable annotation include annotation that is made too small, empty text annotation, annotation color that matches the background, or annotation in which the -doit checkbutton has been turned off.
+
+
+The I<draw Anno first> checkbutton toggles the annotation drawing ahead of the plot object drawing.  In the Tkg2 UpdateCanvas subroutine all plot objects by default are drawn ahead of the annotation object.  This includes all three object types.
+
+
+The remaining 9 radiobutton entries pertain to the drawing order of the individual annotation types when annotation is being drawn.  Be careful, at the present time, there are no checks on the uniqueness of the selections.  For example, if all types were to be drawn first, then only the text annotation will be drawn.  This is considered a feature, in that the user and relatively easily toggle symbol and line annotation on or off.  Since text is the first annotation considered in the list of drawing, it isn't possible to toggle it on and off with this version of Tkg2.  The following warning is issued along stderr.
+
+
+C<Tkg2-warning: One or more of the annotation elements (text, symbol, line) have the same drawing order.  Thus, one or more of these elements will not be visible on the screen.  Please consider revising your drawing order in the ANNOTATION menu.>
+
+
+=head2 GENERAL MOUSE BEHAVIOR
+
+The annotation editors for each of the annotation types are launched by double clicking the third mouse button and not the first.  Copying and Deleting of annotation is performed by copy and delete buttons in the editor.
+
+
+The text and symbol annotation are selected and moved using the first mouse button.  The nodes of the line annotation also are selected and moved using the same button.  At the present time, an entire line can not be moved at once. 
+
+=over 4
+
+=item Text Annotation
+
+Text annotation is perhaps the most complex of the annotation objects.  The text annotation editor provides a seven line text widget for typing in one or more lines of text.  The doit checkbutton toggles the drawing of the widget on and off--a feature most popular with batch processing and external scripting.  The anchor menubutton controls the compass direction in which the text will be drawn around the origin.  The origin is set by the mouse during placement and object moving.  A nw (northwest) origin is probably easiest to use and is the default.  Center is another popular choice as all of the text will be centered horizontally and vertically around the origin.  The remainder of the text options should be self explanatory.
+
+
+The Tk::Canvas does not presently support text rotation so the text angle has no effect.  However, it is important to know that if a file is being exported to the Framemaker Interchange Format (MIF), that each and every text in containing the string '<Ang 90> or <Angle -45>' other small variations on the characters making up 'Angle' are possible.  When this mif file is imported into Framemaker, the text will be rotated around the left edge of the text (see Tkg2/Util/tkmiffix.pl script).  The stack text option adds a new line after each character in an effort to mitigate for the lack of text angle specification.
+
+
+The user name entry field is not self explanatory.  All of the Tkg2 drawing objects can be given an internal name, this is primarily for the benefit of the user.  The name provides a means to persistently label an object when a Tkg2 file is saved, and most importantly the user name provides a mechanism for the external scripting Tkg2 instruction language (see --inst in the command line).  The user name has no effect on the drawing.
+
+
+The text annotation has the ability to load external files as text or run external commands (on Unix-like systems) and capture the standard output.  There are five types of behavior that need description. 
+
+
+I<Soft File Loading>
+
+If the text from the dialog box or from the Tkg2 file matches the following '<softcat: filename>' at the beginning of the text field, then the contents of the file (if it exists) are read and inserted as the text at draw time.  This file will be read with each update of the canvas.  Filename can include a path.
+
+ 
+ <softcat: /tmp/tkg2.log>
+
+
+I<Hard File Loading>
+
+If the text from the dialog box or from the Tkg2 file matches the following '<hardcat: filename>' at the beginning of the text field, then the contents of the file (if it exists) are read and inserted as the text at draw time.  This new text is permanently loaded into the Tkg2 file and will be preserved if the Tkg2 file is saved.  Filename can include a path.
+
+ 
+ <hardcat: /tmp/tkg2.log>
+
+
+I<Soft External Command>
+
+If the text from the dialog box or from the Tkg2 file matches the following
+'<softeval: expression possibly with pipes>' at the beginning of the text field, then the string after the 'eval:' is invoked as a shell command whose STDOUT is piped into the read by Tkg2. The command is run each time.  Here is an example:
+
+Insert the output from the C<date> command.
+
+ 
+ <softeval: date>
+
+
+I<Hard External Command>
+
+If the text from the dialog box or from the Tkg2 file matches the following
+'<hardeval: expression possibly with pipes>' at the beginning of the text field, then the string after the 'eval:' is invoked as a shell command whose STDOUT is piped into the read by Tkg2.  The output from the command is permanently loaded (see 2).  Here is an example:
+
+Insert filtered output of the C<last> command--
+
+ 
+ <hardeval: last | grep asquith>
+
+
+I<Simply use the Text>
+
+If one of the previous four behaviors are not triggered, then the contents of the text field are simply drawn on the screen.
+
+=item Symbol Annotation
+
+The symbol annotation provides the doit checkbutton and the user name entry field like the other annotation types (see Text Annotation).  The symbol type is selected with the symbol menubutton.  The list of symbols includes: circle, square, triangle, cross, star, horizontal bar, and vertical bar.  These are the same symbol types support in the plots.  The remainder of the options include symbol fill color, outline color, size (in inches), outline width, and angle.  The angle is operational unlike the angle in the text annotation.
+
+=item Line Annotation
+
+The line annotation is likely the second most complex annotation object owing to the support for arrows and differing line styles.  Like the text annotation, a doit checkbutton is provided for toggling the drawing on and off.  A user name entry field is provided (see Text Annotation).  The arrow style should be self explanatory except for the arrow distances.  The first distance is the distance along the line from the neck of the arrow to the tip. The second distance is the distance along the line from the trailing points of the arrow to the tip, and the third distance is the distance from the outside edge of the line to the trailing points.  The distances are in inches. 
+
+=back
+
+=head2 FURTHER DISCUSSION
+
+Developers interested in Tkg2 annotation workings should consult the following modules:
+
+ Tkg2/Anno/Text.pm, Line.pm, Symbol.pm, SelectAnno.pm
+ Tkg2/MenusRulersScrolls/Menus.pm
+ Tkg2/TemplateUtilities.pm::UpdateCanvas
+ Tkg2/DeskTop/Instructions.pm
+
+While the annotation is reasonably well throughout and highly compartmentalized, some improvement is needed.  Areas of improvement include better mouse handling and global cut, copy, and pasting.  Box annotation needs to be added.
+
+
+
+Z<>

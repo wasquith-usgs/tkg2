@@ -1,0 +1,66 @@
+
+=head1 THE DATA CLASS (FILE) EDITOR
+
+This POD file provides detailed description of the B<Data Class (File) Editor> dialog.  The editor is accessed by selecting a plot and accessing the C<Data / Edit Data or Do Statistics> menu option.  This documentation file is located at B<Tkg2/Help/DataClassEditor.pod>.
+
+
+=head2 INTRODUCTION
+
+
+A Data Class or File object is created each time a data file is read and the data actually plotted.  The object is a simple container for one or more Data Set Objects.  Each Data Set object contains the data to plot, settings for symbology, explanation entries, and ancillary components.  The Data Class Editor is used to control the plotting order of the data files, remove data files from the plot, or even delete all files from a plot.  Finally, the Data Set Editor can be launched.  These features are provided by several buttons, which are outlined below.
+
+
+=head2 BUTTONS
+
+=over
+
+=item Raise
+
+The selected data file in the list box is raised to the top of the list--its Data Sets will be drawn first (on the bottom of everything else in the plot).
+
+
+=item Lower
+
+The selected data file in the list box is lowered to the bottom of the list--its Data Sets will be drawn last (on the top of everything else in the plot).
+
+
+=item Delete One
+
+The selected data file in the list box is removed from the plot.
+
+
+=item Edit Data Set (launch Data Set Editor)
+
+The Data Set Editor is launched on selected data file (Data Class).  See documentation on the Data Set Editor.  From the Data Set Editor, then text in the explanation can be modified, the plot order of individual columns of data changed, the plotting symbology changed and even columns of data (single plots) removed.
+
+=item Delete All
+
+All data files in the listbox are immediately deleted from the plot--the plot will be empty.
+
+
+=back
+
+
+=head2 OBJECT DESCRIPTION
+
+
+The Data Class object is an array of Data Sets.  The beginning of the object can be found in a Tkg2 file by searching for the C<-dataclass> key.  A snippet of a Tkg2 file is shown below.
+
+
+ '-dataclass' =>
+       bless( [ bless( { ... }, 'Tkg2::DataMethods::DataSet' ),
+                bless( { ... }, 'Tkg2::DataMethods::DataSet' )
+              ], Tkg2::DataMethods::DataClass), ...
+
+The example object is an array because of the [ ] and contains to subordinate Data Set objects.  A plot as a single Data Class.  The -dataclass is located within the C<-plots> key of the Tkg2 file.
+
+
+=head2 FURTHER DISCUSSION
+
+Developers interested in the Data Class (File) Editor should consult the following module:
+
+ Tkg2/DataMethods/Class/DataClassEditor.pm
+
+
+
+Z<>

@@ -1,0 +1,114 @@
+
+=head1 TKG2 COMMAND LINE
+
+Tkg2 has an incredibly extensive and flexible command line to help everyone get
+their jobs done.  The command line is best viewed by % tkg2 --help.  This
+documentation file will only list the options that are available.
+
+  
+  --autoexit or --autoexit=<integer>
+ 
+  --batch 
+  --batchsave
+  
+  --checkcolors
+  --clear
+  --colormode=<color | mono>
+  --cycle=<integer --test>
+  
+  --debug=<stdout | file> 
+  --destination=<printer>
+  --display=[host]:server[.screen] or
+  --DISPLAY=[host]:server[.screen]
+  --dnload_data  ** NOT IMPLEMENTED YET
+  --drawdata or --nodrawdata
+  --dumpboxes
+  
+  --echocommandline
+  --exportfile[v]=<filename>
+  --exportrotate=<0 | 90>
+  --exportview=<integer, pixels per inch>?
+  
+  --fixcolors ** NOT IMPLEMENTED YET
+  --format=< (mif | MIF) |
+             (pdf | PDF) |
+             (png | PNG) |
+             (ps | PS) >
+  
+  --geometry=<'valid unix geometry string'>
+  --glob=<'pattern'>?
+  
+  --height=<X.X inches>
+  --help [optional topics]
+  --home=<directory path>
+ 
+  --importdata
+  --inst=<file name | - >
+  --instv=<file name | - >
+  --instb4data
+  
+  --justdisplay
+  --justdisplayone
+ 
+  --mkplot=<string of margins, #x#x#x#>?
+  --mktemp=<dimension string, #x#>
+  --megacmd_args=<string>
+  --megacmd_keep
+  --megacmd_show
+  --message=<string>
+ 
+  --nobind
+  --nodec
+  --nodialogrescale
+  --noexport
+  --nofieldcheck
+  --nomenus
+  --nomw
+  --noprint
+  --norulers
+  --nosave
+  --noundo
+  --nozoom2unity
+  
+  --optimize
+ 
+  --pause=<integer>
+  --presenter
+  --presenterlabels=<string, delimited by :>
+  --pretty_data **  NOT IMPLEMENTED YET
+  --printer_queue=<string>
+ 
+  --readonly
+  --redodata 
+  --redoinst 
+  --relative_paths or
+  --norelative_paths ** NOT IMPLEMENTED YET
+
+  --scaling=<real no. > 0>
+  --showme=<real no. > 0>
+  --showmesubs
+  --splash or --nosplash
+  --stdin
+  --stdout  
+ 
+  --test=<integer>
+  --time_cache_delete
+  --time_cache_ignore
+  --time_cache_nosave
+  --time_cache_view
+  
+  --walkatree=<directory>?
+
+  --verbose or --noverbose
+  --version or --v or --V
+  --viewconfig
+  
+  --width=<X.X inches>
+  --withdraw
+  --withdrawmw or --nomw
+  
+  --zoom=<real no.>
+
+
+
+Z<>

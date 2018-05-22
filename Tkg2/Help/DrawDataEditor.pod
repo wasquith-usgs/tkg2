@@ -1,0 +1,335 @@
+
+=head1 THE DRAW DATA EDITOR
+
+This POD file provides detailed description of the B<Draw Data Editor> dialog.  The editor is accessed by double-left clicking on the symbology for an entry in the plot explanation or accessed through the Data Set Editor by selecting a plot and accessing the C<Data / Edit Data or Do Statistics> menu option and proceeding from there.  This documentation file is located at B<Tkg2/Help/DrawDataEditor.pod>.
+
+
+=head2 INTRODUCTION
+
+
+The instructions for how to draw the data on a plot are extensive.  This editor provides the interface to adjust line widths, colors, and many other features. 
+
+=head2 POINTS tab
+
+=over 4
+
+=item DoIt
+
+Turn the point drawing on and off.
+
+=item Type
+
+Set the type of point symbol: Circle, Square, Triangle, Arrow, Phoenix, Thin Burst, Burst, FatBurst, Cross, Star, Horizontal Bar, and Vertical bar.  (see C<package Tkg2::Draw::DrawPointStuff>).
+
+=item Size
+
+The size in inches or other valid Tk units (inches, i) of the symbol. A scale factor can be applied (multiplied) to the size if the plot was originally loaded as a 'Text' plot and the third column (the text column) contains entries such as C<pscale:1.1>, in which 1.1 will be multiplied on the size before the individual symbol is drawn. Thus, a half size symbol would have C<pscale:0.5> as its corresponding text.
+
+=item Edge
+
+The line thickness of the outline of the symbol or the line segments comprising the symbol.
+
+=item Angle
+
+Set the angle in degrees of the symbol.
+
+=item Edge Color
+
+The color of the outline of the symbol or the line segments comprising the symbol.
+
+=item Fill
+
+The fill color of the symbol if applicable.
+
+=item No. to skip drawing
+
+For plots with a lot of points, it can be unacceptable to plot each symbol.  If the value of this field is a non zero integer, then few symbols will be plotted.  However line segments between the points are still plotted.  For example, suppose that every other point should be plotted--set the no. to skip drawing to unity (1).
+
+=item Do blanking below with color
+
+Draw a colored rectangle below the symbol in the corresponding color.
+
+=back
+
+The B<RUG PLOT> capabilities of Tkg2 are now described.  Rug plotting is the drawing of the data points not at the coordinate pairing (x,y), but drawing the x-values along the top/bottom of the x-axis or drawing the y-values along the left/right y-axis.  The idea for rug plotting stems from WHA toying with the R environment for statistical computing in April 2005.  These features are listed under the Points tab as the major point drawing logic is fundamentally the same.  Finally, for historical purposes, rug plotting was added in May 2005 with the movement to the 1.+ versions of Tkg2--almost five years after Tkg2 was born. The rug plot features are loaded for backwards compatability when the DrawDataEditor is launched.
+
+=item Rug X-axis DoIt
+
+Turns on the rug plotting along the X-axis.  This is a handy feature to show the general density of the data along the axis.
+
+=back
+
+=item Both axes
+
+The bottom axis is rugged by default.  If this checkbutton is checked then the rug plot is produced on the both the bottom and top axes. 
+
+=back
+
+=item Invert the fibers
+
+By default the rug plot is drawn on the axis and towards the center of the plot.  If this checkbutton is checked then the rug plot is drawn on the axis and away from the plot interior.
+
+=back
+
+=item Rug X-axis Color
+
+Set the color that the rug plot is to be drawn in.
+
+=back
+
+=item Edge
+
+The line width of the rug plot.
+
+=back
+
+=item Size
+
+The size in inches of the rug plot elements.
+
+=back
+
+=item Rug Y-axis DoIt
+
+Turns on the rug plotting along the Y-axis.  This is a handy feature to show the general density of the data along the axis.
+
+=back 
+
+=item Both axes
+
+The left axis is rugged by default if the plot is for the first y-axis; the right axis is rugged by default if the plot is for the second y-axis.  In either case, if this checkbutton is checked then the rug plot is produced on the both the left and right axes.  It is important to remark that in each case the rugging is not aware of other rugs on the plot; therefore if you have a double-y plot and you rug each y-axis and have both checked then some really weird looking plots can be generated.
+
+=back
+
+=item Invert the fibers
+
+By default the rug plot is drawn on the axis and towards the center of the plot.  If this checkbutton is checked then the rug plot is drawn on the axis and away from the plot interior.
+
+=back
+
+=item Rug Y-axis Color
+
+Set the color that the rug plot is to be drawn in.
+
+=back
+
+=item Edge
+
+The line width of the rug plot.
+
+=back
+
+=item Size
+
+The size in inches of the rug plot elements.
+
+=back
+
+=head2 LINES tab
+
+=over 4
+
+=item DoIt
+
+Turn the line drawing on and off.
+
+=item Width
+
+Set the line width.
+
+=item Color
+
+Set the line color.
+
+=item Style
+
+Set the line style (solid or dashed).
+
+=item Step Type
+
+Set the stepping type.  This is an unusual but potentially important feature.  The default is no stepping in which an straight line is drawn between two data points exactly like all other graphing software.  The step it option draws a stair case between each point--one horizontal line and then one vertical line.  The over-step it option adds an additional horizontal having the same length as the previous horizontal line length. (Difficult to explain).  The benefit of the stepping is that data that are averages can be properly represented.  For example, suppose one has a time series of daily averages plotted at 00:00 hours.  It is most appropriate to show a horizontal line across an entire day width instead of an angled line across the day as the angled line implies linear change in the data value.  The over-stepping provides a horizontal bar on the last data value.  The stepping is not confined to constant spaced data--a feature.  The over-stepping is likely not appropriate with variably spaced data on the X-axis.  (Stepping is harmless and does not change data values--try it out.)
+
+=item Arrow distances
+
+The first distance is the distance along the line from the neck of the arrow to the tip. The second distance is the distance along the line from the trailing points of the arrow to the tip, and the third distance is the distance from the outside edge of the line to the trailing points.  The distances are in inches. 
+
+=item Arrow style
+
+The arrow style: none, first, last, or both. Note that the arrowheads are potentially drawn at the ends of each ensemble of line segments. Thus, if all of the data having at least five data points is shown on the plot and the third data values are missing, then four arrowheads are drawn if the arrow style is C<both>.
+
+=back
+
+
+=head2 TEXT tab
+
+Text annotation besides the data points requires that the plot type was originally set to "Text" in the Add Data File to Plot dialog box. If the text has the following special content C<pscale:###>, in which C<###> is a number, then that number is multiplied on the symbol size (see the POINTS tab).
+
+=over 4
+
+=item DoIt
+
+Toggle the text annotation on and off.
+
+=item Anchor
+
+Set the anchor of the text string from is origin.  The origin is specified by the location of the data point and the values for the offsets.
+
+=item Font, Size, Weight, Slant, and Color
+
+Set the font family, size, weight, slant, and color.
+
+=item X-offset and Y-offset
+
+Set the X and Y offsets for the text relative to the origin specified by the location of the data point.  Any valid Tk unit (inches, i) can be used.
+
+=item Do blanking with color
+
+Blank underneather the text in the specified color.  Note that because of the font size conversion issues when postscript is rendered, this might not print or export properly.
+
+=item Format and Decimals
+
+The format for numbers and the number of decimals to show.  This is a very convenient feature when one wants to show numeric values on the plot without showing the entire numeric value for appearance.
+
+=back
+
+=head2 TEXT tab, Leader Lines
+
+=over
+
+=item DoIt
+
+Toggle the leader lines annotation on and off.  Turning leader lines on requires that the DoIt for the text annotation at the top of the dialog box is turned on.
+
+=item Automatic overlap correction
+
+Leader lines can easily over lap on another.  Tkg2 has some quasi-smart routines to help minimize overlap.  However, these routines are partially disabled as of the Tkg2 0.76+ release because of buggy behavior on some large applications dependent on Tkg2.  (In general the overlap correction is experimental.)
+
+=item ShuffleIt
+
+Yet another toggle to help minimize line overlapping.
+
+=item Flip every other line when shuffling
+
+Yet another toggle to help minimize line overlapping.
+
+=item Width and Color
+
+Set the leader line width and color.
+
+=item Begin and End offsets
+
+Set the offsets between the end of the line and the data point and the end of the line and the text with these offsets in valid Tk units (inches, i).
+
+=item Lines
+
+Tkg2 supports multi-segmented leader lines.  This is a potentially powerful feature in some circumstances.  Each line is specified by a length and an angle.  An example of the specification is provided by default in the text field.
+
+=back
+
+=head2 SHADING tab
+
+=over 4
+
+=item DoIt
+
+Toggling the shading beside lines on and off.
+
+=item Shade To Origin
+
+Shade only as far as the origin if the direction is set towards the origin.  The origin is taken as zero for a linear axis.
+
+=item Direction
+
+Set which direction below, above, left, right, or shade between to shade.  The shade between requires that the original plot style from the Add Data File to Plot dialog was "Shade Between" or "Shade Between Accumulation".  The ability to shade between and shade to the origin is considered a powerful interpretive feature of Tkg2.
+
+=item Fill
+
+Color to shade with.
+
+=back
+
+=head2 BARS tab
+
+=over 4
+
+=item DoIt
+
+Toggle the bar drawing on and off.
+
+=item Direction
+
+Set which direction below, above, left, right, or horizontal bar between to draw the bar.  The bar between feature appears broken (Tkg2 0.76+).
+
+=item Bar width
+
+Set the bar width in valid Tk units (inches, i).
+
+=item Color
+
+Set the border color of the bars.
+
+=item Fill
+
+Set the fill color of the bars.
+
+=back
+
+=head2 ERROR LINES tab
+
+Error line plots require that the "Y-Error Bar", "Y-Error Limits", "X-Y Error Bar", or "X-Y Error Limits" plot types be choosen in the Add Data File to Plot daillog to make this tab active.  The tab has a section for the X-Error Lines if applicable and always has a Y-Error Line section.  The settings for either are described here.
+
+=over 4
+
+=item Width, Color, Style
+
+Set the line width (thickness), color, and style (solid or dashed)
+
+=item Whisker width
+
+Specify the width in valid Tk units (inches, i) of the whiskers at the ends of the lines.
+
+=back
+
+=head2 SPECIAL PLOT tab
+
+=over
+
+=item See Special Plot section.
+
+=back
+
+=head2 SPECIAL PLOTS
+
+  
+                               BOX PLOTS
+
+
+Tkg2 box plots are very powerful, highly complex, but fully configurable.  Several topics require discussion.  It is hoped the the bulk of the settings on the dialog box are self explanatory or sufficiently similar to settings already discussed in this documentation file that detailing each on is not necessary.  In order to plot box plots the box plot plotting type needs to be selected in the Add Data File to Plot dialog box when the data is read in.  Tkg2 supports log transformation on the data prior to construction of the boxes as well as both product and L-moment computations.  (MOST USERS WILL WANT PRODUCT MOMENTS.)  Box plot drawing milage may vary when log-axes are used--be careful.
+
+
+A major topic to remark on regarding the box plots is that the "center" or origin of the box is defined by the mean of the data which corresponds to the Points if the DoIt for point symbology (see above) is turned on.  The C<Location> tab defaults to the median of the box, but the location can be changed to the mean.  When this is done the DoIt for the point symbology is not needed.  All this means is that it is possible to for Tkg2 to plot the mean, median, or both in on the box.  Another topic to briefly describe are the 'ciles.  This are the percenticles of the data--Tkg2 recognizes the tercile, quartile, pentacile, decile, and centacile of the data (if definable) according to USGS-WRD policy.  The tercile is the 33rd percentile, the quartile is the 25th percentile, and so on.
+
+
+Users should be aware of the different definitation of the C<Tails>: range of the data, interquartile range (IQR), 1.5*IQR, or 3*IQR.  The author perfers the range of the data to be the default.  The statistics behind each box can be looked up in the C<Statistics> tab.  If you are really interested in the statistics, check out the --dumpboxes command line options of Tkg2.  C<Detection Limits> are so experimental that nothing works regarding detection limits.  Some configuration on how the box is displayed in the explanation is provided in the C<Show Data> tab.
+
+  
+                               OTHER SPECIAL PLOTS
+
+Tkg2 does not currently support other fancy complex objects like box plots such as rose diagrams or stiff diagrams, but theoretically the Tkg2 data model and hooks deep in the code base could support other special plot objects (types).
+
+
+=head2 OBJECT DESCRIPTION
+
+
+See the Object Description section in the Data Set Editor documentation.
+
+
+=head2 FURTHER DISCUSSION
+
+Developers interested in the Draw Data Editor should consult the following module:
+
+ Tkg2/DataMethods/Class/DrawDataEditor.pm
+
+
+
+Z<>

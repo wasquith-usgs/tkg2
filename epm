@@ -1,0 +1,226 @@
+#!/usr/bin/perl -w
+use strict;
+use Tk;
+use vars qw($MW $TL_FILES %FILES $EDITOR $font);
+
+$font = "Fixed  9 normal";
+$EDITOR = (@ARGV) ? shift() : 'nedit';
+
+&BuildFILES();
+
+$MW = MainWindow->new(-title => "PID $$");
+$MW->geometry("-20+0");  # upper right corner
+&MainDialog();
+&MainLoop;  # LAUNCH THE TK EVENT LISTENER, AMONG MANY OTHER THINGS
+
+sub MainDialog {
+   foreach my $file (qw(tkg2.pl Tkg2rc.pm EditGlobalVars.pm RescaleTemplate.pm
+                        TemplateUtilities.pm Base.pm)) {
+      $MW->Button(-text     => "$file",
+                  -font     => $font,
+                  -width    => 25,
+                  -command  => sub { my $pathfile = "Tkg2/$file";
+                                  system(" $EDITOR $pathfile & "); } )
+         ->pack;
+   }
+   my $directory;
+   my @dirs = qw(Anno DataMethods DeskTop DeskTop/Rendering Draw
+                 Draw/Labels Help Math
+                 MenusRulersScrolls NWISMain NWISWeb Plot Plot/BoxPlot
+                 Scripts Time Util);
+   foreach my $dir (@dirs) {
+      $MW->Radiobutton(-text     => "$dir",
+                       -font     => $font,
+                       -variable => \$directory,
+                       -value    => $dir,
+                       -width    => 25,
+                       -anchor   => 'w',
+                       -command  => sub { $directory = $dir;
+                                          &ShowFiles($dir) } )
+         ->pack;
+   }
+   $MW->Button(-text    => 'EXIT',
+               -fg      => 'red',
+               -command => sub { exit; } )->pack;
+}
+
+sub ShowFiles {
+   my $dir = shift;
+   $dir = "Tkg2/$dir";
+   my @files = @{ $FILES{$dir} };
+   
+   if( Tk::Exists($TL_FILES) ) { $TL_FILES->destroy; }
+   $TL_FILES = $MW->Toplevel(-title => "$dir");
+   $TL_FILES->geometry("-20+440");  # upper right corner
+   my $toggle = 1;
+   foreach my $file (@files) {
+      if($file eq '-') {
+        $TL_FILES->Label(-text => " ")->pack(-fill => 'x');
+        next;
+      }
+      $TL_FILES->Button(-text     => "$file",
+                        -font     => $font,
+                        -width    => 30,
+                        -command  => sub { my $pathfile = "$dir/$file";
+                                           system("$EDITOR $pathfile & "); } )
+               ->pack;
+   }
+   
+   return;
+}
+
+sub BuildFILES {
+%FILES = (
+'Tkg2/Anno' => [
+                 'Box.pm',
+                 'Line.pm',
+                 'QQLine.pm',
+                 'ReferenceLines.pm',
+                 'Symbol.pm',
+                 'Text.pm',
+                 'SelectAnno.pm'
+               ],
+
+'Tkg2/DataMethods' => [
+                        'ClassLoader.pm',
+                        'DataClass.pm',
+                        'DataSet.pm',
+                        '-',
+                        'Class/AddDataToPlot.pm',
+                        'Class/DataClassEditor.pm',
+                        'Class/DataViewer.pm',
+                        'Class/LoadData.pm',
+                        'Class/LoadDataIntoPlot.pm',
+                        'Class/MegaCommand.pm',
+                        '-',
+                        'Class/ReadFiles.pm',
+                        'Class/ReadRDBFile.pm',
+                        'Class/ReadDelimitedFile.pm',
+                        '-',
+                        'Class/RouteData2Script.pm',
+                        '-',
+                        'Set/DataLimits.pm',
+                        'Set/DataSetEditor.pm',
+                        'Set/DrawDataEditor.pm',
+                        'Set/Statistics.pm'
+                      ],
+
+'Tkg2/DeskTop' => [ 
+                    'Activities.pm',
+                    'Batch.pm',
+                    'CreateTemplate.pm',
+                    'Instructions.pm',
+                    'Exit.pm',
+                    'OpenSave.pm',
+                    'Presenter.pm',
+                    'Printing.pm',
+                    'SelectScales.pm',
+                    'Undo.pm'
+                   ],
+                   
+'Tkg2/DeskTop/Rendering' => [ 
+                    'RenderMIF.pm',
+                    'RenderMetaPost.pm',
+                    'RenderPDF.pm',
+                    'RenderPNG.pm',
+                    'RenderPS.pm'
+                   ],
+
+'Tkg2/Draw' => [
+                 'DrawLineStuff.pm',
+                 'DrawMethods.pm',
+                 'DrawPointStuff.pm',
+                 'DrawExplanation.pm',
+               ],
+
+'Tkg2/Draw/Labels' => [
+                        'DrawLabels.pm',
+                        'LabelUtilities.pm',
+                        'DiscreteLabels.pm',
+                        'LinearLabels.pm',
+                        'LogLabels.pm',
+                        'ProbLabels.pm'
+                      ],
+
+'Tkg2/Help' => [
+                 'CmdLineHelp.pm',
+                 'Help.pm',
+                 'ViewENV.pm',
+               ],
+
+'Tkg2/Math' => [ 'Geometry.pm',
+                 'GraphTransform.pm',
+                 'CalcStatistics.pm',
+                 'KendallsTau.pm'
+               ],
+
+'Tkg2/MenusRulersScrolls' => [
+                               'Loader.pm',
+                               'Menus.pm',
+                               'Rulers.pm',
+                               'Scrolls.pm'
+                             ],
+
+'Tkg2/NWISMain' => [ ],
+
+'Tkg2/NWISWeb' => [ 'NWISWebMethods.pm'],
+
+'Tkg2/Plot' => [ 'AxisConfiguration.pm',
+                 'Plot2D.pm',
+                 '-',
+                 'Editors/ContinuousAxisEditor.pm',
+                 'Editors/DiscreteAxisEditor.pm',
+                 'Editors/EditorWidgets.pm',
+                 'Editors/PlotEditor.pm',
+                 'Editors/ShowHideExplanEntries.pm',
+                 '-',
+                 'Movements/DraggingPlot.pm',
+                 'Movements/MovingExplanation.pm',
+                 'Movements/MovingPlot.pm',
+                 'Movements/ResizingPlot.pm',
+               ],
+
+'Tkg2/Plot/BoxPlot' => [ 'BoxPlotData.pm',
+                         'BoxPlotStyle.pm',
+                         '-',
+                         'BoxPlotDraw.pm',
+                         'Draw/DrawCiles.pm',
+                         'Draw/DrawData.pm',
+                         'Draw/DrawLocation_Outliers.pm',
+                         'Draw/DrawTails.pm',
+                         'Draw/DrawText.pm',
+                         '-',
+                         'Editor/BoxPlotEditor.pm',
+                         'Editor/CileTab.pm',
+                         'Editor/DetectTab.pm',
+                         'Editor/LocationTab.pm',
+                         'Editor/OutlierTab.pm',
+                         'Editor/SampleTab.pm',
+                         'Editor/ShowDataTab.pm',
+                         'Editor/ShowStatsTab.pm',
+                         'Editor/TailTab.pm',
+                       ],
+
+'Tkg2/Scripts' => [ 'DoNoTransform_JustTest.pl' ],
+
+'Tkg2/Time' => [
+                 'DrawTimeAxis.pm',
+                 'DrawTimeUtilities.pm',
+                 'TimeMethods.pm',
+                 'Utilities.pm'
+               ],
+ 
+'Tkg2/Util' => [ 'RDBtools.pm',
+                 'rdbtc.pl',
+                 'ps2png.pl',
+                 'tkpsfix.pl',
+                 'tkmiffix.pl',
+                 'rdbdt2d_t.pl',
+                 'outwat2rdb.pl',
+                 'sumtkg2log.pl',
+                 'DVgetem.pl',
+                 'UVgetem.pl',
+                 'DVlastwk.pl',
+                 'UVlastwk.pl' ]
+);
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/perl -w
+use Pod::Pdf;
+use File::Copy;
+
+die "pod2pdf needs a file name on the command line\n"
+    unless(@ARGV and -e $ARGV[0]);
+$new_name = $pod_name = shift(@ARGV);
+$new_name =~ s/.pod$//;
+copy($pod_name, $new_name);
+pod2pdf('--paper=usletter', $new_name);
+# unlinking of $new_name can not occur because pod2pdf forks.

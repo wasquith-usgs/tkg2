@@ -1,0 +1,239 @@
+
+=head1 TKG2 ENVIRONMENT AND CONFIGURATION SETTINGS
+
+This file documents the TKG2_ENV and TKG2_CONFIG hashes. These hashes contain information about the environment that Tkg2 is running in and various configuration parameters too.  Although the information contained here is slanted to documentation of the internals of Tkg2, these features are highly relavent to the user experience as how tkg2 interacts with the operating system and the user often dictated by settings described here.  Many of the settings are highly integrated with the command line options and the Tkg2rc files.  The reader should also consult those sections of the documentation.
+
+This file is located at B<Tkg2/Help/Environment.pod> and is accessible through the ViewENV button on the main tkg2 window.
+
+
+=head2 TKG2 ENVIRONMENTAL HASH
+
+=over 4
+
+=item -SCALING
+
+=item -COMMANDLINE
+
+=item -TKG2HOME
+
+=item -PRINTER_QUEUE
+
+=item -DISPLAY
+
+=item -XRESOLUTION
+
+=item -RC_FILES
+
+=over 4
+
+=item -SYSTEM
+
+=item -USER
+
+=item -DISTRIBUTION
+
+=back
+
+=item -MEGACMD_FILES
+
+=item -UTILITIES
+
+=over 4
+
+=item -TKMIFFIX_EXEC
+
+=item -BYPASS_MIFFIX
+
+=item -PNGVIEWER_EXEC
+
+=item -PSTOEDIT_EXEC
+
+=item -PDFVIEWER_EXEC
+
+=item -PS2PNG_EXEC
+
+=item -BYPASS_PSFIX
+
+=item -TKPSFIX_EXEC
+
+=item -PSVIEWER_EXEC
+
+=back
+
+=item -HOST
+
+The name of the host running Tkg2.
+
+=item -SAFE_KEEPING_FOR_TKG2_FILE_HEADINGS
+
+Each Tkg2 file has a heading before the actual contents that are needed to load and draw the graphics.  This heading has several documentation comments and the beginnings of a shell script.  Tkg2 files can have arbitrary code placed in their headings.  When files are read in, the headings are stored in this environmental hash so that the heading can be reproduced verbatim when the tkg2 graphics are saved to either the same file name or another file name.
+
+=item -DEFAULT_PRINTER
+
+Name of the default printer.
+
+=item -YRESOLUTION
+
+=item -HOME
+
+=item -EXECUTABLE
+
+=item -BUGFILE
+
+Location that the BUG filehandle is directed too, which is likely something like
+/tmp/tkg2.bugs.  The filehandle is open to /dev/null unless the --debug command
+line option is used with a 'file' argument (--debug=file).  The --debug option
+can also use 'stdout' as an argument and in which case the BUG filehandle is
+written to standard out.
+
+=item -INPUT_RECORD_SEPARATOR
+
+Defaults to the newline character.
+
+=item -ORIGINAL_SCALING
+
+=item -LOGFILE
+
+=item -MEGACMD_BASENAME
+
+=item -USERHOME
+
+=item -OSNAME
+
+=item -PAGER
+
+=back
+
+ 
+
+=head2 TKG2 CONFIGURATION HASH
+
+=over 4
+
+=item -DEFAULT_BOXPLOT_MOMENT_CALC_METHOD
+
+=item -MONITORSIZE
+
+=item -SHOWME
+
+=item -PROB_BASE_MAJOR_TICKS
+
+=item -PROB_BASE_MAJOR_LABEL
+
+=item -OWNER
+
+William H. Asquith.
+
+=item -FILEFORMAT
+
+=item -DELIMITERS
+
+This is an array reference of the built-in file delimiters such as space, tab, comma.  The delimiters are set by the distribution tkg2rc file, but the user could choose their own.
+
+=item -BUILDDATE
+
+The date of an install at root level or other date set by the author as needed.
+
+=item -VERBOSE
+
+=item -INCREMENT_DIALOG_FONTS
+
+A font size increment in integer points of the dialog boxes.  Positive numbers
+will yield larger dialog font sizes and negative numbers will yield smaller
+sizes.
+
+=item -DIALOG_FONTS
+
+=over 4
+
+=item -large
+
+=item -medium
+
+=item -small
+
+=item -mediumB
+
+=item -largeB
+
+=item -smallB
+
+=back
+
+=item -WM_OVERRIDE_POD_GEOMETRY
+
+=item -PLOTTING_POSITION_COEFFICIENT
+
+Tkg2 uses a global variable for the plotting position coefficient, which is used to generate X-Probability and Y-Probability plots on the fly.  The Weibull plotting coefficient is the default.  This is changeable while Tkg2 is running, but any data already loaded into the plot will not see a change.  It is arguably not a good design to have this as a global variable.  However, the author was not comfortable placing this with the -file hash.  The -file hash controls how data is read in.
+
+=item -FORCE_PAGE_HEIGHT
+
+=item -RC_SCALING
+
+=item -REDRAWDATA
+
+=item -QUEQUE_OPTIONS
+
+See the discussion related to the queue_options token in the Tkg2rc documentation.
+
+=item -COLORS
+
+This is an array reference of 'valid' color names, black, white, reb, ...  Valid is an interesting issue as the system hosting Tkg2 could have different color names than the client and cause problems.  The --checkcolors command line options should identify any problems.
+
+=item -LOG_BASE_MINOR_TICKS
+
+=item -DEFAULT_BOXPLOT_TRANSFORMATION_METHOD
+
+=item -FORECOLOR
+
+=item -LINETHICKNESS
+
+This is an array reference of suitable linethicknesses qw(0.05i 0.15i etc) in inches.  Testing has indicated that the postscript driver in tk can only resolve certain differences between lines.  Only those thicknesses that show up as different on several laser printers have been selected.
+
+=item -LOG_BASE_MAJOR_TICKS
+
+This is an array reference of the default 'major' cycles to draw a major tick at.  For example, '2' would produce ticks at 0.02, .2, 2, 20, . . . 
+
+=item -BACKCOLOR
+
+=item -LOG_BASE_MAJOR_LABEL
+
+Similar to -LOG_BASE_MAJOR_TICKS, this is an array reference of the default 'major' cycles to label the axis at.  For example, '2' would produce labels centered at 0.02, .2, 2, 20, . . . 
+
+=item -FORCE_PAGE_WIDTH
+
+=item -GEOMETRY
+
+The --geometry command line option can place tkg2 windows at a various points on the screen and dimensions.  See the commmand line option help for more details.
+
+=item -ZOOM
+
+=item -DELETE_LOADED_DATA
+
+=item -SPLASH
+
+Show the splash, the series of '=' signs, to the terminal during startup.
+
+=item -EXTENDED_WARNINGS
+
+=item -DEBUG
+
+=item -PROB_BASE_MINOR_TICKS
+
+=item -FONTS
+
+This is an array reference of font family names that seem to be universally available.  The author see little justification for more than just a few, but suggestions for family additions are always welcome.
+
+=item -PRINTERS
+
+=item -DATA_DUMPER_INDENT
+
+=item -VERSION
+
+The official version number of Tkg2.  This number should match the versioning shown on the RPM package too.
+
+=back
+
+ 
+
+=head2 FURTHER DISCUSSION

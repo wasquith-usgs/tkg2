@@ -1,0 +1,1038 @@
+#!/usr/bin/perl -w
+# --------------------------------------------------------------
+# A Tkg2 file -- by the enigmatic William H. Asquith
+# --------------------------------------------------------------
+#   The following is the standard header written by tkg2 during
+#   a file save.  Tkg2 requires that the __DATA__ token be
+#   present as this flag is used to demark the actual material
+#   content of the file in.  Users can edit anything you want
+#   above the __DATA__ token or even remove all of it entirely.
+#   Or users can put calls to data retrieval scripts above the
+#   'exec' to get the data files in place before tkg2 and this
+#   file is actually launched. However, users must not remove
+#   the __DATA__ token (double underscore DATA double underscore)
+
+# Begin the self executing portion
+#    contains the command line arguments following
+#         this file name: e.g. % ./tkg2go --presenter.
+#   ./tkg2go is the name of this file.
+exec("/usr/local/bin/tkg2 @ARGV $0") or      
+print STDERR "The error message above indicates that the ",
+"tkg2 executable could not be found along the above path.";
+
+__DATA__
+Tkg2 File Version|1.01-1|Data::Dumper|Tue Sep 19 12:50:31 2006
+$template = bless( {
+  '-plots' => [
+    bless( {
+      '-ymaxcanvas' => '302.061764499121',
+      '-canvheight' => 825,
+      '-ypixels' => '227.592',
+      '-xpixels' => '433.314319859402',
+      '-xrmargin' => '74.4697644991213',
+      '-ylmargin' => '522.938235500879',
+      '-ymincanvas' => '74.4697644991213',
+      '-y' => {
+        '-majorstep' => '0.1',
+        '-max' => '0.5',
+        '-originwidth' => '0.01i',
+        '-lab2offset' => 0,
+        '-probUSGStype' => 0,
+        '-numdecimal' => '0',
+        '-turned_on' => 0,
+        '-time' => {
+          '-max' => '1900010114:23:59',
+          '-seconddoit' => 1,
+          '-yeardoit' => 1,
+          '-show_day_as_additional_string' => 0,
+          '-labellevel1' => 1,
+          '-showyear' => 1,
+          '-hourtickevery' => 'auto',
+          '-minutetickevery' => 'auto',
+          '-yeartickevery' => 'auto',
+          '-min' => '1900010102:24:00',
+          '-basedate' => [],
+          '-hourdoit' => 1,
+          '-daytickevery' => 'auto',
+          '-monthtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-show_day_of_year_instead' => 0,
+          '-tickratio' => '0.7',
+          '-compact_months_in_publication_style' => 0,
+          '-daydoit' => 1,
+          '-minutedoit' => 1,
+          '-secondtickevery' => 'auto',
+          '-labeldepth' => 1,
+          '-labeldensity' => 1
+        },
+        '-num2offset' => '3.372',
+        '-origindoit' => '0',
+        '-labelmin' => '1',
+        '-blankit' => '0',
+        '-tick_to_actual_min_and_max' => '0',
+        '-min' => '0.0001',
+        '-hideit' => '0',
+        '-autominlimit' => '1',
+        '-ticklength' => '6.673',
+        '-doublelabel' => '0',
+        '-numfont' => {
+          '-rotation' => 0,
+          '-color' => 'black',
+          '-family' => 'Helvetica',
+          '-slant' => 'roman',
+          '-custom1' => undef,
+          '-weight' => 'normal',
+          '-stackit' => '0',
+          '-custom2' => undef,
+          '-size' => '9'
+        },
+        '-automaxlimit' => '1',
+        '-gridmajor' => {
+          '-linewidth' => '0.01i',
+          '-doit' => '0',
+          '-linecolor' => 'grey75',
+          '-dashstyle' => 'Solid'
+        },
+        '-tickratio' => '0.6',
+        '-origincolor' => 'grey85',
+        '-tickwidth' => '0.01i',
+        '-basemajortolabel' => [
+          '1',
+          '2',
+          '5'
+        ],
+        '-make_axis_square' => '0',
+        '-numcommify' => '0',
+        '-numoffset' => '3.373',
+        '-labelmax' => '1',
+        '-title' => 'RUNOFF, 
+IN INCHES',
+        '-labfont' => {
+          '-rotation' => 0,
+          '-color' => 'black',
+          '-family' => 'Helvetica',
+          '-slant' => 'roman',
+          '-custom1' => undef,
+          '-weight' => 'normal',
+          '-stackit' => '0',
+          '-custom2' => undef,
+          '-size' => '10'
+        },
+        '-discrete' => {
+          '-bracketgroup' => 1,
+          '-clusterspacing' => '0i',
+          '-doit' => 0,
+          '-labelhash' => {}
+        },
+        '-reverse' => '0',
+        '-minor' => [],
+        '-laboffset' => '52.495',
+        '-baseminor' => [],
+        '-numminor' => '4',
+        '-spectickratio' => '0.8',
+        '-blankcolor' => 'white',
+        '-location' => 'left',
+        '-numformat' => 'free',
+        '-type' => 'log',
+        '-datamin' => {
+          '-whenlinear' => '0.001',
+          '-whenprob' => '0.001',
+          '-whenlog' => '0.001'
+        },
+        '-labskip' => '0',
+        '-basemajor' => [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9'
+        ],
+        '-origindashstyle' => 'Solid',
+        '-major' => [],
+        '-max_to_end_labeling' => '',
+        '-logoffset' => '0',
+        '-labelequation' => '0',
+        '-datamax' => {
+          '-whenlinear' => '0.489',
+          '-whenprob' => '0.489',
+          '-whenlog' => '0.489'
+        },
+        '-min_to_begin_labeling' => '',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-doit' => '0',
+          '-linecolor' => 'grey75',
+          '-dashstyle' => 'Solid'
+        },
+        '-invertprob' => 0,
+        '-usesimplelog' => '0'
+      },
+      '-explanation' => {
+        '-title' => 'EXPLANATION',
+        '-titlexoffset' => 'auto',
+        '-fillcolor' => 'white',
+        '-hide' => '0',
+        '-xorigin' => '213.971880492091',
+        '-titlejustify' => 'center',
+        '-font' => {
+          '-rotation' => 0,
+          '-color' => 'black',
+          '-family' => 'Times',
+          '-slant' => 'roman',
+          '-custom1' => undef,
+          '-weight' => 'normal',
+          '-stackit' => 0,
+          '-custom2' => undef,
+          '-size' => '8'
+        },
+        '-fillstyle' => undef,
+        '-linewidth' => '24.9732442882249',
+        '-vertspacing' => 'auto',
+        '-outlinewidth' => '0.01i',
+        '-numcol' => '1',
+        '-outlinecolor' => 'white',
+        '-colspacing' => '0.10i',
+        '-area_line_point_order' => 0,
+        '-horzgap' => '0.048i',
+        '-dashstyle' => 'Solid',
+        '-yorigin' => '332.940246045693',
+        '-titleyoffset' => 'auto'
+      },
+      '-plottitlefont' => {
+        '-rotation' => 0,
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'bold',
+        '-stackit' => '0',
+        '-custom2' => undef,
+        '-size' => '10'
+      },
+      '-borderdashstyle' => 'Solid',
+      '-plottitlexoffset' => '-74.9947275922671',
+      '-doit' => 1,
+      '-plottitleyoffset' => '17.9987346221441',
+      '-skip_axis_config_on_1st_data' => '0',
+      '-yumargin' => '74.4697644991213',
+      '-xmaxcanvas' => '562.530235500879',
+      '-RefLines' => bless( {
+        '-y' => [],
+        '-y2' => []
+      }, 'Tkg2::Anno::ReferenceLines' ),
+      '-plottitle' => 'A TEXT PLOT (with new feature)                  ',
+      '-plotbgcolor' => 'white',
+      '-username' => '',
+      '-plottitlejustify' => 'center',
+      '-xmincanvas' => '129.215915641476',
+      '-dataclass' => bless( [
+        bless( {
+          '-file' => {
+            '-sorttype' => 'numeric',
+            '-skiplineonmatch' => '^#',
+            '-numlinestoread' => '',
+            '-sortdir' => 'ascend',
+            '-datetime_offset' => '0',
+            '-numskiplines' => '0',
+            '-relativefilename' => 'TestData/symbolsize.out',
+            '-fullfilename' => '/home/wasquith/tkg2/TestData/symbolsize.out',
+            '-thresholds' => '0',
+            '-missingval' => '',
+            '-ordinates_as1_column' => '0',
+            '-megacommand' => '0',
+            '-sortdoit' => '0',
+            '-filedelimiter' => '\\s+',
+            '-numlabellines' => '1',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-invertskipline' => '0',
+            '-dataimported' => '0',
+            '-common_datetime' => '',
+            '-userelativepath' => '1',
+            '-numskiplines_afterlabel' => '0',
+            '-fileisRDB' => '0',
+            '-columntypes' => 'auto'
+          },
+          '-username' => '',
+          '-setname' => 'symbolsize.out',
+          '-show_in_explanation' => 1,
+          '-DATA' => [
+            {
+              '-origthirdord' => 'OBS-CN:string',
+              '-username' => '',
+              '-showordinate' => 'RUNOFF:number_from_/home/wasquith/tkg2/TestData/symbolsize.out',
+              '-origabscissa' => 'PRECIP:number',
+              '-showthirdord' => 'OBS-CN:string',
+              '-origordinate' => 'RUNOFF:number',
+              '-showfourthord' => undef,
+              '-attributes' => {
+                '-xerrorbar' => {
+                  '-color' => 'black',
+                  '-dashstyle' => undef,
+                  '-whiskerwidth' => '0.05i',
+                  '-width' => '0.005i'
+                },
+                '-plotstyle' => 'Text',
+                '-yerrorbar' => {
+                  '-color' => 'black',
+                  '-dashstyle' => undef,
+                  '-whiskerwidth' => '0.05i',
+                  '-width' => '0.005i'
+                },
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillstyle' => undef,
+                  '-shade2origin' => '0',
+                  '-shadedirection' => 'below',
+                  '-doit' => '0',
+                  '-fillcolor' => 'black'
+                },
+                '-points' => {
+                  '-blankit' => '0',
+                  '-num2skip' => '0',
+                  '-fillstyle' => undef,
+                  '-doit' => '1',
+                  '-outlinewidth' => '0.005i',
+                  '-fillcolor' => 'palegreen1',
+                  '-symbol' => 'Phoenix',
+                  '-outlinecolor' => 'black',
+                  '-rugx' => {
+                    '-bothaxis' => 1,
+                    '-both' => undef,
+                    '-linewidth' => '0.005i',
+                    '-negate' => '0',
+                    '-doit' => '0',
+                    '-linecolor' => 'black',
+                    '-size' => '8.77438312829525'
+                  },
+                  '-rugy' => {
+                    '-bothaxis' => 1,
+                    '-both' => undef,
+                    '-linewidth' => '0.005i',
+                    '-negate' => '0',
+                    '-doit' => '0',
+                    '-linecolor' => 'black',
+                    '-size' => '8.77438312829525'
+                  },
+                  '-angle' => '0',
+                  '-dashstyle' => undef,
+                  '-size' => '7.49947275922671',
+                  '-blankcolor' => 'white'
+                },
+                '-text' => {
+                  '-yoffset' => '4.19970474516696',
+                  '-anchor' => 'e',
+                  '-numcommify' => '0',
+                  '-doit' => '1',
+                  '-numdecimal' => '0',
+                  '-leaderline' => {
+                    '-blankit' => 0,
+                    '-color' => 'black',
+                    '-doit' => '1',
+                    '-shuffleit' => '0',
+                    '-beginoffset' => '8.77438312829525',
+                    '-endoffset' => '8.77438312829525',
+                    '-flip_lines_with_shuffle' => '0',
+                    '-width' => '0.005i',
+                    '-overlap_correction_doit' => '0',
+                    '-blankcolor' => 'white',
+                    '-dashstyle' => undef,
+                    '-lines' => [
+                      {
+                        '-length' => '35.0225377855888',
+                        '-angle' => '225'
+                      }
+                    ]
+                  },
+                  '-justify' => 'left',
+                  '-xoffset' => '1.49989455184534',
+                  '-numformat' => 'free',
+                  '-font' => {
+                    '-rotation' => 0,
+                    '-blankit' => '0',
+                    '-color' => 'black',
+                    '-family' => 'Helvetica',
+                    '-slant' => 'roman',
+                    '-custom1' => undef,
+                    '-weight' => 'normal',
+                    '-stackit' => '0',
+                    '-size' => '8',
+                    '-blankcolor' => 'white',
+                    '-custom2' => undef
+                  }
+                },
+                '-lines' => {
+                  '-linewidth' => '0.01i',
+                  '-arrow' => 'both',
+                  '-doit' => '1',
+                  '-linecolor' => 'grey65',
+                  '-arrow2' => '17.0238031634446',
+                  '-arrow1' => '9.97429876977153',
+                  '-stepit' => '0',
+                  '-dashstyle' => 'Solid',
+                  '-arrow3' => '8.02443585237258'
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-which_y_axis' => '1',
+                '-bars' => {
+                  '-fillstyle' => undef,
+                  '-direction' => 'below',
+                  '-doit' => '0',
+                  '-outlinewidth' => '0.01i',
+                  '-barwidth' => '8.77438312829525',
+                  '-fillcolor' => 'white',
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef
+                }
+              },
+              '-data' => [],
+              '-showabscissa' => 'PRECIP:number',
+              '-show_in_explanation' => 1,
+              '-origfourthord' => undef
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' )
+      ], 'Tkg2::DataMethods::DataClass' ),
+      '-borderwidth' => '0.01i',
+      '-scaling' => '1.04159343878149',
+      '-plotbgfillstyle' => undef,
+      '-bordercolor' => 'black',
+      '-canvwidth' => 637,
+      '-y2' => {
+        '-majorstep' => 2,
+        '-max' => 10,
+        '-originwidth' => '0.01i',
+        '-lab2offset' => 0,
+        '-probUSGStype' => 0,
+        '-numdecimal' => 0,
+        '-turned_on' => 0,
+        '-time' => {
+          '-max' => '',
+          '-seconddoit' => 1,
+          '-yeardoit' => 1,
+          '-show_day_as_additional_string' => 0,
+          '-labellevel1' => 1,
+          '-showyear' => 1,
+          '-hourtickevery' => 'auto',
+          '-minutetickevery' => 'auto',
+          '-yeartickevery' => 'auto',
+          '-min' => '',
+          '-basedate' => [],
+          '-hourdoit' => 1,
+          '-daytickevery' => 'auto',
+          '-monthtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-show_day_of_year_instead' => 0,
+          '-tickratio' => '0.7',
+          '-compact_months_in_publication_style' => 0,
+          '-daydoit' => 1,
+          '-minutedoit' => 1,
+          '-secondtickevery' => 'auto',
+          '-labeldepth' => 1,
+          '-labeldensity' => 1
+        },
+        '-num2offset' => '3.372',
+        '-origindoit' => 0,
+        '-labelmin' => 1,
+        '-blankit' => 0,
+        '-tick_to_actual_min_and_max' => 0,
+        '-hideit' => 0,
+        '-min' => -10,
+        '-autominlimit' => '1',
+        '-ticklength' => '6.673',
+        '-doublelabel' => 0,
+        '-numfont' => {
+          '-rotation' => 0,
+          '-color' => 'black',
+          '-family' => 'Helvetica',
+          '-slant' => 'roman',
+          '-custom1' => undef,
+          '-weight' => 'normal',
+          '-stackit' => 0,
+          '-custom2' => undef,
+          '-size' => 9
+        },
+        '-automaxlimit' => '1',
+        '-gridmajor' => {
+          '-linewidth' => '0.01i',
+          '-doit' => 0,
+          '-linecolor' => 'grey75',
+          '-dashstyle' => undef
+        },
+        '-tickratio' => '0.6',
+        '-origincolor' => 'grey85',
+        '-tickwidth' => '0.01i',
+        '-basemajortolabel' => [],
+        '-make_axis_square' => '0',
+        '-numcommify' => 0,
+        '-labelmax' => 1,
+        '-numoffset' => '3.372',
+        '-title' => 'Y-DATA',
+        '-labfont' => {
+          '-rotation' => 0,
+          '-color' => 'black',
+          '-family' => 'Helvetica',
+          '-slant' => 'roman',
+          '-custom1' => undef,
+          '-weight' => 'normal',
+          '-stackit' => 0,
+          '-custom2' => undef,
+          '-size' => 10
+        },
+        '-discrete' => {
+          '-bracketgroup' => 1,
+          '-clusterspacing' => '0i',
+          '-doit' => 0,
+          '-labelhash' => {}
+        },
+        '-reverse' => 0,
+        '-minor' => [],
+        '-laboffset' => '52.494',
+        '-baseminor' => [],
+        '-spectickratio' => '0.8',
+        '-numminor' => 1,
+        '-location' => 'right',
+        '-blankcolor' => 'white',
+        '-numformat' => 'free',
+        '-type' => 'linear',
+        '-datamin' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-labskip' => 0,
+        '-basemajor' => [],
+        '-origindashstyle' => undef,
+        '-major' => [],
+        '-max_to_end_labeling' => '',
+        '-logoffset' => 0,
+        '-labelequation' => 0,
+        '-min_to_begin_labeling' => '',
+        '-datamax' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-doit' => 0,
+          '-linecolor' => 'grey75',
+          '-dashstyle' => undef
+        },
+        '-invertprob' => 0,
+        '-usesimplelog' => 0
+      },
+      '-QQLines' => bless( {
+        '-one2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-doit' => 0,
+            '-linecolor' => 'black',
+            '-dashstyle' => undef
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-doit' => 0,
+            '-linecolor' => 'black',
+            '-dashstyle' => undef
+          }
+        },
+        '-negone2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-doit' => 0,
+            '-linecolor' => 'black',
+            '-dashstyle' => undef
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-doit' => 0,
+            '-linecolor' => 'black',
+            '-dashstyle' => undef
+          }
+        }
+      }, 'Tkg2::Anno::QQLine' ),
+      '-x' => {
+        '-majorstep' => '0.5',
+        '-max' => '8',
+        '-originwidth' => '0.01i',
+        '-lab2offset' => 0,
+        '-probUSGStype' => 0,
+        '-numdecimal' => '0',
+        '-time' => {
+          '-max' => '1900010600:00:00',
+          '-seconddoit' => 1,
+          '-yeardoit' => 1,
+          '-show_day_as_additional_string' => 0,
+          '-labellevel1' => 1,
+          '-showyear' => 1,
+          '-hourtickevery' => 'auto',
+          '-minutetickevery' => 'auto',
+          '-yeartickevery' => 'auto',
+          '-min' => '1900010100:00:00',
+          '-basedate' => [],
+          '-hourdoit' => 1,
+          '-daytickevery' => 'auto',
+          '-monthtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-show_day_of_year_instead' => 0,
+          '-tickratio' => '0.7',
+          '-compact_months_in_publication_style' => 0,
+          '-daydoit' => 1,
+          '-minutedoit' => 1,
+          '-secondtickevery' => 'auto',
+          '-labeldepth' => 1,
+          '-labeldensity' => 1
+        },
+        '-num2offset' => '3.748',
+        '-origindoit' => '0',
+        '-labelmin' => '1',
+        '-blankit' => '0',
+        '-tick_to_actual_min_and_max' => '0',
+        '-min' => '0.1',
+        '-hideit' => '0',
+        '-autominlimit' => '1',
+        '-ticklength' => '6.673',
+        '-doublelabel' => '0',
+        '-numfont' => {
+          '-rotation' => 0,
+          '-color' => 'black',
+          '-family' => 'Helvetica',
+          '-slant' => 'roman',
+          '-custom1' => undef,
+          '-weight' => 'normal',
+          '-stackit' => '0',
+          '-custom2' => undef,
+          '-size' => '9'
+        },
+        '-automaxlimit' => '1',
+        '-gridmajor' => {
+          '-linewidth' => '0.01i',
+          '-doit' => '0',
+          '-linecolor' => 'grey75',
+          '-dashstyle' => 'Solid'
+        },
+        '-tickratio' => '0.6',
+        '-origincolor' => 'grey85',
+        '-tickwidth' => '0.01i',
+        '-basemajortolabel' => [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '8'
+        ],
+        '-numcommify' => '0',
+        '-numoffset' => '3.748',
+        '-labelmax' => '1',
+        '-title' => 'PRECIPITATION, IN INCHES',
+        '-labfont' => {
+          '-rotation' => 0,
+          '-color' => 'black',
+          '-family' => 'Helvetica',
+          '-slant' => 'roman',
+          '-custom1' => undef,
+          '-weight' => 'normal',
+          '-stackit' => '0',
+          '-custom2' => undef,
+          '-size' => '10'
+        },
+        '-discrete' => {
+          '-bracketgroup' => 1,
+          '-clusterspacing' => '0i',
+          '-doit' => 0,
+          '-labelhash' => {}
+        },
+        '-reverse' => '0',
+        '-minor' => [],
+        '-laboffset' => '14.997',
+        '-baseminor' => [
+          '1.1',
+          '1.2',
+          '1.3',
+          '1.4',
+          '1.6',
+          '1.7',
+          '1.8',
+          '1.9',
+          '2.2',
+          '2.4',
+          '2.6',
+          '2.8',
+          '3.2',
+          '3.4',
+          '3.6',
+          '3.8',
+          '4.2',
+          '4.4',
+          '4.6',
+          '4.8',
+          '5.5',
+          '6.5',
+          '7.5',
+          '8.5'
+        ],
+        '-numminor' => '4',
+        '-spectickratio' => '0.8',
+        '-location' => 'bottom',
+        '-blankcolor' => 'white',
+        '-numformat' => 'free',
+        '-type' => 'log',
+        '-datamin' => {
+          '-whenlinear' => '0.58',
+          '-whenprob' => '0.58',
+          '-whenlog' => '0.58'
+        },
+        '-labskip' => '0',
+        '-basemajor' => [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9'
+        ],
+        '-origindashstyle' => 'Solid',
+        '-major' => [],
+        '-max_to_end_labeling' => '',
+        '-logoffset' => '0',
+        '-labelequation' => '0',
+        '-datamax' => {
+          '-whenlinear' => '4.78',
+          '-whenprob' => '0.96',
+          '-whenlog' => '4.78'
+        },
+        '-min_to_begin_labeling' => '',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-doit' => '0',
+          '-linecolor' => 'grey75',
+          '-dashstyle' => 'Solid'
+        },
+        '-invertprob' => 0,
+        '-usesimplelog' => '0'
+      },
+      '-xlmargin' => '129.215915641476'
+    }, 'Tkg2::Plot::Plot2D' )
+  ],
+  '-annotext_plot_order' => '3',
+  '-postscript' => {
+    '-colormode' => 'color',
+    '-fontmap' => undef,
+    '-rotate' => 0
+  },
+  '-fileformat' => 'DataDumper',
+  '-annoline_plot_order' => '1',
+  '-annoline' => [],
+  '-y_grid' => [],
+  '-annotext' => [
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'center',
+      '-text' => 'Arrow symbol',
+      '-dashstyle' => undef,
+      '-yorigin' => '478.091',
+      '-xorigin' => '187.486',
+      '-font' => {
+        '-rotation' => '0',
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '10',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' ),
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'center',
+      '-text' => 'Phoenix symbol',
+      '-dashstyle' => undef,
+      '-yorigin' => '506.213',
+      '-xorigin' => '187.485',
+      '-font' => {
+        '-rotation' => '0',
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '10',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' ),
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'center',
+      '-text' => 'ThinBurst',
+      '-dashstyle' => undef,
+      '-yorigin' => '547.767',
+      '-xorigin' => '184.014',
+      '-font' => {
+        '-rotation' => '0',
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '10',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' ),
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'center',
+      '-text' => 'Burst',
+      '-dashstyle' => undef,
+      '-yorigin' => '582.002',
+      '-xorigin' => '184.87',
+      '-font' => {
+        '-rotation' => '0',
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '10',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' ),
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'center',
+      '-text' => 'FatBurst',
+      '-dashstyle' => undef,
+      '-yorigin' => '612.814',
+      '-xorigin' => '180.591',
+      '-font' => {
+        '-rotation' => '0',
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '10',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' ),
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'left',
+      '-text' => 'Variable sized plotting symbols for a given x,y data set are now
+possible, by adding the data as a \'Text\' plot. If the text
+field contains pscale:###, where ### is a number, then  this
+number is multiplied to the symbol size to change the size.  
+Carefully inspect the Phoenix symbols on the above plot and see
+how they are different sizes.  The Text doit has remained toggled to 
+show the pscale values.',
+      '-dashstyle' => undef,
+      '-yorigin' => '374.973',
+      '-xorigin' => '262.481',
+      '-font' => {
+        '-rotation' => '0',
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '8',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' ),
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'center',
+      '-text' => 'Tkg2 versions 1.01+ offer five additional symbols and dynamic
+symbols size changes. ',
+      '-dashstyle' => undef,
+      '-yorigin' => '637.454',
+      '-xorigin' => '121.865',
+      '-font' => {
+        '-rotation' => '0',
+        '-color' => 'black',
+        '-family' => 'Helvetica',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '10',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' ),
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-fillcolor' => undef,
+      '-outlinecolor' => undef,
+      '-borderwidth' => '0.01i',
+      '-justify' => 'left',
+      '-text' => 'Version 1.01+ also have optional arrowheads on the end points
+of a line ensemble.  See the two grey arrowheads on the above
+plot.',
+      '-dashstyle' => undef,
+      '-yorigin' => '534.337434094903',
+      '-xorigin' => '328.101933216169',
+      '-font' => {
+        '-rotation' => 0,
+        '-color' => 'black',
+        '-family' => 'Times',
+        '-slant' => 'roman',
+        '-custom1' => undef,
+        '-weight' => 'normal',
+        '-stackit' => '0',
+        '-size' => '8',
+        '-custom2' => undef
+      }
+    }, 'Tkg2::Anno::Text' )
+  ],
+  '-height' => '11',
+  '-scaling' => '1.04159343878149',
+  '-annosymbol_plot_order' => '2',
+  '-needsaving' => 1,
+  '-tkg2filename' => '/Users/wasquith/tkg2/symbols.tkg2',
+  '-no_update_on_data_add' => '0',
+  '-x_grid' => [],
+  '-undonum' => 0,
+  '-color' => 'white',
+  '-width' => '8.5',
+  '-annosymbol' => [
+    bless( {
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-outlinewidth' => '0.025i',
+      '-fillcolor' => 'palegreen1',
+      '-symbol' => 'Arrow',
+      '-outlinecolor' => 'darkorange1',
+      '-angle' => '-80',
+      '-yorigin' => '484.43',
+      '-dashstyle' => undef,
+      '-size' => '16.048',
+      '-xorigin' => '156.625'
+    }, 'Tkg2::Anno::Symbol' ),
+    bless( {
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-outlinewidth' => '0.005i',
+      '-fillcolor' => 'grey50',
+      '-symbol' => 'Phoenix',
+      '-outlinecolor' => 'black',
+      '-angle' => '140',
+      '-yorigin' => '524.963',
+      '-dashstyle' => undef,
+      '-size' => '8.549',
+      '-xorigin' => '159.363'
+    }, 'Tkg2::Anno::Symbol' ),
+    bless( {
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-outlinewidth' => '0.005i',
+      '-fillcolor' => 'blue',
+      '-symbol' => 'ThinBurst',
+      '-outlinecolor' => 'black',
+      '-angle' => '-19',
+      '-yorigin' => '557.18',
+      '-dashstyle' => undef,
+      '-size' => '14.997',
+      '-xorigin' => '154.913'
+    }, 'Tkg2::Anno::Symbol' ),
+    bless( {
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-outlinewidth' => '0.01i',
+      '-fillcolor' => 'white',
+      '-symbol' => 'Burst',
+      '-outlinecolor' => 'black',
+      '-angle' => '15',
+      '-yorigin' => '585.425',
+      '-dashstyle' => undef,
+      '-size' => '8.547',
+      '-xorigin' => '153.202'
+    }, 'Tkg2::Anno::Symbol' ),
+    bless( {
+      '-username' => '',
+      '-fillstyle' => undef,
+      '-doit' => '1',
+      '-outlinewidth' => '0.01i',
+      '-fillcolor' => 'darkgreen',
+      '-symbol' => 'FatBurst',
+      '-outlinecolor' => 'black',
+      '-angle' => '0',
+      '-yorigin' => '620.516',
+      '-dashstyle' => undef,
+      '-size' => '8.547',
+      '-xorigin' => '153.202'
+    }, 'Tkg2::Anno::Symbol' )
+  ],
+  '-annobox' => [],
+  '-snap_to_grid' => '1',
+  '-draw_annotation_first' => '0'
+}, 'main' );

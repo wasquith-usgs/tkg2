@@ -1,0 +1,34 @@
+#########################################################################
+# .tkg2rc   The default resource file containing attributes and the     #
+#           settings of the program that are likely to vary from        #
+#           installation to installation, machine to machine, and       #
+#           user to user.                                               #
+#    The tkg2rc files are read in the following order and pushing any   #
+#    new settings onto list of previous specified ones.  Duplicates are #
+#    checked at runtime.                                                #
+#    (1)  $::TKG2_ENV{-TKG2HOME}/Tkg2/tkg2rc                            #
+#         /usr/opt/Tkg2/tkg2rc OR /usr/local/Tkg2/tkg2rc                #
+#    (2) /usr/openwin/lib/app-defaults/tkg2rc                           #
+#    (3) /u/$::TKG2_ENV{-USERHOME}/.tkg2rc   # note the leading .       #
+#########################################################################
+Tkg2*colors:      white black grey98 grey95 grey85 grey75 grey65 grey50
+Tkg2*colors:      darkgreen green palegreen1 tan red pink blue lightblue
+Tkg2*colors:      lavender linen darkorange1 orange wheat2 yellow
+
+Tkg2*fonts:       Courier Helvetica Times Palatino Symbol
+
+Tkg2*linethicks:  0.003i 0.005i 0.010i 0.015i 0.020i 0.025i 0.035i 0.045i 0.055i 0.065i 0.075i 0.085i 0.095i
+
+Tkg2*delimiters:  \s \s+ \s\s+ \t , : |
+
+Tkg2*fileformat:  DataDumper
+
+Tkg2*debug:       0
+
+Tkg2*plotting_position_coe:   0.40
+
+Tkg2*splash:      1
+
+Tkg2*redrawdata:  1
+
+Tkg2*verbose:     0

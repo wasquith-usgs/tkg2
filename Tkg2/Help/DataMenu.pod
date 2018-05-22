@@ -1,0 +1,86 @@
+
+=head1 THE DATA MENU
+
+This POD file provides detailed description of the B<Data> menu available at the top of each template container.  This documentation file is located at B<Tkg2/Help/PlotMenu.pod>.
+
+=head2 INTRODUCTION
+
+The Tkg2 data menu is used to add and remove data from plots and to perform other data oriented operations.  The menu has the following entries:
+
+ 
+ Add Data File to Selected Plot
+ [] Do not update canvas when data added
+ ---------
+ Edit Data or Do Statistics
+ View Internal Data
+ ---------
+ Edit Y1 Reference Lines
+ Edit Y2 Reference Lines
+ ---------
+ Edit Y1 Quantile-Quantile Lines
+ Edit Y1 Quantile-Quantile Lines
+ ---------
+ Show explanations for all plots
+ Hide explanations for all plots
+ Auto axis config. ON for all plots
+ Auto axis config. OFF for all plots
+
+=head2 THE ACTIONS
+
+The following are the actions or commands supported by the menu.
+
+=over 4
+
+=item Add Data File to Selected Plot
+
+The add dataset provides the only interface for actually loading data into a plot for the first time.  This feature launches the 'Add Data File to Plot' editor.  Numerous features regarding the plot type to create, which y axis the data is to be plotted against, and the myriad of issues involving the reading and parsing of data files are specified.  Because there are so many features provided by the dialog, consult C<Tkg2/Help/AddDataFile.pod> for more details.  Relevant code is contained in C<Tkg2/DataMethods/Class/AddDataToPlot.pm>.
+
+=item [] Do not update canvas when data added
+
+This checkbutton provides the setting of a feature to not redraw the canvas when data is finished loading into the plot.  This is a feature that if true allows the user to load all of their data in without the time consuming redrawings.  This is particularly helpful on slow remote links.  The Update Canvas method in the EDIT menu turns this temporarily on.  The default is for the data to be drawn, which means that this checkbutton off.
+
+=item Edit Data or Do Statistics
+
+Data is loaded into a file in a file and then column pair centric fashion.  When edit data is selected the Data Class (File) Editor, C<Tkg2/DataMethods/Class/DataClassEditor.pm>, is launched.  This editor provides a list of all the data files read into the selected plot.  If a data file was read more than once, then a number is appended to the file name.  The plotting order of the data from the files can be changed with the buttons on the right.  The data from the file can be delete for removed from the plot by selecting the B<Delete from Class> button.  All data for a plot can be removed by the B<Delete All> button.  The B<Edit Data Set> button launches the Data Set Editor (C<Tkg2/DataMethods/Set/DataSetEditor.pm>), which permits similar control of the data on a column by column basis.  For example, the Data Set Editor can control the plotting order of the data from a given file, the text in the explanation, and launch the editor to modify the plotting style.
+
+=item View Internal Data
+
+This feature is not yet implemented.  In time, it will be possible to view the data that has been loaded.  This feature will be tightly related to the --pretty_data command line option or some command like that.
+
+=item Edit Reference Lines
+
+The Y1 and Y2 options launch the Reference Line editor.  The editor holds a table of reference lines for a given y axis.  Each y axis has its own table. Reference lines are a potentially very useful tool for marking exact locations on the plot.  Reference lines are like annotation lines in the sense that they annotate a plot and their drawing style can be altered.  However, references lines differ in that they are drawn on a per plot basis using the units of the plot scales and not in page units.  If a plot is resized or its axis limits altered, then the location or length of the line will change.
+
+
+Like the other annotation types, reference lines can be given user names and toggled on an off using the Instructions.  See the discussion about Annotation in general in the C<Tkg2/Help/AnnoMenu.pod> help file.  Code relevant to reference lines is in C<Tkg2/Anno/ReferenceLines.pm>.
+
+
+Tkg2 might eventually support reference symbols.
+
+=item Edit Quantile-Quantile Lines
+
+Quantile-quantile lines are very simple.  Basically a quantile line is a line that plots at a +/- 1 to 1 slope.  Each axis can have both -1 and 1 sloped quantile-quantile lines turned on.  A double y plot can have thus four quantile-quantile lines shown.  Quantile-quantile lines are useful when predicted vs observed plots are made.  Relevant code is found in C<Tkg2/Anno/QQLine.pm>.
+
+=item Show explanations for all plots
+
+The explanations for all plots will be toggled I<on> by this action.  Extremely handy feature to have when multiple plots are on the screen and adjustments to plotting styles are to be made.  Relevant code is found in C<Tkg2/Plot/Plot2D.pm showExplanation>.
+
+=item Hide explanations for all plots
+
+The explanations for all plots will be toggled I<off> by this action.  Extremely handy feature to have when multiple plots are on the screen but the explanations are not desired.  Relevant code is found in C<Tkg2/Plot/Plot2D.pm showExplanation>.
+
+=item Auto axis config. ON for all plots
+
+Opposite of turning the auto axis configuration OFF, see discussion below.
+
+=item Auto axis config. OFF for all plots
+
+By default Tkg2 uses its internal algorithms to determine appropriate axis limits, ticking steps, labeling steps, and other axis settings for X, Y, and second Y axes.  This is done to promote the use of Tkg2 as a batch processing graphical markup engine.  However, it is convenient to have a way to turn all of them off for all the plots because often one wants either all dynamic configuration or not.  Individual minimums and maximums for individual axes can still be controlled via the PlotEditors (double-left click in plot) or the AxisEditors (double-left click on axis).  Relevant code is found in C<Tkg2/Plot/Plot2D.pm toggleAxisConfigurations>.
+
+=back
+
+=head2 FURTHER DISCUSSION
+
+
+
+Z<>

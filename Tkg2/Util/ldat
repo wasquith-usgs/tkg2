@@ -1,0 +1,63 @@
+#! /usr/bin/perl -w
+use strict;
+use vars qw( *name );
+*name = *File::Find::name;
+
+use Tk;
+use File::Find;
+
+use Getopt::Long;
+my %OPT;
+my @options = qw( d t );
+&GetOptions(\%OPT, @options);
+
+my $TYPE = ($OPT{d}) ? 'dat' :
+           ($OPT{t}) ? 'txt' : 'dat';
+my %COLORS = ( 'dat'  => 'white',
+               'txt'  => 'linen' );           
+           
+my @files;
+my $EDITOR = (@ARGV) ? shift() : 'nedit';
+
+File::Find::find({wanted => \&wanted}, '.');
+
+my $MW = MainWindow->new(-title => "ldat: ".uc($TYPE));
+$MW->geometry("-20+0");  # upper right corner
+&MainDialog(sort @files);
+&MainLoop;
+
+exit;
+
+sub wanted { /^.*\.$TYPE\z/s && push(@files, $name) }
+
+sub MainDialog {
+   use strict;
+   my $lb;
+   my $_editor = sub {
+        my $index = $lb->curselection;
+           $index = 0 if(not $index);
+        my $file  = $lb->get($index,$index);
+        system(" $EDITOR $file & ");
+   };
+   
+   $lb = $MW->Scrolled("Listbox",
+                       -font       => "Fixed 10 normal",
+                       -scrollbars => 'se',
+                       -selectmode => 'single',
+                       -width      => 40,
+                       -height     => 10,
+                       -background => $COLORS{$TYPE})
+            ->pack(-side   => 'top',
+	           -expand => 1,
+		   -fill   => 'both');
+                
+   map { $lb->insert('end',"$_") } (@_);
+   
+   $MW->Button(-text     => "EDIT",
+               -command  => [$_editor, $_] )
+      ->pack(-side => 'left');
+      
+   $MW->Button(-text    => 'EXIT',
+               -command => sub { exit; } )
+      ->pack(-side => 'right');
+}

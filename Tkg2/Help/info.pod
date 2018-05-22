@@ -1,0 +1,1088 @@
+
+=head1 GENERIC INFORMATION
+
+In the beginning there was a free charting package called USGS-G2 (G2) by the remarkable Jim Fulton of the Water Resources Division of the U.S. Geological Survey.  Though I never knew him, some of those who knew him said that he was nearly immortal.  For nearly a decade g2 was the defacto standard for the data visualization and charting needs of hundreds of USGS scientists in thousands of reports and journal articles.  The number of figures both published and unpublished using G2 is likely uncountable.  G2 inconjunction with Abobe FrameMaker were a devastating combination for scientific pursuits.  Furthermore, G2 files when coupled with Perl or shell programming provided a very powerful scripting environment without having to learn some archaic graphics library.  Scripting G2 was not the most trival activity.  However, it was not unusual for a single G2 template to be used to generate hundreds of publication ready figures by a dozen line Perl program and hundreds of ASCII data files.  This was made possible because G2 could be linked to external data files and was relatively easy to use for simple to incredibly complex batch processing jobs.
+               
+Sadly, due to technological changes and agency-wide move towards shrink wrapped and costly software, in-house development and distribution of software packages fell out of favor.  Thus, G2 and the G2 graphics model were allowed to gradually disappear.  G2 was not going to be ported from its SmallTalk environment on Data General Unix to other operating systems namely NT and Solaris.
+
+I was heartbroken and worried extensively since I first learned of the demise of G2.  I simply could not invision execution of my job duties without a package like G2 and now Tkg2.  My fears were so great that on the order of 1,500 personnel hours have been devoted to Tkg2 since the Fall of 1998.  The fact of the matter is that G2 was the mission critical tool for me and many other USGS scientists.  G2 represented a complete package for nearly all 2-D charting needs and G2 could have nicely fit into the bag-of-tricks for nearly all scientists without ever needing to be upgraded and it was totally FREE.  Unfortunately, because it was in SmallTalk it was hard to modify and extend.
+                              
+In the spirit of the original G2 package, I have resurrected G2 in Perl/Tk from scratch coping (with many deviations both purposeful and otherwise) of the published G2 interface.  It is my hope that tkg2 will someday see widespread open source (free) use on all Perl capable operating systems including those embedded in my beloved agency.  Tkg2 has become a serious application, just spend sometime and push its limits.  With Headquarters support over the last couple of years, Tkg2 has become the main graphic rendering engine for ADAPs and other custom applications built on top of the NWIS system.
+
+I can truly say that it has been a pleasure to serve mother Survey and to demonstrate that extremely useful software is designed by the users. . .
+
+  William H. Asquith, Ph.D., P.G., wasquith@usgs.gov
+    Research Hydrologist, Statistician, Atmospheric Scientist,
+    Computer Programmer, Student, Teacher,
+    Husband, and Father. . .
+    USGS, Lubbock, Texas, November 2010
+
+=head1 Tkg2 History
+
+=head2 1997
+
+Beginning to worry about disappearance of G2. Received first exposure to Perl by Jimmy Bisese, USGS in a three day training class.   In late 1997 began visualizing the features that I absolutely must have to do my job and hoping for a miracle.  Perl programming now replacing my archaic use of ARC/INFO aml for scripting, and Perl replacing Fortran.
+
+=head2 1998
+
+I<Spring> -- Intensive study of Perl through the Llama and Camel as I develop a lowflow analysis program in Perl with G2 providing the graphics engine.
+  
+I<Summer> -- Increasingly concerned about G2 going away.  G2 was one of the two reasons that I have been as productive in USGS research as I have--G2 for graphics and the mighty FrameMaker for its tables and other features.
+
+I<Fall> -- Leg was surgically broken for Ilizarov procedure to lengthen it by 9mm and straighten a 12 degree inward curvature from a fracture back in 1989.  I was basically bed ridden for about 12 weeks, and the device was on my leg through March 1999.  I begin very detailed and extensive studying of Perl (now into Ram and Panther).  Sometimes during late nights when the discomfort would keep me awake, I would occupy my time with object oriented code and complex data structures.  Yeah, I should have gotten a life, but three 1/4 inch bolts in my leg and 1/16 diameter stainless steel wires through my angle were not totally pleasurable.  I begin using my new iMac to write cross-platform Perl and make heavy use of deeply complex data models.  I begin laying out plans for tkg2 and development of transformation algorithms.  Of course it was not tkg2 at the time, but an attempt to provide a graphics backend engine for some very narrow project work and satisfy a curiosity.  I also began studying Perl/Tk but had no computer to actually begin writing it on, until next Spring.
+            
+I<Winter> -- Begin studying of Java on trip to Wisconsin for my grandfather's 90th birthday, but quickly abandoned Java in frustration.  However, I come away with my first real understanding of the object oriented paradigm.  OO code in a variety of languages is now beginning to make sense.  Revisited the Panther and now understand most of it.  Begin to sketch plans for what was to become the tkg2 object model.
+
+=head2 1999
+
+I<Spring> -- About March 1, Tk800.012 is installed by Dane Ohe on SGI Origin. I wrote my first Tk programs just a week before teaching a week long introductory Perl course for office.  I built a Tk wrapper on some large Fortran programs--very easy to do and the results were very impressive.  I begin the first dedicated code about the third week of March that would evolve into tkg2 code.  By late Spring, the necessary transformation algorithms for linear, log, and probability axes were completed, debugged, and no less than three dialog boxes were written.
+
+Tkg2 is officially born (as best my memory provides) about May 15, 1999.
+             
+I<Summer> -- A major milestone in Tkg2 development occurred on June 30, 1999.  A spare 333MHz Sun Ultra5 was deployed on my desk.  Wow, I wish I had had this kind of Unix speed for years.  The doldrums of the DG/UX are behind me.  Never ever again will I work without Unix power.  Tkg2 coding kicks into high gear--virtually every weekend and evening spent working on it.  Testing algorthims on MachTen Unix at home.  Furious forward progress.  Rulers added last week of June.  Annotation completed in first week of July.  External file capability completed but not debugged on Saturday July 17.  Bitmap icons built in mid July.  Jimmy Bisese continues to be a quiet, but incredibly influential supporter.  I become increasingly obsessed with proving the G2 detractors wrong.  On July 21, decided to push forward with time series support.  First time series code on Saturday July 24 and fully operational and debugged support by next weekend. Tkg2-0.01 released to Willard Gibbons in Austin.  Version summaries will now become the historical tools.
+
+Work accelerates when I buy a used laptop for myself and install Linux in January 2000.  Wow even more unix power.
+
+=head2 VERSION 0.01  THE FIRST STEPS OF THE CHILD
+
+Released to Willard Gibbons in Austin in mid-July.  Two weeks later D'Anne tells me that she is pregnant.  Yeppy!
+
+=head2 VERSION 0.02
+
+Demonstrated to Alan Lumb and others for the first time on August 25, announced to Texas District on August 26, and to Colleen Babcock on August 27.  There has been much bug fixing and polishing since 0.01.  Also beginning to make extensive optimizations from DProf.  Added the setGLOBALS for the transformation subroutines, big speed increase.
+
+=head2 VERSION 0.03
+
+August 29, added NWIS support for daily value retrieval, and found MAJOR optimatize path in the LoadDataSets and LoadDataSetsOnTheFly.  Two orders of magnitude increase in importation speed.  WOW!  Added first messaging dialog boxes per comments by Jimmy Bisese.  Fixed the errors generated when undefined indices are retrieved from Listbox.  Demo'ed to Merrit Blalock on August 31. Added annual value and monthly value support.
+
+=head2 VERSION 0.04 (not compatible with 0.03 or less)
+
+September 6, modified main menus, added _setDataLimits for each of the axis types, added 10-percent scaling on initial plotting limits, started autoconfigure on limits, added warning dialog boxes for bad input on Continuous Axis Editor, added warning boxes for bad input for angles and font sizes among other things, added Custom Dimensions for a template, added the OK on either DataSet Editor or both DataSet and DataClass editor to take user directly back to a waiting tkg2.  Added the DataViewer so that data files can be peeked at without having to use an external editor or the 'more' command on Unix systems.  Migrated to Getopt::Long for more specific command line options.
+
+=head2 VERSION 0.05
+
+Moved .tkg2rc reading to Tkg2::Base, broke the drawLabels subroutine into separate modules and broke further into linear, log, and probability subroutines.  Optimized dereferencing in the drawLabel subroutines and added the USGS style probability plot.  Finally, discovered problems with the Undo approach--you can not clone a complex referential data structure easily.  The Storable module has the tools, my DeepClone is the interface.  This fix on the Undo also fixes a bug where imported data was being forgotten after a Save.  Converted global configuration variables such as \@::COLORS and \@::PRINTERS to a hash \%TKG2_CONFIG.  The dialog globals are now in \%TKG2_DIALOGS a global environment variable \%TKG2_ENV has been added and finally command line options are now in \%CMDLINEOPTS.  Other subroutines created to shorten code in places.  
+=head2 VERSION 0.06
+
+Fixed UNDO finally!! and fixed a pesky bug with dynamic data all related to the deep cloning of a complex perl object.  Placed GUI stuff into SelfLoader stuff, saved 0.5 seconds on startup.  Fixed bug that allows autoConfig Limits to have equal plot mins and maxs which caused a crash.  Demoed to Surface-Water Review team Sept. 16 and then to District management and Surface-Water Review team Sept. 17.
+
+=head2 VERSION 0.07 (semi compatible with 0.04 to 0.06)
+
+Fixed small bug in autoconfiguring log-axis, further optimizations of revAxis, drawPlotbackground, drawPlot by removing redundant calculations.  Added direct calculation of X-Probability and Y-Probabiliy using the generic plotting position formula and have %TKG2_CONFIG holding the pp formula coefficient. Discovered bug in LoadDataOnTheFly that was not iding the plotstyle properly, showed up just for the new X and Y probability plots.  Also discovered that data was not being deleted when saving in a DataDumper format.   Gumbel probability axis added, really cool and different from a normal probability scale.  Other minor bug fixes.  Added relative path capability so *.tkg2 files can be moved to different directories and still be pointing to data within the new directory or below.  (semi-incompatible with earlier versions because have added -userelativepath and -relativefilename to the -file parameters for a data set.
+
+=head2 VERSION 0.08
+
+Fixed bug preventing multiple label lines from being read properly in a data file.  Fixed a cloning problem for copying plots, need to use dclone from Storable.  Also, added offset of explanation when a copied plot is pasted.  David Boldt made first rpm and I will wait for feed back from USGS community before another official release, but I am pressing forward.  David Boldt rpm.
+
+=head2 VERSION 0.09
+
+Fixed bug in Gumbel plot on Y axis, was calling StdZ instead.  Rebuilt GraphTransform with all GLOBALS, no shifts and cleaned up exported names to setGLOBALS and transReal2CanvasGLOBALS only--much faster.  Added a pop-up warning when a file does not exist is used for dynamic loading of data.  Also made log(10) and use constant logof10 => log(10) in Base.pm, provides a little speed increase for log10 function.  Converted the radian calculation to a use constant for more speed and removed a large number of shifts from drawing subroutines. Added the Help::Help module which provides a pod reader toplevel and using pod files in Tkg2/Help/podsfiles for display of help.  Fixed subtle bug when the axis styles of an empty plot were changed, I override the data limits by guessing, a dialog box plots up warning about the change.  It is preferable to load at least some data into a plot first before changing it. Also, rescaleTemplate method was added to allow better support between tkg2 files built and saving on monitors with differing resolutations.  The rescaling seems to work fine, with a very slight difference in font size from my NT at lower resolution than my Ultra.  Need to test across wide range of monitor resolutions.  Working on high resolution > 1024x768 is best.  David Boldt rpm.
+
+=head2 VERSION 0.10
+
+Found bug in how plotting positions were being calculated in prior unsorted data.  I am now replacing inputted data with sorted data for X- and Y-probability plots.  Willard Gibbons noticed that if some dynamically loaded data suddenly started showing up with missing values that were flagged differently than -missingval had then untrapped errors occurred.  I have trapped this situation with a Message that should help the intermediate user fix it.
+
+=head2 VERSION 0.11 (not compatible with 0.10, but easily fixed)
+
+Added Tkg2::Anno::QQLine.pm and Tkg2::Anno::ReferenceLines.pm.  QQLine.pm allows 1 to 1 and(or) -1 to 1 sloped lines to be added to a plot.  This feature required the adding the following to the keys of the plot hash (see GraphMethods.pm).
+
+  $self->{-QQline} = Tkg2::Anno::QQLine->new; # NEW FOR VERSION 0.11
+
+ReferenceLines.pm allows reference lines to be drawn on a plot given the real-world coordinates of the lines.  Thus, if graphs are resized or moved, the reference lines with move too--very nice feature.  This feature required the addition of the following to the keys of the plot hash (see GraphMethods.pm).  
+
+  $self->{-RefLines}  = Tkg2::Anno::ReferenceLines->new; # NEW FOR VERSION 0.11
+
+Reference lines not yet functional on time axis.
+
+The UpdateCanvas method saw the addition of:
+      
+  # NEW FOR VERSION 0.11
+  $plot->{-QQline}->draw($canv,$plot);   # draw some quantile-quantile lines
+  $plot->{-RefLines}->draw($canv,$plot); # draw some reference lines
+
+To make compatible add this to the saved hash file for each of the plot hashes:
+
+     '-RefLines' => bless( [ ], 'Tkg2::Anno::ReferenceLines' ),
+     '-QQline' => bless( {
+        '-one2one' => {
+          '-linecolor' => 'black',
+          '-doit' => '0',
+          '-linewidth' => '0.015i'
+        },
+        '-negone2one' => {
+          '-linecolor' => 'black',
+          '-doit' => '0',
+          '-linewidth' => '0.015i'
+        }
+      }, 'Tkg2::Anno::QQLine' ),
+
+Also, added horizontal and vertical bar plotting symbols.  Discovered that zero values crashed the Gumbel transformations--added trap in transReal2CanvasGLOBALS.
+
+Added the ability to hide axis labels and titles from the ContinuousAxisEditor, this required an additional plot hash key.  To make compatible add this to saved hash file for each of the C<$plot->{x}> and C<$plot->{y}> hashes: C<-hideit => 0>, to make something like this C<$plot->{x}->{-hideit}> and C<$plot->{y}->{-hideit}>.
+   
+Fixed bug in ReadRDBFile and ReadFile that reset column type to time if the last value in the file was missing.
+
+Added the ability to switch between nonexceedance and exceedance probabilities for the Continuous Axis editor.  No adjustment to the original data is involved, just the axis labeling is changed.  This required adding yet another key to the plot hash, thus to make backwards compatible add this to each of the plot hashes in each of the axis.
+
+    '-invertprob' => 0,
+
+Thus, for a single plot hash add: C<{x} => { -invertprob => 0, rest of hash ...}> and C<{y} => { -invertprob => 0, rest of hash ...}>.
+                                   
+Added an experimental batch assistant for aiding in batch configuration of templates--described in more detail in version 0.12.  Batch assistant never caught on and months (March 2000) as I begin catching rumors that NWIS is heading towards Tkg2 that I start anew with Instructions.pm.
+
+
+=head2 VERSION 0.12 (lost easy backwards compatibility)
+
+Added discrete axis support, rearranged graph or plot GUI methods into separate modules.  New keys for a plot hash are:
+
+   -discrete => { -doit => 0,  -labelhash => { } },
+
+Added time stamp to *.tkg2 files when saved.  Fixed extremely subtle bug in the following:
+
+  Tkg2::DataMethods::DataClass::sub set_limits_on_first_data {
+  if(scalar(@$self) == 1) { # 0 changed to 1 for version 0.12, bug fix
+
+Massive reorganization and splitting up of modules to facilitate easier documentation and instruction to future developers.
+
+Added key '-stackit' => 0  to every occurance of font settings, in preparation to mimic vertical text by stack each character in a string with a \n.  Added stackable text for axis numbering and labels, plot title, text annotation, text plots.  Stack text feature is not 'turned' on for explanation text.
+
+Added key -num2skip => 0 to the -point attribute for a dataset, and added ancillary dialog to control the number of points to skip drawing at a time.
+
+Added Framemaker MIF support.  System requires that pstoedit be installed, which in turn requires ghostscript.
+  README http://www.geocities.com/SiliconValley/
+                Network/1958/pstoedit/readme.txt
+  MAIN PAGE http://www.geocities.com/SiliconValley/
+                   Network/1958/pstoedit/index.htm
+  MANUAL http://www.geocities.com/SiliconValley/
+                Network/1958/pstoedit/pstoedit.htm
+  BINARY SOLARIS http://www.geocities.com/SiliconValley/
+                        Network/1958/plugins/pstoedit_bin_solaris.zip
+  WINDOWS 9x/NT DLL DRIVERS FOR MIF and other
+    http://www.geocities.com/SiliconValley/
+           Network/1958/plugins/plugins_win.zip
+
+Added numerous keys that are currently unused, but will provide upward compatability for a while.  Added -custom1 and -custom2 to each -font.  Added -dashstyle and -fillstyle to nearly every location in which it made sense.
+
+=head2 VERSION 0.13
+
+Changed -labelmultiplier for axis keys to -labelequation, added -labelequation entry fields to linear and log axis editors, added _labelEquation subroutine to DrawLabels.  This allows virtually any user-specified transformation of the labels (not the actual data inside tkg2).
+
+Added a 'Clear Field' button to the DataSet Editor so that the lengthly default explanation for a symbol can be easily removed and the user can begin typing what they want to say.
+
+Fixed bug in the missingval identifier in the LoadData methods.
+
+Added a callback on the RDB checkbutton on AddDataToPlot that modifies the window so nonRDB file related settings are visibly disabled and the delimiter is obviously changed to a tab.  Nice touch, if I do say so myself.
+
+Began construction of a manual by capturing all the dialog boxes and mounting into FrameMaker.  New directory Tkg2/Manual/XWD.
+
+Added Perl's notation of significant figure notation to the ContinuousAxisEditor and the DrawLabels methods.
+
+Added -numcommify => 0,  -numformat  => 'free',  -numdecimal => 0, keys to text plots so that format control becomes possible.
+
+Added --justdisplay and --justdisplayone commandline options so that tkg2 can be used in a non interactive mode.  Thanks Willard.
+
+Added globals in %TKG2_CONFIG:  -LOG_BASE_MAJOR_TICKS  -LOG_BASE_MAJOR_LABEL -LOG_BASE_MINOR_TICKS  -PROB_BASE_MAJOR_TICKS -PROB_BASE_MAJOR_LABEL -PROB_BASE_MINOR_TICKS
+
+Removed -logbasemajor -logbaselabel -probbasemajor from each axis hash.
+
+Added -baseminor to each axis hash.
+
+Added -location to each axis hash for future support of specifying where an axis is supposed to be labeled.  Possible values are left, right, bottom, top.
+
+Extended the --help feature for more verbose descriptions.
+
+Added the ability to access a .tkg2rc from the users home directory.
+
+Added a duplicate element checker so say black isn't pushed onto the -COLORS
+array more than once.
+
+Added command line option --viewconfig
+
+Added under the -file hash for a data set -ordinates_as1_column and added another Checkbutton on AddDataToPlot.  This feature also really cool combining of one or more columns of data into one huge one for easy plotting under some circumstances.
+
+=head2 VERSION 0.14
+
+Added first Adobe Illustrator, PDF, and GIF export support using pstoedit and ps2gif utilities external to tkg2.  
+
+Modified that commandline options to --exportfile and --format for cleaner syntax.
+
+Added command line option --withdraw to never display the *.tkg2 files during --batch processing etc.
+
+Added the process id PID, $$, to the title on MainDialog to facilitate killing when tkg2 is launched with trailing &.
+
+Added command line option --version to show nice little version number stuff.
+
+=head2 VERSION 0.15
+
+Redesigned logic in the autoconfiguration of linear axis limits after Willard Gibbons discovered some eradic behavior--we will see how the new logic works out.
+
+Fixed bug in text plots with the text being the same as y values--the datalimits were not being calculated.
+
+Added 'auto' value to the -'time'every keys in the x|y -> -time hash so that my guesses at a pretty looking time series axis can be picked up.  Modified ContinuousAxisEditor and the TimeMethod.pm to do this.
+
+Reworked the autoconfiguration of linear exis limits again, this time tackling it from the point of view that the range in the data sets the step length and once the step is set then nice clean limits can be computed by radiating off from zero.
+
+Trapped an Tk error when the User's DISPLAY is not set.  I show verbose instructions via Tkg2::Base::isDISPLAYset.
+
+Added a lengthening scale on even log cycle ticks such as 0.1, 1, 10 etc.
+
+Made a separate AxisConfiguration module to handle auto configuration of limits etc.  Couple of bug fixes.
+
+Made a GraphMethods::convertAxisMinMaxifTimetoInteger so that the min and max limits for an axis can be converted to dates externally and tkg2 will convert the dates to usable integers.  Thanks Willard.
+
+Added DataMethods::DataSet::configureDataLimits($plot) so that the data limits will properly reflect those for already loaded data.
+,
+Added DataMethods::Set::DataLimits module to hold setDataLimits and other data limit oriented subroutines.
+
+Added the --presenter command line argument.  Thanks Jenny or Bruce.
+
+Other bug fixes for discrete axis.
+
+=head2 VERSION 0.16
+
+Beginning interface for independent transformation of datasets--smoothing, dynamic regression etc:  Added -transform_data in the dataset->{-file}->{-transform_data} = { -doit => 0, -script => "", -command_line_args   => "" }
+
+Batch assistant is fully operational?
+
+=head2 VERSION 0.17
+
+Numerous typo fixes.  Added under the dataset -file key the -megacommand key.  Megacommand will be used to provide and arbitrary methods to get data files by external programs.
+
+Added --scaling=<real > 0> as a command line option.  
+
+Added another tkg2rc file to read for Solaris along /usr/openwin/lib/app-defaults/tkg2rc.
+
+Added concept of local and network printers, error trapped if a printer is not available (at runtime not compile time).
+
+Adjusted auto log scale from observations by Willard Gibbons.
+
+Began to change code to use the new $::TKG2_CONFIG{-DIALOG_FONTS}->{ bunch o fonts} hash.
+
+
+=head2 VERSION 0.18 (Distribution moved to CVS repository)
+
+Added a -doublelabel hash key under each axis hash x and y.
+Numerous bug fixes, and added font control in the dialog boxes.
+
+=head2 VERSION 0.19
+
+The -text field for each dataset now has the following keys and their defaults
+
+Leader lines are now implace for pending rating curve work.
+-leaderline => { -doit => 1,
+                 -width       => '0.005i',
+                 -dashstyle   => undef,
+                 -color       => 'black',
+                 -beginoffset => $::MW->fpixels('0.1i'),
+                 -endoffset   => $::MW->fpixels('0.1i'),
+                 -lines       => [ { -length => $::MW->fpixels('0.4i'),
+                                     -angle  => '225' },
+                                   { -length => $::MW->fpixels('0.25i'),
+                                     -angle  => '180'  }
+                                 ]
+                            },
+
+The GraphMethods.pm module has been renamed to Plot2D and a DrawMe frontend to all the old UpdateCanvas method calls has been added and method calls pulled from UpdateCanvas.  Numerous fixes to the Time axis, completely altered the Time concept and now just about any time format can be interpreted at the cost of speed.
+
+=head2 VERSION 0.20, late December 1999
+
+Numerous refinements and small bug fixes.  Beginning to revise old code and clean it up.
+
+Using a special Date::Manip module that treats dates ending at 24:00:00 as the next day.  The author of the Date::Manip module modified it just for my pending ADAPS use.  GO OPEN SOURCE!
+
+Extensive reorganization to the ReadFile.pm module.  
+
+Added the epm script that gives me GUI interface to all 56! Tkg2 modules.
+
+Time cache installed.  Huge speed increases and more as more time formats
+are experienced by a tkg2 installation.  Fully debugged and tested.
+
+Added the time cache command line switches.  Lines of code are now nearly 25,000 and over 1.3 million characters.
+
+=head2 VERSION 0.21
+
+The ReadFiles.pm has been turned into a loader and the new modules ReadRDBFile.pm and ReadDelimitedFile.pm now contain the respective file reading algorithms.
+
+Added step plot capability, we now need to have another key added, under each dataset key {-attributes}->{-lines} => { -stepit => 0 }.
+
+Added the /tmp/tkg2.log file subroutine so that we can track tkg2 usage on a particular system.
+
+Added the --showme command line option to echo to STDERR the calls to the major subroutines.  Could very handy feature for someone else to learn how tkg2 is working.
+
+Added the clustering capabilities with discrete plots, several very minor bug fixes, and user enhancements.  
+
+The clustering capabilities required a substantial, but simple, change in the data model.  Now the x and y coordinates are stored as [ [ x, x-label], [ y, y-label] , etc ] if the points are discrete.  If a missing value is located during the data loading then the annonymous array(s) hold value and coordinate are NOT built.
+
+=head2 VERSION 0.22
+
+Added log scaling offsetting.  Both a constant and complex offsets can be used.  The following key value pair has been added to each axis hash:
+-logoffset => 0
+
+Fixed problem of the tkg2.log file not learning who a user is?
+
+=head2 VERSION 0.23
+
+Additional refinements to the log offsetting problem.  Fixed a minor bug found in linear labeling when the step length was greater than the difference between then max and the minimum.  Fixed a bug with the log tick and label references when loaded in from the TKG2_CONFIG routine.  Added -thresholds key under the dataset -file hash with a default value of 'ignore', other values are 'make missing' and 'substitute'.  Both the file reading methods have been revised.
+
+=head2 VERSION 0.24
+
+Fixed some path issues, now relative paths for the data files are computed from the directory of the tkg2 file that needs the data files instead of from the home directory where tkg2 was launched--fixes to the Read__Files and OpenSave.  Very nice correction, fixes to dump or dumpxs methods for time cache storage.  Minor reorganization to the time caching mechanims, better flocking.  
+
+New command line option --message=insert_a_message_with_spaces_here so the short messages can be appended to each line of the tkg2.log file.  This is to mainly help the maintainer and developers track usages of the code in the tkg2 log file by scripts calling tkg2.  Thus, at the users option the parent calling tkg2 could be provided.
+
+Added --mktemp and -mkplot command line options to make a template and make a plot.  Multiple -mkplot can be used.  Here is and example: tkg2 -mktemp=8.5X11 -mkpl=1x1x1X6 -mkpl=1x1x7x1.  Added CreateTemplateOnTheFly in DeskTop::CreateTemplate.pm.  This was an excellent idea that came up in a demo to someone in the Austin office. Thanks.
+
+=head2 VERSION 0.25
+
+Hiatus in development for most of March, but Box Plots added and nearly completely functional.  What a huge push they were.  Still need serious testing, my goodness what a lot of code.
+
+=head2 VERSION 0.30
+
+First week of April 2000
+
+Double y axis stuff added along with many many different keys for the storage hashes.  I have really truly lost backwards compatibility.  This version and minor bug fixes to it is anticipated to be the core for the first NWIS alpha release.  I knew Colleen would be looking for it.
+
+=head2 VERSION 0.31  THE CHILD IS NOW A PRETEEN AND BEGINNING TO DREAM OF FUTURE
+
+Minor fixes on the double y axis and minor labeling fixes
+
+=head2 VERSION 0.32, April 2000
+
+My son is born.
+
+Plot instructions implemented.  Several key names changed, and added the -blankit key to points, text labeling, and axis labeling for eventually 'whitening' out of the underlying graphics.  The blankit is anticipated to make complicated rating plots much easier to read and follows the ratplot convention.  Blankit is not yet turned on and might not be until later versions.  More progress is needed in the plot instructions realm so that QQ, Ref Lines, and other Data objects can be manipulated to.  To this end, the -username key has been added to these objects.
+
+=head2 VERSION 0.33, Friday May 5, 2000
+
+Blankit turned on for text plots and the symbols.  The command-line options -redoinst has been added in which a little vertical button on the menu bar is provided.  Each time this is touched the plotinstructions are reread and then the canvas updated.  Reloading of the data DOES not occur.
+
+=head2 VERSION 0.34, Monday May 8, 2000
+
+The new key, -hide_in_explanation has been added to each data in a DataSet for future ability to hide an individual entry from the plot explanation.  Also, the new key, -area_line_point_order has been added to the plot explanation hash as a future tag as whether the explanation will be in the DataClass-DataSet order or in the USGS style in which area components of a plot are plotted first and then the line components, and finally the point components.
+
+May 9, 2000 -- VIP meeting in Austin between Asquith, Babcock, Bartholoma, Gibbons, and Ohe.  We are going forward with Tkg2 as the near future NWIS graphics issue.
+
+I am hopeful that the meeting will be productive and addition keys will be identified so that I do not have to worry as much about backwards compatibility.
+
+Added a -doit to the text plot hash and implemented throughout code.
+
+Added --norulers and --drawdata/nodrawdata commandline options.
+
+=head2 VERSION 0.35 and parts of early 0.36
+
+In either 0.35 or 0.36, the plot username function was removed from the PlotEdit menu in the main window and the username entry field moved to the front page of the plot editor.  This is much more consistent with the data set naming and annotation naming methods.
+
+Major bug fixes on line points with only 1 or 2 data records.  You can see that problems might erupt with a single data points, but the same problems did with two.  Something to do with referencing during the building of the line array.  I fixed the 2 point problem and patched the single point problem by ignoring the that data is to be a line point and instead toggle the points on.  The explanation still indicates that the data is a line, but also shows the point.
+
+Behavior modifications were introduced so that empty data files or non-existant data files are quietly ignored.  Some messaging along $::VERBOSE comes out, but the message boxes are not used.  This greatly facilitated batch processing power.
+
+Added the --autoexit commandline option.  Also --debug was modified to accept either a file name or stdout and a global file handle created ($::BUG) to report certain buggy or potentially unstable tkg2 areas.
+
+Show_me_Internals was modified to default to a 1/10 second delay if no delay is given.  This was done so that Show_me_Internals can be placed like a non-stopping breakpoint.  This helps debugging.
+
+Additional extensions to the instructions.  It is now possible to control annotation objects.  The instructions are really becoming powerful.  During a brainstorm session with Gibbons, I added the -doit key to each of the annotation objects.  This required that I then add a -doit control to the anno editors, and finally add the much over done anno selection scales.  These are accessed through the annotation menu on the main screen.  Added a highlight subroutine to each of the annotation objects so that during object selection it is possible to see which is selected by the SelectAnno.pm module.
+
+=head2 VERSION 0.37, about May 19, 2000, USGS rpm
+
+See above discussion.  Moving on to 0.37 Friday afternoon.
+
+Added Data::Dumper::Indent control via the %TKG2_CONFIG and if running under --stdout then the output will be with Indent = 0 (compact form) instead of 1.  The compact form is more than 1/3 smaller in size as the newlines and whitespace are removed.  With Indent = 1 (see the OpenSave.pm module) the output is the most compact form that still remains valid perl code.
+
+Whoops, more backward compatability problems.  I added 
+             -justify    => 'left',
+             -anchor     => 'center',
+to the text plot object and added -anchor => 'center' to the text annotation. Sorry but all text plots will require the addition of these keys.  I could build the backwards compatability in, but I want to continue to force tkg2 files to be upgraded.
+
+Modified the axis titling subroutines to also draw the axis title when the axis is time.  Willard wanted this, makes sense.  I do not have automatic redetermination of offsets however.  Perhaps this will come when the DrawTimeAxis is rewritten.
+
+Working in Tucson with Ohe, Gibbons, and Yancey.  Several bug fixes including double labeling, setGLOBALS on GRV plots, and some enhancements to the instructions.  
+
+Added a -pageanchor => 'center' to the postscript dump, hopefully this will fix some printing issues.
+
+Several minor tweaks on behavior of text generally involving the -anchor'ing of text.
+
+Added the --nodec command line option that removes the window decorations for each template.  Perhaps this will get us some more speed down the line?  Unfortunately, the user can not move the window around once placed.  I might add bindings so that the arrows keys move the window?
+
+Fixed a tiny bug that was preventing the minor grid from being drawn for log axis.
+
+David Yancey discovered that sub 1 even log cycles were not getting the extra length added to them.  This was a really quick fix by wrapping an int() call like int("").
+
+Added a -usesimplelog toggle key to the axis hashes, in which case a simplified and usual log scale is drawn in which only the 1 and 5 bases are labeled and 1 2 3 4 5 6 7 8 9 bases are ticked.
+
+Instructions had a slight syntax issue.  If someone was creating the instructions with a variable providing the object name, like this $test:: then the :: begins a unqualified perl variable.  I have decided to replace :: with just : in the instructions.  Also, Instructions is more liberal when it comes to whitespace and much of it is stripped.  The instructions now use a / to provide object field separation.  Further polishing of the instruction capability and now have specific control of the call to the routeAutoLimits on only those axis in which the axis type was changed.  If an axis remains unchanged then axis settings normally performed by routeAutoLimits can be avoided.  Instructions now perform a global search and replace on all occurrances of \\n in the values field.  This should not be a really big deal as tkg2 has no use of \n in any other field other than those that are text fields.
+
+A few more old STDERR if($deBUG) type print statements have been found and fixed to the $::BUG file handle.
+
+Bug fix on linear data minimum and maximum in DataLimits.pm--thanks Dane for finding this very obsure one.
+
+Official code length count is +34,000 lines.
+
+Added OnDestroy to the template TopLevel when running under --justdisplay and added OnDestroy to the main window all the time.  Willard discovered that our method of calling tkg2 from external programs could cause forgotten processes to occur if/when users closed windows using the close button on the containing window.  --nodec is a variation on this.
+
+Added the -colspacing key to the explanation hash in anticipation that we will one day want to control how far apear the columns in the explanation are.
+
+Add sorts of changes for different monitor resolutions and trying another methods to handle font scaling on different monitors.  All fontCreate method calls now dynamically scale the size so font size is constant (at least seen by user in dialog boxes).  
+
+Additional trappings for unset DISPLAY's.
+
+David Boldt RPM'd, 0.37b which was turned loose to the NWIS graphics developers.
+
+=head2 VERSION 0.38
+
+Numerous changes to the drawTimeAxis method that mainly involved increasing plotting speed by exiting nested for loops early.
+
+Added the sleep feature to --autoexit and to the new --pause command line option.
+
+Began work on the untkg2 related RDBtools.pm in the Util directory.  This module will be a dumping ground for just generic utilities that help one interface with tkg2, but do not actually provide any functionality.  David Yancey started with the RDB header parsing subroutine (about 6/5/2000).
+
+Began and completed support for the calctime data field.  calctime is a precomputed integer time that is simply loaded into tkg2 data memory and no actual time convertions on it are made.  This has been an important speed increasing issue.
+
+Switched to mandatory use of Date::Manip 5.37 after a serious but already corrected bug in 5.36 was discovered by Jack Grubbs.  
+
+A strip_space method call on delimited data was removed because it stripped  null or missing fields from the input data lines.  Nice bug catch that wha did just because he was working in a nearby code section.  Also ReadDelimitedData has been modified to fully support reading of RDB files without pressing the RDB button--good to be consistent.
+
+Added the -bracketgroup key under the discrete hash in the axis hash.  This allows for a slight variation on how the ticks and labels are offseted on the axis.
+
+# yes -bracketgroup 
+# =====|=====|=====|=====
+#     grp   dog   cat
+# no -bracketgroup
+# =====|=====|=====|=====
+#  grp   dog   cat
+
+Instruction fixes:
+Fixed a bug with logoffsets in which if they were changed and then the $plot->configwidth method called then undefined log10 values could occur--thanks David Yancey.  And fixed another bug in that the value part of an instruction could not also continue a ':'.  This has been remedied.
+
+On the label transform equation for a given axis, the :: (which tells tkg2 that the other axis is to be titled differently and the transformation on just the other axis) was changed to a ; so that the Instructions could be used.  Bug found by Willard Gibbons.
+
+Support for reference line control via the Instructions completed.
+
+Numerous for loops replaced with foreach loops for more speed.
+
+The WISCONSIN release.
+
+Added bindings on the grid lines to point to the plot background for better mouse control when selecting a plot.  Also added key binding to the display only modes and at the same time added the SaveAs with loaded data to the display only mode.  I choose not to put this type of SaveAs in the interactive mode to minimized mistakes by the user--the command line can be used to do the same thing (--stdout, --importdata).  Other minor bug fixes resulting from the binding and the new save as have been performed.
+
+Added a -shuffleit key under the leader line hashes for that a simple shuffling mechanism on the leader line and text labels in a Text plot can be implemented so that lots of data can be squeezed and labeled together.
+
+Added -blankit and -blankitcolor on the axis hashes and implemented text blanking on the axis title and labeling.
+
+
+=head2 VERSION 0.39
+
+RPM built at USGS Austin on July 21, 2000:  tkg2-0.39-1.usparc.rpm.
+
+http://www.geocities.com/SiliconValley/Network/1958/pstoedit/
+
+Implemented number of columns in explanation on July 22, 2000
+
+Switched to mandatory use of Date::Manip 5.39 because earlier versions did not allow forking to an xterm as required by the NWIS graphics team.
+
+Default settings of -vertspacing, -titlexoffset, and -titleyoffset are now 'auto' and some behaviorial changes made.  Backwards compatability stuff hard wired to DrawExplanation.  Added binding to and explanation entry so that double clicking launches the DatasetEditor.  Minor changes to the other bindings in the explanation were made.  The right mouse button now used to move the explanation instead of the left.  The red rectangle around the symbology for an entry has been removed and now the DrawDataEditor is truly launched by double clicking.  A minor binding change to the movement of a plot was needed because a selected explanation moved over a plot caused confusion.
+
+Root can no longer run tkg2 for eval security reasons.  A nice message to user is provided.  
+
+Asymetric error bars and the new concept of error limits have been implemented.
+
+A bug fix was made on brand new plot creation that cropped up with the implementation of the --width and --height command line options made the 3rd week of July 2000.
+
+RPM built at USGS Austin on July 26, 2000:  tkg2-0.39-2.usparc.rpm.
+
+On to 0.39.3, implemented the error bar drawing in both a symmetrical and asymetrical fashion and implemented error bar drawing in the explanation entries.  Also, added the concept of error bar plots and error limit plots.
+
+Several minor bug fixes dealing with Instructions not working with --batch, odd plot limits when the data min and max were equal, some more optimizations with the use constant pragma.
+
+Total redesign and recoding of the time axis drawing--this is a major milestone.  Most of the work occurred over a week long trip to Lubbock between August 16th and 22nd.  Polishing of logic and settings into September.
+
+Minor bug fix on box plots--'reverse (0..$#array)' works much better than '($#array..0)', which meant that 'ciles were not being drawn.
+
+More use constant and slow code blocks removed.  The entire box plot suite of modules need updating to the efficient coding style used in all other modules.
+
+The --scaling can now be controlled by the tkg2rc file as 'Tkg2*scaling   float'.  This permits the user on weird machines to override the scaling settings fed to them by tkg2 wrapping scripts.
+
+Fixed a scaling bug on the font of the time axis labeling.
+
+Support for 1600x1200 resolution added.
+
+Progress on oversize postscript output is well underway.
+
+Minor bug fix on highlighting of annotation with the anno select dialog when a annotation object is not -doit.  Also, fixed undef warning on the ReferenceLines dialog box.
+
+Major rpm released at the end of this development stream by WHA in Austin, tkg2-0.39.4-2.rpm.
+
+
+=head2 VERSION 0.40
+
+Added the -doit toggling to the plots.  This was an oversight.  I should have implemented this months ago.  This was done do to a suggestion from David Yancey.  Several minor bug fixes were required to get this totally working.  There is no risk to backwards compatability.
+
+Added the directory memory for opening and saving tkg2 files, and for the opening and viewing of data files.  Nice feature that was long over do--thanks Trey Grubbs.
+
+Completely redesigned how text and symbol annotation is moved around the canvas.  The user now can place the annotation exactly where the mouse says--depending upon the setting of the anchoring.  Symbols are placed directly below the mouse.  Text is more complicated because of the anchoring.  Here is what the anchor points look like:
+ nw  n  ne
+ w   c  e
+ sw  s  se
+Centering, c, is the default and the text will be centered in all directions over the mouse and nw is used to move the origin to the upper left corner.  Eventually, I would like to add origin fields to all of the annotations.  Maybe it will make it in the 0.40 release.
+ 
+A very major memory leak was discovered by accident by WHA during testing of some temperature and humidty monitoring equipment data via automated tkg2.  When line plots were being shown as 'step' plots then with each canvas update the memory usages was growing by about 2**n.  Yipes indeed.  The problem was in the internal caching of parsed data--a foreach loop, which aliases a variable, was causing a self-referential (circular) data structure to develop.  Easy fix once found. 
+
+Major improvement on the issue of the BaseDate for all time calculations.  The basedate is now exported from a single location in Base.pm to all the modules requiring it.
+
+Major bug fix on fractional days associated with negative integer day counts.  The day has to be reduced by one, $day--, when there is a fraction to get a days to convert properly to a date/time.  This bug was discovered after I began playing with dates prior to 01/01/1900.
+
+Major bug fix on determination of linear limits with a single negative data point--needed to change the direction of substraction and addition in DataLimits.pm.
+
+Minor bug fix on determination of the final maximum on the linear axis by incrementing on the step length.  Sign reversal on a conditional in AxisConfiguration.pm.
+
+Added the --readonly command line option.  The --readonly option turns on --noexport, --noprint, and --nosave.  Each of which are also new command line options to this version.  --noexport removes the Export from the File or Tkg2 Displayer menus.  Likewise, --noprint removes the Print.  --nosave similarily removes Save, SaveAs, and also Open from the File or Tkg2 Displayer menus.
+
+Added the Tkg2/Help/Tkg2rc.pod POD file for complete documentation of the features and other aspects of the tkg2rc files.  Added support for site tkg2rc files on Linux boxes.  Added a -RC_FILES => { -DISTRIBUTION, -SYSTEM, -USER } hash to the TKG2_ENV hash for better tracking of which rc files were actually read in a run-time.  
+
+Tinkered with the Help POD file displaying widgets for better presentation and user manipulation.  Also, forcing the help placement to the lower left edge of the screen because random placement on Linux desktops and Reflection Desktops periodically would make part of the window hidden.
+
+Fixed a bug when the scaling factor was being controlled by the tkg2rc file and not the command line.  Scaling changes worked find from the command line, but not from the tkg2rc file.  The _scalingMW subroutine in Tkg2/DeskTop/Activities was not getting called when the rc file changed the scaling value.
+
+Added the day of week and day of year toggling options to the time axis--really cool.  The new keys in the axis hash are -show_day_as_additional_string => 0, and -show_day_of_year_instead => 0.   Backwards compatability has been built into the Continuous Axis Editor and the time axis drawing subroutines.
+
+=head2 VERSION 0.50  September - October 2000
+
+Big leap in features, fixes, and stuff (Sept 26, 2000) in preparation for the USGS graphics team meeting in Tucson Oct 2-6, 2000.
+
+During the Tucson meeting, a total restructuring of the rendering of export formats was made.  The Tkg2/Util/ps2png.pl script and Tkg2/Util/tkps2ps.pl script are now operational.  The tkps2ps.pl handles the correction or translation correction to the Tk rendered postscript.  Further polishing is needed, but we now have a mechanism to drive oversized and odd sized postscript files.  This is needed so that proper PDF and PNG files can be created.  This version sees the first release of the PNG format and the removal of Adobe Illustrator and GIF because of lack of interest and patent issues respectively.  The command line and relative dialog boxes were modified to support the translation arguments and resolution (PNG only at the present time).  I have learned a lot about Ghostscript now.  Future RPMs will require presence of rpng and wpng for PNG support.
+
+Finally, got around to fixed the undef value do to axis type issue that prevented proper drawing of say a time series with zero values on a log axis.  The parse data cache requires deletion with each change of the axis type.  The shading is broken however if tkg2 has to lift the pen.  The needs research.
+
+Fixed the shading as best I can tell.  Forgot to put a next unless the array of lines (a non missing value chunk) had data.  Now the shading subroutine is parallel to the drawing line subroutine.  Nice bug fixes. . . 
+
+Text plots now have the lines turned off by default.
+
+Added a toggle on whether the edges of an axis should be labeled or not.  It is preferred that axis limits always be labeled but sometimes because of certain applications or round off problems, this is a good idea.  The new axis hash keys, -labelmin and -labelmax control this.  They can be edited by the ContinuousAxisEditor.  These were added to facility the new -make_axis_square toggle.  Square axis generation can now be performed at startup.  If and only iff the x,y or x,y2 axis are of the same type and either linear or log, then tkg2 will perform the calculations necessary to make each axis have the same number of units per inch.  This is a handy feature for some automatic batch processing operations, but might come in handy at other times.  The squareness should work if both axis types are changed in the ContinuousAxisEditor.
+
+Further refinement of the exporting of files to ps, pdf, and png.  Two new command line options, --exportview and --exportfilev have been added.  These are used to toggle the viewing of the exported file by the appropriate image viewer.  A new API has been provided to tweak the postscript generation.  See the command line help for more details.  The export dialog box has been changed to reflect the new API.
+
+=head2 Version 0.50.5
+
+Increased the resolution shown on the time axis, particularly in the days so that annual like hydrographs have more detail.
+
+Fixed a printing bug developed during the rewrite of the exporting and printing functions.
+
+Added the tkmiffix.pl script to better filter the mif generated by the pstoedit utility.
+
+Changed the color of the main window to a hex so support for colors not available on the rgb.txt files is now possible.  This version is getting very stable, so I changed to a blue-green color.
+
+Added numerous pod files.  Pod files for all the menus are now available.  The command line help can be used to launch the help files (see --help).  Speaking of command line, --instv now toggles --verbose for convenience.
+
+Text annotation now can read files or run external commands in four different fashions (see the AnnoMenu.pod, section Text Annotation).  Also, text annotation can be rotated in the mif file by adding <Ang XX> anywhere in a given line.  The text will be rotated around its lower? left! hand corner.  There is not a way to control this, never-the-less careful text placement can actually make the rotated text in Framemaker look great.  Discovered several enhancements to the pstoedit utility--the author of it has been contacted.
+
+The time cache size has been increased to 5MB for evaluation.
+
+Mid-October release of rpm 0.50.5-2.
+
+=head2 Version 0.51.0
+
+Possible fix and much cleaner resulting code for small data ranges on linear axis in which the min and max are a long ways from zero.  Vast amounts of additional processing were being performed.  Thanks Willard for providing an example.  More speed should result for certain types of linear plots.  The speed increase could be on the order of many minutes.
+
+Added the View Dumped Template menu feature to assist in debugging.  This resulted in the addition of the Dump and Dump2STDOUT methods in the TemplateUtilities.pm module.
+
+Discovered a bug in the --mkplot command line option during the writing of the Instruction.pod tutorial.  Easily fixed once the problem was traced to a none recursive cloning of the -file hash.
+
+Added the -shade2origin hash key in the -shade hash.  This permits shading if the axis permits: below and above shade to origin must have a linear y axis and left and right shade to origin must have a linear x axis.  Departure from normal plots are not possible with this feature that is fully implemented, tested, and toggled using the DrawDataEditor.
+
+Much progress on documentation has been made.
+
+Fixed a bug in the day of the week array in which Friday was being labeled as Thursday etc.  Thanks Deanna Eames for the find.
+
+Added the ability for the user to be lazy when entering date fields in the time axis editor.  If the beginning date/time is 'YYYY' then the month and day are set to January 1 and if the beginning date/time is 'YYYY/MM' or 'YYYY.MM', then the day is set to the first.  If the ending date/time is 'YYYY' then the month and day are set to December 31 and if the ending date/time is 'YYYY/MM' or 'YYYY.MM', then the day is set to the last day of the month.  Neat feature indeed.  Much easier to quickly change those parameters and now one mustn't be concerned with the leap year issue.
+  
+Removed the drawShades method and incorporated the shade drawing in the line drawing loops.  This is so that proper stacking of shade plots on top of one another is performed.  Finally, this has been an issue since the original shade drawing was written.
+
+Added the ability for tkg2 to NOT call a complete update canvas when data is loaded into the plot.  Thus, all the data or at least the really big files can be loaded into first and then an explicit update canvas called from the EDIT menu.  Added the -no_update_on_data_add key for the template to support this feature.
+
+Further progress on the documentation.
+
+=head2 VERSION 0.52.0
+
+Added the ability to control the beginning and ending of the labeling on linear, log, and both probability axis.  This was a badly needed feature.  Yet another tweak that most commercial software does not support.  The Labeling and Numbering tab on the ContinuousAxis editor provides the begin and end fields.  If these fields are null then the entire axis is labeled.
+
+Removed the leader line drawing in explanations--way to ugly and hard to manage on even moderately loaded plots.  Also the x and y offsets for symbol text drawing in the explanation are wired based on font size to show the text to the upper left of the symbol.
+
+Removed the --batch_assistant and all the related logic as the Instructions are a much better and far more maintainable tool.
+
+Removed the &_aliases_of_Options subroutine as option alias were not being used.  Perhaps the ShortCuts will eventually be written.
+
+The monitor size can be set with the tkg2rc files or the command line (--monitorsize).  A smarter autoconfiguration of the scaling factor has been added that also considers the monitorsize.  If the monitorsize is not available, then a size of 17 inches is assumed.
+
+Forced the setting of the input record separator to "\n" as mysterious results were occuring on Sun's if we stored the input record separator directly from $/.
+
+Added the ability to increment or decrement the dialog font size with the addition of the Tkg2*increment_dialog_fonts tag in the .tkg2rc file.
+
+Added the 'Label Depth' and 'Label Density' scales on the time axis editor.  Now the labeling details on the time axis can be better controlled so that tkg2 can produce time series plots more to the user's requirements.  Suggestions are welcome.
+
+Fixed a font sizing problem on the Reference line editor.
+
+Minor tweaking and adjustments to the plot ordering of grid lines.  Grid lines are now guarantteed to be lower than the data and the major grid lines are drawn on top of the minor grid lines.
+
+The background of a plot is now properly lowered to the be the lowest drawn element of a particular plot and not the lowest element on the screen.  We were having problems with plots overlying one another with the grid lines turned on.
+
+Adjustments to the resolution and scaling subroutines in Base.pm to better report what tkg2 is doing and cleaning up of code.  For now, a new file in the user's home directory called .tkg2nomess will surpress tkg2 resolution, monitor size, and scaling reporting.  All this was changed for version 0.53.
+
+Fixed bug in instructions that prevented adjustments to min/max when the axis type changes.  The instruction writer will have to request the axis type twice for it to work.  Sort of a forceful request.
+
+Added the -lab2offset to the axis hashes to support axis dependent offset of labels in the opposite orientation as the usual label offset.
+
+Fixed a bug in that the Cancel button on exiting just a single template was actually destorying it.  Wonder how long that bug had been in there.
+
+
+=head2 VERSION 0.53 (A Major NWIS Milestone)
+
+Fixed bug in the batch processing mode that was not recognizing the format and defaulting to postscript.  Bug was discovered by Pat Murry.
+
+Totally changed the automatic scaling proceedure.  Tkg2 is now doing its best to calculated the user's monitor dimensions and going on from there.  The --scaling and Tkg2*scaling: settings are still used.  The Tkg2*monitorsize: is not.  Extensive information about tkg2 scale settings written in ~/.tkg2message.
+
+The monitorsize specification from rc files and from the command line has been removed.
+
+It is now possible to adjust the plotting order of the individual annotations when annotation is being drawn.  It is also possible to draw the annotation before or after plots are drawn.  See the additional ANNOTATION menu entries.  Modification to the AnnoMenu.pod has been done to reflect the additional features.  The drawing order idea was spawned from feed back from a Kirk Miller.
+
+Lucky Sultz discovered that text plots in combination with shown explanations caused a bounding box of all the text plot elements to be blanked.  This was a bug in the implementation of the blanking of the example text next to the symbology in the explanation.  Easy fix, but took 3 days to trace.
+
+Trey Grubbs reported a bug with the Instructions--actually he had a leading space on the __END__ token.  I have decided that the instructions should permit one or more optional spaces in front of the __END__ token.  During my debug of his apparent problem, I noticed that we were not exiting early from the instruction application when a line in the instructions could not be parsed--just had to add a next statement.  He also commented that I should have more verbose messages involving data file loading errors and tkg2 file loading errors when the --verbose option was run.  I agree--done.
+
+Finally, implemented the megacommand stub with the new MegaCommand module.  It is now possible to have external commands and pipelines build the data files on the fly.  Two new environmental globals, -MEGACMD_FILES and -MEGACMD_BASENAME were added for the support.  The FILES holds the names of all the files created by the megacommand operation during the life of a tkg2 process.  These files will be potentially clobbered with two or more tkg2 processes are running in the same directory.  The BASENAME is the base name to use for the megacommand operation, the file number or index in FILES is appended to the basename.  To implement the megacommand module, changes to the AddDataToPlot dialog box were required--mega command is now seen as an entry instead of a checkbutton.  The MegaCommand.pm module provides for the creation and writing of the megacommand files.  The subroutine MegaCommand is called from the ReadDelimited and ReadRDB file subroutines and magically produces a file name to load.  The new command line option --megacmd_show provides a verbose reporting of megacommand product by cat-ing the command output to stdout.  The other new command line option --megacmd_keep provides the ability to surpress the default behavior of deleting the megacommand files when tkg2 exits either trough the TotalExit dialog or through --batch or --autoexit.
+
+For patch 5, the revert to saved feature in the File menu has been added, implemented, and fully tested.  A couple of bugs related to handling of tkg2 file header storage and UNDO were discovered and fixed with recoding and the RemoveUndo method.  Willard discovered an undef variable bug when using --batch with --destination and no --exportfile (which would not make sense anyway).  I believe that this has been safely fixed.  I have added the --showmesubs option to be used in conjunction with --showme to provide single line echoing of the called subroutine.  Basically this is to provide a less verbose tracing mechanism.
+
+Box plot object creation did not consider the missing value string in the loaded data files.  This has now been fixed.
+
+Explanation was drawing annoying bounding box if there were now entries and now explanation title using the coordinate offsets that I added to hack around problems when the explanation bounding box was undefined.  Should have a better fix, now the bounding box is not created if the bounding coordinates of the entries, symbols, and titles are undefined.
+
+Finally, got around to showing the box plot statistics inside the DrawDataEditor.  Really cool, plus it is possible to show the user which data the statistics are associated with.  This is not possible using the --dumpboxes option.  The --dumpboxes option dumps the statistics to standard out ONLY for data that is dynamically loaded.  The dump is seen during the construction of each box.  It is a little harder to identify the box associated with the data when dumped to standard out using --dumpboxes (sorry).
+
+Finally, got around to showing the explanation of the box plot in the explanation.  Actually much easier than I suspected it would be, but as of 3/4/2001, data isn't shown, outliers aren't handled, questions about the 1.5IQR and 3*IQR, and the explanation isn't yet smart enough to properly space out the explanation when there are multiple entries.  Also, still haven't decided where a few new entries will go for configuring the size and some ancillary spacing values for the explanation.
+
+Added the outlier and data symbols to the explanation on March 10.  Fixed a few minor issues and added the option of using the percent sign instead of the word percentile in the box plot explanation.
+
+Implemented dashed lines for line plots, grid lines, origin, and line annotation.  Decided to use a subroutine to generate dash widget list instead of building within each dialog box subroutine like colors and fonts are done.  Tkg2::Base::getDashList.  Noticed that origin does not show up when the plot background is white.
+
+Fixed the bug in which the origin was being left behind the plot background.
+
+Implemented dashed lines for box plot tails and 'ciles (the boxes).  These were also extended into the explanation.  Playing with the dashing of the whiskers on the boxplot showed the I needed to finally implement the horizontal gap on the explanation, which has been done too.
+
+=head2 VERSION 0.60
+
+Patch 1 release March 20, 2001.
+
+Provided a more verbose warning and suggestion dialog when tkg2 can not find a data file that is up from the tkg2 running directory and the userelative path toggle is on.  I can not seem to figure a clean way to hand relative path tracking to data files, when one goes up from the running directory.  The extensive warning message should push the use to turn the use relative path toggle off (use an absolute path).  I have had a few users report that they do not know why tkg2 will not read an existing file.  The culprit is a bad path to the file.
+
+Added the --presenterlabels option so that the user can provide a colon delimited string to fill in the presenter frame instead of the tkg2 file names.  Pretty cool feature that was added for MISTE support.
+
+Fixed another text plot blanking below bug.  I had an extra canvas tag floating around if and only if? a non blanking text plot was plotted before a blanking text plot.  Many thanks to Wil Sadler USGS for finding this behavior.
+
+Added buttons to fill in the base minor ticks to draw for logarithmic axis.  Three levels of detail are provided (.1,.01,.001).  This should be a very handy shortcut when someone is building extremely detailed log axis. 
+
+Added the ability to toggle on and off the tkmiffix.pl and tkpsfix.pl scripts during exporting to postscript or other in the Export dialog box.  Support for command line toggling is not provided.  This was done to try and trace down certain portrait postscript imcompatabilities between Unix and WinNT that are not fully understood.
+
+Patch 2 release May 31, 2001.
+
+Added buttons to auto fill-in base minor labels for log axis.
+
+Patch 3 
+
+Control over shuffling leader line reversing on first angle is now possible with the addition of the -flip_lines_with_shuffle key in the leaderline hash.  Backwards compatability has been built in.
+
+After extensive research into detection of leader lines overlapping line plots, I finally found a possible solution.  Tk::Canvas has just enough low-level methods to construct a dynamic line adjustment system to attempt to minimize leader line (hence text annotation) overlap.  I discovered a bug in the line intersection code in Master Algorithms in Perl--days to find it.  Another key has been added to the leader line hash,  -overlap_correction_doit, which toggles the behavior.  A new module Math::Geometry has been written.  This feature is primarily designed for rating curve plots and measurement points plotted too.  This feature is 100% backwards compatable.  Much optimization has been done, particularly important is the caching of the Tk::Canvas::coords call.
+
+Patch 4
+
+Fixed bug in the handling of reading a set number of lines from a file.  The -numlinestoread key in the -file hash was be reset in the TemplateUtilities.pm module during dynamic loading.  First data loading was working fine.  Bug discovered by Greg Mueller, Madison.  About July 1, 2001.
+
+Fixed bug in the user definining of column types, such as 'dndnnn' reported by Pat Murry.  Also fixed a bug in column type specification on space delimited files when leading space in from of the format line occurs.  About July 10, 2001.
+
+In mid July, I added the outwat2rdb.pl script in the Tkg2/Util directory.
+
+Fixed an annoying wrong font specification in the log offset editor.
+
+=head2 VERSION 0.70 (modifications to tkg2 since July 19, 2001)
+
+Patch 1
+
+Replaced the plugins menu with a screen shot menu and created a ScreenShot subroutine within the Help.pm module.  Took screen shots of nearly every dialog box and placed in a new ScreenShots directory in Tkg2/Help.  Cool.
+
+
+Added the geometry command line option--see documentation.  This feature requested by user community.
+
+
+Trapped errors involving mouse interaction when the --norulers option was on.  Null subroutines were required for the -markruler* keys on the template object.  Also, modifications to the ruler rendering were needed so that the grid of the canvas was retained although the rulers were not actually drawn.  This was an bug reported by user community.
+
+
+Tkg2/Util/xvfb_driver.pl was added to the distribution as an example of implementating a screenless X framebuffer that should permit Tkg2 to run with cron jobs.
+
+
+Tkg2/Util/outwat2rdb.pl was added to the distribution as a OUTWAT file to RDB conversion tool.  Tkg2 is not likely going to ever directly read OUTWAT files, but this script is a starting point for external scripting.
+
+
+The Tkg2/Help/faqs.pod was added as a dumping ground for the odd or common questions.
+
+
+Added better reporting mechanism during the --checkcolors operation and forcing the geometry of the labeling widget to be more centered on the screen.  Some window managers were apparently moving the widget off screen--yuk.  This work was spawned from tkg2-NWISGEN/7946.
+
+The ##tkpsfix_debug## file is now being written inside the user's home directory as opposed to the directory running tkg2.  Should have done this a long time ago.  Sorry for the delay folks.
+
+
+Implemented Printing, Exporting, and Batching default setting of zoom to unity, re-rendering the canvas, and then performing the postscript generation.  This provides fonts in their proper sizes.  For the Printing and Exporting operations, the canvas is redrawn twice and returned to the original zoom setting when the operation is complete.  Nice touch if I do say so myself.  Very important feature for the NWIS folks for reproducable font sizes on output, do not know why I did not think of this earlier.
+
+
+Added four actions to the Data menu: Show and Hide ALL explanations and Toggle on and off ALL axis autoconfiguration.  These are quite handy to have.  Two subroutines were consequently added to the Plot/Plot2D.pm object: showExplanation and toggleAxisConfigurations.  These new actions work on ALL plots.  This makes a more efficient user experience.
+
+
+Added four actions to the Plot menu: Show and Hide ALL explanations and Toggle on and off axis autoconfiguration.  Again, these are quite handy to have.  Unlike the options seen in the Data menu, these work ONLY on the selected plot.  This makes a more efficient user experience.
+
+
+Added the publication style month abbreviations to time axis via the new key -compact_months_in_publication_style in the axis hashes.  Instead of exactly three characters for all months, June and July are spelled out, periods are added to the end of the other months, except September, which gets 't.' appended.  This was spawned from a user request with a publication background.  No risk to backwards compatability.
+
+
+Added some handy tricks to entry of the hh:mm:ss field on the time axis editor.  Before, you had to have each field exactly specified.  It became evident that the user community was needing these after fielding numerous email and phone calls.  Now you have the following short cuts.
+
+
+  zero, null, or whitespace = 00:00:00
+  11                        = 11:00:00
+   4                        = 04:00:00
+  13:20                     = 13:20:00
+  noon                      = 12:00:00  # actually just 'n' will do
+  tea                       = 15:00:00  # actually just 't' will do
+  dinner                    = 18:00:00  # actually just 'd' will do
+  supper                    = 18:00:00  # actually just 's' will do
+  bed                       = 22:00:00  # actually just 'b' will do
+
+
+Also, note that you get January 1 on the beginning date if you enter just a year and December 31 on the ending date if you enter just a year.  You get the first of the month if you enter a year and a month for the beginning field and you get the last day of the month in an ending date field--yes leap year supported.
+
+
+Have added some handy tricks to entry of the date/time field on the time axis editor.  Date/time field means that the following shortcuts can be typed in either the date entry or the time entry.  Whether the shortcut is specific for the beginning or ending is identified.
+
+  zero, null, or whitespace = January 1 of current year for the beginning
+  zero, null, or whitespace = December 31 of current year for the ending
+  now         (any field) = right now  (using perl's scalar localtime)
+  then        (any field) = one year ago from now
+  yr-         (any field) = one year (-365 days) ago from now
+  yr+         (any field) = one year (+365 days) from now
+  yesterday   (any field) = one day ago from now # just 'yes' will do
+  tomorrow    (any field) = one day from now     # just 'tom' will do
+  wk+         (any field) = one week (+7 days) in the future from now
+  wk-         (any field) = one week (-7 days) in the past from now
+  mn+         (any field) = one month (+30 days) in the future from now
+  mn-         (any field) = one month (-30 days) in the past from now
+  wyr   (beginning field) = October 1 of current water year
+  wyr      (ending field) = September 30 of current water year
+  wyr#  (beginning field) = # days past October 1 of current water year
+  wyr#     (ending field) = # days past September 30 of current water year
+  wyr-# (beginning field) = # days before October 1 of current water year
+  wyr-#    (ending field) = # days before September 30 of current water year
+  wyr can be shortened to wy in all the above wyr cases.
+
+
+To clarify the wyr shortcut a bit further.  Assume that today's date is September 5, 2001.  We will consider the beginning field first.  Typing wyr in either begin date or begin time will yield: Oct. 01, 2001; typing wyr-5 in either begin date or begin time will yield: Sept. 26, 2001; typing wyr5 in either begin date or begin time will yield: Oct. 06, 2001.  For the ending date or begin time, wyr, wyr-5, and wyr5 yield: Sept. 30, 2001, Sept 25, 2001, and October 07, 2001, respectively.
+
+
+Fixed implementation bug on the time axis editor that caused problems when switching to time axis from the default linear axis before data was read in.  Since the time beginning and ending fields should be null when this occurs, we default the time to the current water year.  This is the fix for tkg2-NWISGEN/8101.
+
+
+Added the internal computed date-time representation at the bottom of the time axis editor.  This provides no functionality to the end user, but does formally document to the user how tkg2 handles time.  Plus, this might some day be an important feature when tracking bugs down.  To see the computation, change a date or time fields and hit the Apply button.
+
+
+Tweaking the plot editor for support of dashed borders and dashed border around the explanation.  Added support for border dashing in all the axis plotting modules and the drawexplanation.  Fully tested and well understood feature to turn on as I duplicated what had already been done for dashed support with line and error line plots.
+
+
+Removed the long-around feature of the axis turning red as the mouse passes over them and then back to black.  This had to be done when the plot border dashing was implemented.  We turn the cursor into a hand pointing to the left.  Also, axis, explanation entries, explanation symbols, and annotation all convert the cursor to a hand to show that the user can click on them for editing.  This should also aid people interacting with tkg2 on slow networks.
+
+
+Fixed bug in the integer stripping regex in the ReadRDBFile and ReadDelimitedFile modules on the format line.  For example, format lines with #n, #d, #s had the number stripped from them, but n#, d#, s# did not.  RDB files have the number leading the type, but some users are creating files with the opposite, perhaps by accident?  Since tkg2 does not use the number (presumably the width) of the field (legacy of fixed format processing?), logic dictates that tkg2 should strip numbers period.  This does have the effect that malformed RDB files can be read in by Tkg2--but tkg2 is only partially RDB compliant anyway.  This bug was found by David Meyer.  Wow, nearly two years of files interacting with tkg2 and this did not show up.  
+
+
+Finally, wrote my own messaging center instead of using Tk::Dialog.  Tk::Dialog was really slow and added lots of code to compile each time.  Furthermore, users could not grab the text of the message/warning with the mouse and paste elsewhere and the dialog was too narrow.  The new subroutine _MessageDialog in Tkg2::Base implements it.
+
+
+Added the rdb_dt2d_t.pl script in Tkg2/Util.  rdb_dt2d_t.pl takes an rdb file and if and only if there is a DATE field and a TIME field these columns are replaced with a DATE_TIME field.  This required a new subroutine to RDBTools.pm, spliceDATE_TIME_inRDB.
+
+
+Fixed a bug in the printing of the day of the week strings next to the date on the time axis.  Sunday was not being labeled as I had it in index zero of the arrays and not in index 7 as the Day_of_Week subroutine ranges from 1..7.  Can not believe that someone had not found this until I stumbled on to it.
+
+
+Added the rdb_ymd2d_t.pl script in Tkg2/Util.  Combines the YEAR, MONTH, DAY, and optional TIME columns.  If the day is not available in the file, 01 is assumed.  This is the fix or support required for some RDB files generated from OUTWAT.  Also, this script should make the plotted of monthly values easier because monthly value files lack a day.  This is the fix for OUTWAT-NWISADAPS/8165.
+
+
+Log offsets were not implemented correctly.  First, negative offsets were not being applied as we parsed the original data during the line generation phase of plotting--thus even though a negative offset permits plotting on the log axis of less than or equal to zero values, tkg2 was not getting the opportunity to actually plot this portion of the line.  Second, the labeling of the axis was not working properly either.  This is the fix for NWRT2RDB-NWISADAPS/8160.
+
+
+Stripped the minor ticking button shortcuts from the log axis editor in favor of a menubutton.  Added the half and quarter ticking short cuts to the new menu button.  The special major and minor label and entry field are now on one line in the linear, log, and probability axis.  The dialog boxes are now slightly more compact, which should make more users happy.  Much cleaner interface.
+
+
+Added the --nomenus command line option, which toggles menus off as well as --noundo and --nobind on.  You really have the power now to keep users from editing, saving, exporting, or opening additional work.  This came from ancillary discussions firing around about square axes and RATPLOT.
+
+
+Implemented dashing with the reference lines and rearranged the reference line editor to reflect the new feature.
+
+
+Added and implemented the new -tick_to_actual_min_and_max key in the axis hashes for more flexability in controlling the ticking and gridding when label beginning and ending entries a non-empty or at least different from the actual minimum and maximum of the axis.  This is another really cool feature to have around when you needed something like it.  This required the addition of the 'Tick to actual minimum and maximum' checkbutton on the AxisEditor->Labels,Numbers,Ticks dialog box.  This is a 'bug' fix in response to tkg2-NWISGEN/8225.
+
+
+Tkg2 now resets the Axis Position menubutton on the AddDataToPlot dialog given the settings of the axis labeling location on the x and y axis.  The y2 axis location is irrelavent in this context.  This is the bug fix in response to  tkg2-NWISGEN/8226.
+
+
+Substantial cleaning to the megacommand interface and added the --megacmd_args command line option.  Really powerful tool.
+
+
+Empty arrays can be set in the instructions by using a pair of brackets.  This fix come from a new instructions user.  Can not believe that this had not come up before.  This is potentially and very important pre-emptive bug fix.
+
+
+Prettier dumping of box plot statistics to standard output.  Wow another totally cool feature now available in tkg2.d  Tkg2 is an even better statistical calculating machine.  Added the Kendall's Tau module for nonparametric trend testing, but not accessible by tkg2 yet.
+
+
+Added the --nomw and --withdrawmw command line options.  Both of these options hide the main tkg2 dialog box but let the tkg2 templates be displayed in the usual fashion.  If memory serves, David Yancey wanted this.
+
+
+Substantial reorganization of the AddDataToPlot dialog box and implementation of the optional conversion of date-time fields to a common base.  This permits cool plots showing annual variation, diurnal variation, or other variations that one could think of.  For example, to plot all date-time values in year 2001, set the new entry field to 2001.  This should be a very popular feature among certain investigators.  Updates the the AddDataToPlot help have been made.  The common date-time base feature addresses in a far more general solution by pure coincidence bug report SW_HYDROGRAPH-NWISADAPS/8293 in which missing time was assumed as 00:00:00 instead of the desired 12:00:00.
+
+
+Added the Y-Accumulator and Y-Accumulator(text) plot types.  Now you can take time series of incremental precipitation and dynamically produce cumulative plots without have to add a second column of data to your file.  Very handy.  Idea spawned from my need to visualize precipitation totals associated with rainfall/runoff events with the Honey Creek project.  Only took 1 hour to code in.  Each Y data column is independently accumulated.  The Y-Accumulator(text) allows you to do regular text plots too.
+
+
+Added handy daily value and unit value retrieval programs in Tkg2/Util.  These are DVgetem.pl, DVlastwk.pl, UVgetem.pl, and UVlastwk.pl.  These are wrappers on the nwts2rdb command and are meant to help build megacommand applications from within tkg2.   The *lastwk.pl scripts are really cool in that you can retrieve time series data starting from right now back in intervals of weeks.  Cool for establishing extensions to NWIS just for your stations.  More work on these is needed, but fortunately, they can be swapped out with out any risk to tkg2 itself or official NWIS graphics.
+
+
+Fixed a bug in the dynamic loading of files by the -numlinestoread key that permits Tkg2 to read only a specified number of lines from a data file instead of the whole file.
+
+
+Fixed a bug in the ReadDelimitedFile module that prevented the pipe symbol | from being used as a delimiter.  Wow bug has been with since before mid-Summer 1999.  Guess nobody actually ever tried using a | until now.  The regular express in the line split must use /\|/ instead of /|/ as | means OR.  More speed was gleamed from the module by replacing repeating hash lookups with a scalar.  0.5 second increase on a three column 22,000 line file.
+
+
+Fixed cascading bugs when there is actually no data available for a boxplot.  Trapping of undef variables, division by zero, etc.  Nice correction.
+
+
+Two bug fixes in the Instructions module were made.  First, conditional order on the parsing was made to support a : in the value field.  We had to test for the == in the line and test for a lone :.  That way a line could have == * : as needed to place something like a file reading fork in a text annotation such as
+ text == <softcat: /tmp/tkg2.log>.  Also, we finally toggled the optional (.+)? capture after the == so that undefs can be set by the instructions.
+
+
+The debugging output of the tkpsfix.pl script is now written to a hidden file (~/.tkg2_tkpsfix_debug) if and only if it already exists.  We have abandoned the ##tkpsfix_debug## file altogether.  This change was motivated by the change of the postscript spooling files to the users home directory ~/ instead of the current running directory of tkg2.  This change in temporary file location makes it possible to spool other users files to a printer even though one might not have write access in that directory.  
+
+
+Tweaking to the error bar and error limit plots.  We can now have banded data for the errors that looks like this. '<=>', '5<=>', or '5<=>7', or '--<==>5' where '--' is a missing value.  Other tweaks based on some feedback.
+
+
+=head2 VERSION 0.71 (modifications to tkg2 since January 1, 2002)
+
+Added the true shade between and shade between accumulation plot types.  The usual or old 'shade between' plot has been properly renamed to 'shade'.
+
+
+=head2 VERSION 0.72 (modification to tkg2 since January 3, 2002)
+
+Added the date-time offset capability during file loading.  Any and all time components of a file can have a arbitrary foating point number of days added or substracted from them.  This should permit easier hydrograph comparisions etc.
+
+
+Added the dtgaprdb.pl utility script in /usr/local/Tkg2/Util.  This script inserted fake missing record if an interval limit or 'abort limit' is exceeded.  This is to handle the PLOTWAT-NWISADAP/8891 report.
+
+
+Added the --instb4data or instructions before the data command line option.
+
+
+Added the -invertskipline in the -file hash.  It is now possible to invert or negate the sense of the skiplineonmatch regular expression to extract particular lines in a file.
+
+
+Added the Date-Time tab on to the AddDataToPlot dialog box.  The date-time tweaking elements of the old 'Advanced' tab were getting too crowded.  Additional discussion on the dialog box relevant tothe date-time features has been added.  A button to set the common date-time to noon has been added as a request from the user community.  The date-time offset calculator was also added.
+
+
+Added the -clusterspacing key to the discrete portion of each axis hash.  This permits spacing between cluster elements on catagorical axis.  The cluster spacing will only work with clustered groups and not stacked groups.  This was added at the request of the user community.
+
+
+=head2 VERSION 0.73 (modification since March 15, 2002)
+
+Enhanced the missing value consideration in the data loading for better operation of asymmetrical error lines (bars and limits) for the SHIFT_VAR program in ADAPS.  Added substantial discussion in the AddDataFile pod file.  This is to handle the SHIFT_ANLY-NWISADAPS/6722 report.
+
+
+Added the queue_options tkg2rc token and added these options to the printing dialog box.  The user now has more control on how tkg2 spools postscript.
+
+
+Added the support for Windows Bitmap Format (BMP) with the addition of the RenderBMP.pm module.  Everything seems to work just fine and importation into Powerpoint is much easier.
+
+
+=head2 VERSION 0.75 (modifications to tkg2 since summer of 2002)
+
+Converted the boxplot 'cile computations to linear interpolation of the sorted data array from the O-statistics.  This better follows Branch of Systems Analysis Technical Memo 89.01.  This correction insures that the median lies within all of the 'ciles ranges (e.g. inside the quartiles).  The O-statistics were doing 'cile estimation using combinatorial arguments in a quasi-bootstrap fashion.  Further discussion is highly technical.
+
+
+Enhanced the --nomw option to prevent hung tkg2 processes (see the command line help page for more details).  This is to handle the PLOTWAT-NWISADAPS/9336 report.
+
+
+Several exportable additions to the Math/CalcStatistics.pm module have been made that permits developers (mainly me) to write smaller analysis programs for research that are dependent on common libraries.
+
+
+The Math/KendallsTau.pm module has seen revisions and further testing.  It is not used by Tkg2 in any fashion as of this release, but can be used for independent programs.
+
+
+Trapped and undefined variable usage when printer command line options are passed into the Rendering subroutines.  Only seen during usage of the --batch
+command line option.
+
+
+=head2 VERSION 0.76 (modification to tkg2 since February 2003)
+
+
+Slight speed increase to the Tkg2::Base::isNumber subroutine--space padding is no longer permitted on numbers.  This does not influence numeric testing behavior as I have always stripped spaces around entry fields and data values all over the place.
+
+
+Added the strip_nonzero_from_rdb.pl general utility in the Tkg2/Util directory.  This program is handy for speeding up the plotting of time series of data in which many repeating zero values are present.
+
+
+Fixed an unimported commify subroutine error in the BoxPlotDraw module.
+
+
+A bunch of documentation for the Data Class and Set Editors written and for the Draw Data Editor as well.  The Help buttons on the dialog boxes for these editors are no functioning.
+
+
+BMP support removed does not function as hoped.  Users should use postscript to TIF, JPEG, or GIF conversions.  The author prefers using postcript to Gimp(600dpi, and cropping) to TIF.  High resolution TIF works very well in popular presentation software.
+
+
+=head2 VERSION 0.76 (modification to tkg2 since February 2003)
+
+
+Added the strip_nonzero_from_rdb.pl general utility in the Tkg2/Util directory.  This program is handy for speeding up the plotting of time series of data in which many repeating zero values are present.
+
+Numerous little tweaks here and there.
+
+More documentation has been added for the Data Class, Data Set, and Draw Data Editors.
+
+
+=head2 VERSION 0.80 (Perl5.8 Compatability Release, February 2004)
+
+
+BEHAVIOR CORRECTION: Corrections applied for the occassion confusion by Perl5.8.+ of floats for integers of the float.  Many diagnostics added that print information to the users .tkg2message file.  The author does not fully understand the problem, but tweaks (wrapping in double-quotation marks) to log offset, axis min and maximums, log10 function, and the computed date-time values in the ContinuousAxisEditor have been made.  See the NWIS PRs that are addressed by this release.  The author does not consider these bugs per se.
+
+
+The NWIS PRs that are addressed and corrected in this release are listed below.
+
+   NWISADAPS-9289 - Blanking of bottom line on rating plot.
+     BUG FIX: Revised construction of object tagging in Tkg2/Draw/Labels/*.pm
+
+   NWISADAPS-12431 - Distortion of axes by editing an axis.
+     Analysis: Perl5.8.+ float/integer confusion (fixed by hacking)
+
+   NWISADAPS-12602 - Grids appear below the plot after changing axes.
+     Analysis: Perl5.8.+ float/integer confusion (fixed by hacking)
+
+   NWISADAPS-12603 - Spiking of plots
+     Analysis: Perl5.8.+ float/integer confusion (fixed by hacking)
+
+
+ENHANCEMENT: Enhancements to the ContinuousAxisEditor including the Debug Apply button.  This button causes the update of the canvas to be incremental with prompts to the user written to stdout, which should help the author research problems in the future should some appear :(
+
+
+ENHANCEMENT: The Step-Wise Update (like Debug Apply button in the ContinuousAxisEditor action has been added to the EDIT menu.
+
+
+BUG FIX: Trapping of undefined values when Megacommand returns no data stream.
+
+
+BUG FIX: Log axis when the range of the axis is less than the basemajor ticks. (An unlabeled axis was being rendered.)  This bug was found by the author during investigation of the Perl5.8.+ float/integer confusion.
+
+
+ENHANCEMENT: Major speed increase in the Tkg2::Math:GraphTransform module.  Redundant conditions are avoided at the expense of less parallel construction in the transformation algorithms.  This increase possibility was found by the author during investigation of the Perl5.8.+ float/integer confusion.
+
+
+ENHANCEMENT: Multiple logoffset capability, which was never fully implemented, has been removed from the entire code base.  Processing speeds increase slightly as an added benefit.  Users will not be as confused as before with offset handling, plus maintenance of the code improves.
+
+
+ENHANCEMENT: Step-Wise Update capability added and better diagnostics thus are potentially available in the ~/.tkg2message file.  This feature was added as the author was investigating the Perl5.8.+ float/integer confusion.
+
+
+ENHANCEMENT: Renamed the C<strip_nonzero_from_rdb.pl> to C<get_nonzero_from_rdb.pl>.  This utility is handy for plotting huge RDB files that also contain a lot of zero and one does not care about these values for some reason.  See C<get_nonzero_from_rdb.pl -h> for help.
+
+ENHANCEMENT: Removed by own splitdir subroutine from Tkg2/Base.pm in favor of the splitdir function of the File::Spec standard module.  Solaris Perl installations at USGS now have access to a splitdir.  This will enhance Tkg2 on Windows machines.  Speaking of Windows machines, various minor tweaks to get Tkg2 running on the platform have been made.  The author and Nils Oberg (USGS) have Tkg2 running on Windows.  The author has not fully trapped Unix-like system calls or figured out how to offer print services on Windows machines so Tkg2 is not officially on Windows yet.
+
+
+BUG FIX: (Version 0.80-2)  Trapped undefined values for the plotting location of the sample size for a boxplot.  Under situations in which a box is either not drawn or not drawable, tkg2 would be left without an idea of where to place the sample size.  In this situation the center of the plot either vertically or horizontally depending upon the orientation of the box plot object is used.  Behavior formally isolated by Jeff East (Houston).
+
+
+ENHANCEMENT: Added the UVgetpor.pl for period-of-record unit-value retrieval from a NWIS host.
+
+=head2 VERSION 0.81 (Perl5.8.3 Compatability Release, June 2004)
+
+The NWIS PRs that are addressed and corrected in this release are listed below.
+
+   PLOTWAT-NWISADAPS/14398
+     BUG FIX: (see paragraph immediately below)
+   tkg2-NWISGEN/14455 and tkg2-NWISGEN/14607
+     BUG FIX?: (see paragraphs regarding the deleteFontCache)
+     
+BUG FIX: (Version 0.81-1) Correction to the implementation of the 'curselection' method on listboxes after apparent changes to the Tk module at versions greater than 804.026.  The method no longer returns the index of a listbox when called in a scalar context: ReferenceLines, DataSetEditor, and DataClassEditor dialog boxes required changes.  The fix basically involves the addition of the 'index' method as in $lb->index($lb->curselection). 
+
+BUG FIX?: Added the deleteFontCache in the Tkg2::Base module to make sure that the font cache is empty before any attempt to create a font is made. This is a stop gap measure designed to alleviate (random?) core dumps reported on some Perl5.8.3/Tk804.026 systems.
+
+BUG FIX: tkg2-NWISGEN/14607 trapped exception thrown by testing for the existance of a font prior to deleting.  The attempt to deleteFontCache was buggy when operating in context of the sample size label on a boxplot.
+
+BUG FIX (Patch 5): Missing values are now thrown out for X-probability and Y-probability plot types; they should have been all along.
+
+BUX FIX/ENHANCEMENT (Patch 5): Multiple Message dialog boxes are now supported--they should have been for years.  Now when the user sees that an empty file has been read in, one of the extensive error messages about the file are seen in another dialog box.  Thanks to Trey Grubbs in Florida District.
+
+
+=head2 VERSION 1 series (MacOSX Compatability Release, Spring 2005)
+
+Framemaker MIF support things stripped when operating under MacOSX (darwin).  Added PDF support for darwin--ps2pdf is used instead of ghostscript. PNG support is provided by ghostscript.  Minor changes to library paths needed for darwin.
+
+BUG FIX: Added to the Plot::Plot2D::convertUnitsToPixels the following keys: on the -plot (-yumargin, -xrmargin, -xlmargin, -ylmargin) and on the -explanation (-xorigin, -yorigin).  These keys were somehow forgotten as Instructions language developed.  Thanks to Wil Sadler (Wyoming) for finding these in September 2004. However, a new bug was introduced in the fix because a variable name was mistyped.  This bug caused the offsets on text plots to be set to zero on opening of the Tkg2 file; the bug was detected and fixed in August 2005.
+
+BUG FIX: EditGlobalVars did not allow a zero plotting position coefficient--it should.  Fixed.
+
+BUG FIX: The plotting position formula had an extra +1 in both the numerator and denominated.  Fixed.
+
+BUG FIX/ENHANCEMENT: Wil Sadler (Wyoming) reported that he desparately needed to turn off the default behavior that --zoom is set to unity prior to postscript rendering.  A --nozoom2unity command line option (also availabe through Tkg2*nozoom2unity in the tkg2rc files) was added to bypass the switch to --zoom=1.  The checkbuttons on the Exporting and Printing dialog boxes are properly switched off--nice touch.
+
+BUG FIX: Missing data on a leap day mistakenly was being inserted (actually good data was being thrown out) by Tkg2 when the common date-time conversion was used. This bug was reported by Aub N. Ward (Louisiana) on November 29, 2004; a preprocessing hack around the "use noon" feature had been developed in Louisiana so there was not a desparate need for a fix. The fix was trivial within a conditional inside TimeMethods::_Array_DecodeTkg2DateandTime. This fix corrects a true logic error.
+
+ENHANCEMENT: From communication with Joe Nielsen (Maine) and Jeanne Robbins (North Carolina), it became necessary that the --presenter should have multiple columns.  Therefore Tkg2/Desktop/Presenter had some changes, and the --presentercolumns command line options was added.  Karl Winters (Texas) on reviewing the presentation of the new presenter commented about alphabetical sorting of the file names.  Therefore, --presentersort was added to give the user more freedom.
+
+ENHANCEMENT: Added *.csv recognition in the AddDataToPlot dialog box spawned file browser.  This should have been in place years ago.
+
+ENHANCEMENT: Added rug plotting capabilities.  Feature is self vivicating to older Tkg2 files as expected.  The new rug plotting switches are seen in the Points tab in the DrawDataEditor dialog box.  There are no known risks to previous Tkg2 operations.  Rug plotting was added based on observation of R/S-Plus functionality.
+
+BUG FIX: tkg2-NWISGEN/15377 trapping window closure hangs in --justdisplayone, --nomw, --withdraw, and --presenter operational modes.
+
+=head2 VERSION 1.01 (Fall 2006)
+
+ENHANCEMENT: Gen-tkg2/13482 Added horizonal and vertical scrollbars to the widget holding the explanation entries in Tkg2/Plot/Editors/ShowHideExplanEntries.pm. Previous versions could only hold about 15 entries, and users were not able to see more. Fixed. This has been a long outstanding example of one of the last incomplete features of tkg2 dating from October 4, 2000 (from cvs logs). Wade Walker was needing this feature on some of his graphics tasks.
+
+PARTIAL BUG FIX: The buttons (Apply, Ok, Cancel, Help) at the bottom of the Tkg2/Plot/Editors/ContinuousAxisEditor would not size properly if the plot type was changed from linear to log because the original rendering of the window extent was not large enough. The fix is the insertion of an empty frame just above the frame containing the buttons. The problem appears resolved, but is a hack.
+
+ENHANCEMENT: The FILE menu contained two exits. One to close the current template ('Exit') and another to exit Tkg2 ('Exit Tkg2'). This was confusing and should have been fixed years ago. The template is now closed with a proper 'Close'.
+
+ENHANCEMENT: Finally added the font changes to the standard configuration on the menu buttons for color and line width for the Boxplot dialog editors. Further font change made to the Tkg2/Help/ViewENV.pm dialog.
+
+ENHANCEMENT: Added the Arrow, Phoenix, ThinBurst, Burst, and FatBurst symbols to the Tkg2/Draw/DrawPointStuff.pm and Tkg2/DataMethods/Set/DrawDataEditor.pm at the request for Arrow by Wade Walker. I figured that one might as well add a few more---first addition to symbols since summer of 1999.
+
+ENHANCEMENT: Added Tkg2/Util/fastgaprdb.pl as a highly optimized data gap insertion tool for certain types of RDB files. This program is an alternative to the more general application Tkg2/Util/dtgaprdb.pl. These scripts help preprocess RDB files so that Tkg2 can 'lift the pen' on line plots. Joseph Nielsen and Wade Walker were need a serious speed increase at the expense of flexibility
+
+ENHANCEMENT: The outline and fill color menubuttons in the Anno/Symbol.pm, where backwards relative to rest of Tkg2 (fill then outline)--the order was swapped.
+
+ENHANCEMENT: Point (scatter) plots can now have variable sized symbols, through specification of a scaling factors on the symbol size. This feature is implemented through the Text plot because that plot type supports a third column of data. To use this feature, add data to a text plot. The text column should have values the mimic the following pattern: pscale:1.05.   The phase 'pscale:' is the trigger, and the following number is multiplied on the symbol size setting. A usual text plot will result---so if the text is not desired (likely in this case), toggle the doit button on the DrawDataEditor. The term pscale is not expected to interfer with potential phrases that users might desire in a conventional Text plot. I got this feature idea from the R software system.
+
+ENHANCEMENT: Added the arrow capabilities to line plots with a similar interface to that seen in the line annotation. Backwards compatabilities issues are involved, but autovivication of the four arrow settings (-arrow, -arrow1, -arrow2, and -arrow3) is made---there are no apparent risks to backwards compatability. This feature added because Wade Walker had a need, which was related to his need for an arrow symbol.
+
+
+=head2 VERSION 1.10 (Fall 2007 -- Fall 2010)
+
+ENHANCEMENT: Experimental METAPOST support.
+
+ENHANCEMENT: Path breaking triggers on the read data modules ReadDelimitedFile.pm, ReadFiles.pm, and ReadRDBFile.pm to support the proper exporting of massive unit-value files.  There are apparent limits in either the postscript engine or the PDF conversion via ghostscript and ultimate importation of a PDF into Illustrator for post processing. For several years I have had complaints about Tkg2 not "finishing" the printing of large time series. This issue has been traced to some sort of limit to the number of line segments in a path. Therefore, Tkg2 quietly breaks lines by insertion of empty values for lines longer than the value in the variable Tkg2::DataMethods::Class::ReadFiles::PATH_BREAKING_THRESHOLD, which has been set to 17,280 or 1 year of 15 minute data. Tkg2 breaks the line beyond this. If the values are truly continuous then the user should not see any substantial jumps in the plot.
+
+=head2 VERSION 1.20 (November 2010)
+
+BUG FIX (October 6, 2010): In pursuit (see BUG FIX of November 4, 2010) of incomplete major and minor ticking and grid lines that is apparently related to non-integer location on the axis, which showed up with NWIS4.10 release based on a migration to perl 5.10.1, WHA discovered the LinearLabels.pm that 'creatLineMetaPost' was being called in two locations for special ticks. The correct function is 'createLineMetaPost'. What a coincidence to find this as it is unrelated to the perl 5.10.1 problem just related to the reader.
+
+BUG FIX (October 6, 2010): In further testing after the previous BUG FIX, it was discovered that a createLine call in LinearLabels.pm was using a hash reference of @lineattr, which is wrong and how long this single example has been in place is unknown. The createLineMetaPost uses this hash reference; perhaps the source is WHA accidently adding the {} during development of the METAPOST support. If this is true, then no public release of this bug has ever been seen. WHA has scanned DiscreteLabels.pm, LogLabels.pm, and ProbLabels.pm for this bug and none are seen.
+
+BUG FIX (November 4, 2010): In further inspection on LinearLabels.pm, a final explicit print to the METAPOST filehandle was found in the plotting of special minor ticks on the primary -y axis, this was switched to the createLineMetaPost.
+
+BUG FIX (November 8, 2010): Gen-tkg2/25457, On September 7, 2010, Richard Verdi and Jeanne Robbins reported a problem on ticks and gridlines not being plotted for some plots and these would come and go as axis editors used to make adjustments. However, the ticks and gridlines are being plotted ontop of each other in positions hinting towards integer based math---the decimal portions(?) were being truncated. Jeff East and Mark Kasmarek reported exactly similar problems for an independent tkg2 file about a month later. Both reports immediately followed NWIS4.10 upgrade that included Perl5.10 from Perl5.8 upgrades. Perhaps 60 hours of research tracked the behavior to the vectors of @majortick and @minortick in LinearLabels.pm. For reasons that are unknown and actually quite disturbing, a fix could include packing a ".0" to $YMIN if $YMIN is an integer in GraphTransform.pm **AND** simply printing "@majortick" or printing "@minortick" to standardout. The simple printing of the vector CAUSES a change in Perl's treatment of later numerical computations! An apparent generalized fix is of the form 'foreach (@majortick) { $_ = "$_"; }' So simply taking a number and stringing it via inplace modification of the vectors fixes the problem. Additional writeup is provided in LinearLabels.pm and by extension LogLabels.pm, ProbLabels.pm, and DiscreteLabels.pm might be subject to similar problems. Look for the string "NWIS4.10/Perl5.10 BUG FIX" in the identified modules.
+
+=head2 VERSION 1.50 (April 2011)
+
+
+Z<>
+
+

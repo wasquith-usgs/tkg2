@@ -1,0 +1,964 @@
+#!/usr/bin/perl -w
+# --------------------------------------------------------------
+# A Tkg2 file -- by the enigmatic William H. Asquith
+# --------------------------------------------------------------
+#   The following is the standard header written by tkg2
+#   during a file save.   Tkg2 requires that the DATA
+#   token be present as it uses this as a flag to begin actually
+#   reading a file in.  You can edit anything you want
+#   above the DATA token or even remove all this entirely.
+#   Or you can put any data retrieval scripts above the 'exec'
+#   to get the data files in place before tkg2 and this file is
+#   actually launched.
+
+# Begin the self executing portion
+#    contains the command line arguments following
+#         this file name: e.g. % ./tkg2go --presenter.
+#   ./tkg2go is the name of this file.
+exec("/usr/local/bin/tkg2 @ARGV $0") or      
+print STDERR "The error message above indicates that the 
+tkg2 executable could not be found along the above path 
+Because tkg2 is a continuously developing product, it is 
+possible that other versions are installed along your path 
+with names such as 'asqplot' or 'g2'.  Try editing './tkg2go' 
+and use one of these other names in the exec command.
+";
+
+__DATA__
+Tkg2 File Version|0.75-1|Data::Dumper|Wed Aug  7 13:44:18 2002
+$template = bless( {
+  '-x_grid' => [],
+  '-draw_annotation_first' => '0',
+  '-annoline' => [],
+  '-annosymbol' => [],
+  '-annotext_plot_order' => '3',
+  '-plots' => [
+    bless( {
+      '-plottitleyoffset' => '14.376',
+      '-xmincanvas' => '58.891',
+      '-RefLines' => bless( {
+        '-y' => [],
+        '-y2' => []
+      }, 'Tkg2::Anno::ReferenceLines' ),
+      '-xmaxcanvas' => '600.109',
+      '-plottitlefont' => {
+        '-weight' => 'bold',
+        '-size' => '10',
+        '-slant' => 'roman',
+        '-stackit' => '0',
+        '-family' => 'Helvetica',
+        '-custom1' => undef,
+        '-custom2' => undef,
+        '-rotation' => 0,
+        '-color' => 'black'
+      },
+      '-explanation' => {
+        '-title' => '',
+        '-font' => {
+          '-weight' => 'normal',
+          '-size' => '10',
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-linewidth' => '19.956674654378',
+        '-area_line_point_order' => 0,
+        '-outlinecolor' => 'black',
+        '-colspacing' => '0.1i',
+        '-titlexoffset' => 'auto',
+        '-fillstyle' => undef,
+        '-numcol' => '1',
+        '-titlejustify' => 'center',
+        '-xorigin' => '388.602150537634',
+        '-hide' => '0',
+        '-titleyoffset' => 'auto',
+        '-dashstyle' => undef,
+        '-fillcolor' => 'white',
+        '-vertspacing' => 'auto',
+        '-horzgap' => '3.35607741935483',
+        '-outlinewidth' => '0.015i',
+        '-yorigin' => '58.9308755760369'
+      },
+      '-doit' => 1,
+      '-borderwidth' => '0.015i',
+      '-ypixels' => '406.555',
+      '-plotbgfillstyle' => undef,
+      '-yumargin' => '43.554',
+      '-plottitlexoffset' => '3.592',
+      '-xrmargin' => '58.891',
+      '-plottitlejustify' => 'center',
+      '-QQLines' => bless( {
+        '-one2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        },
+        '-negone2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        }
+      }, 'Tkg2::Anno::QQLine' ),
+      '-canvheight' => 509,
+      '-plotbgcolor' => 'palegreen1',
+      '-scaling' => '0.832360471070148',
+      '-username' => '',
+      '-xpixels' => '541.218',
+      '-borderdashstyle' => undef,
+      '-ymincanvas' => '43.554',
+      '-y2' => {
+        '-reverse' => 0,
+        '-max' => '12.5',
+        '-title' => 'Y-DATA',
+        '-origindoit' => 0,
+        '-invertprob' => 0,
+        '-numdecimal' => 0,
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-12.5',
+        '-numcommify' => 0,
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.694',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => undef,
+        '-labskip' => 0,
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => 9,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => 0,
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => 10,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-turned_on' => 0,
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'right',
+        '-laboffset' => '41.949',
+        '-datamax' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-hideit' => 0,
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900011312:00:00',
+          '-daydoit' => 1,
+          '-min' => '1899122012:00:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '2.5',
+        '-baseminor' => [],
+        '-doublelabel' => 0,
+        '-minor' => undef
+      },
+      '-plottitle' => '',
+      '-xlmargin' => '58.891',
+      '-ymaxcanvas' => '450.109',
+      '-x' => {
+        '-reverse' => '0',
+        '-max' => '15',
+        '-title' => 'PESTICIDE IN SOIL SAMPLES',
+        '-origindoit' => 0,
+        '-invertprob' => 0,
+        '-numdecimal' => 0,
+        '-num2offset' => '2.993',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '0',
+        '-numcommify' => 0,
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.993',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => undef,
+        '-labskip' => '0',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => '9',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '0',
+        '-labfont' => {
+          '-weight' => 'bold',
+          '-size' => '12',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-numminor' => 1,
+        '-lab2offset' => 0,
+        '-location' => 'bottom',
+        '-laboffset' => '11.984',
+        '-datamax' => {
+          '-whenlinear' => '14',
+          '-whenprob' => undef,
+          '-whenlog' => '14'
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => '1',
+          '-whenprob' => undef,
+          '-whenlog' => '1'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 'cluster',
+          '-bracketgroup' => '0',
+          '-labelhash' => {
+            'SIMAZINE' => 5,
+            'TEBUTHIURON' => 9,
+            'DIELDRIN' => 2,
+            'DCPA' => 14,
+            'DIAZINON' => 3,
+            'p,p\'-DDE' => 1,
+            'BROMACIL' => 12,
+            'METRIBUZIN' => 7,
+            'PROMETON' => 4,
+            'ATRAZINE' => 6,
+            '2,4-D' => 10,
+            'BENTAZON' => 11,
+            'DEA' => 8,
+            'CHLORPYRIFOS' => 13
+          }
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '',
+          '-daydoit' => 1,
+          '-min' => '',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => 2,
+        '-baseminor' => [],
+        '-doublelabel' => '0',
+        '-minor' => undef
+      },
+      '-y' => {
+        '-reverse' => '0',
+        '-max' => '1.2',
+        '-title' => 'CONCENTRATION, MG/L',
+        '-origindoit' => '0',
+        '-invertprob' => 0,
+        '-numdecimal' => '0',
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-0.2',
+        '-numcommify' => '0',
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.694',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => [],
+        '-labskip' => '0',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'bold',
+          '-size' => '11',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '0',
+        '-labfont' => {
+          '-weight' => 'bold',
+          '-size' => '12',
+          '-slant' => 'roman',
+          '-stackit' => '1',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-turned_on' => 0,
+        '-numminor' => '3',
+        '-lab2offset' => 0,
+        '-location' => 'left',
+        '-laboffset' => '29.963',
+        '-datamax' => {
+          '-whenlinear' => '1',
+          '-whenprob' => '0.86',
+          '-whenlog' => '1'
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => '0.001',
+          '-whenprob' => '0.00039',
+          '-whenlog' => '0.001'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900010204:48:00',
+          '-daydoit' => 1,
+          '-min' => '1900010104:48:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '0.2',
+        '-baseminor' => [],
+        '-doublelabel' => '0',
+        '-minor' => undef
+      },
+      '-dataclass' => bless( [
+        bless( {
+          '-username' => '',
+          '-setname' => 'pesticides.prn',
+          '-show_in_explanation' => 1,
+          '-file' => {
+            '-datetime_offset' => '0',
+            '-ordinates_as1_column' => '1',
+            '-sorttype' => 'numeric',
+            '-filedelimiter' => '\\s+',
+            '-sortdoit' => '0',
+            '-numlabellines' => '0',
+            '-fileisRDB' => '0',
+            '-userelativepath' => '1',
+            '-missingval' => '-999',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-thresholds' => '0',
+            '-numskiplines' => '0',
+            '-numlinestoread' => '',
+            '-fullfilename' => '/accounts/sun3/wasquith/tkg2/TestData/pesticides.prn',
+            '-megacommand' => 0,
+            '-common_datetime' => '',
+            '-columntypes' => 'auto',
+            '-numskiplines_afterlabel' => '0',
+            '-relativefilename' => 'TestData/pesticides.prn',
+            '-sortdir' => 'ascend',
+            '-dataimported' => '0',
+            '-skiplineonmatch' => '^#'
+          },
+          '-DATA' => [
+            {
+              '-origabscissa' => 'v1:string',
+              '-username' => '',
+              '-showthirdord' => undef,
+              '-origthirdord' => undef,
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'TFG Industrial site',
+              '-origordinate' => 'v4:number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'black',
+                  '-doit' => '1',
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '7.01697841726619',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => 1,
+                  '-justify' => 'left',
+                  '-numdecimal' => 0,
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => 8,
+                    '-slant' => 'roman',
+                    '-stackit' => 0,
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => 0,
+                    '-custom2' => undef,
+                    '-blankcolor' => 'white',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => 0,
+                  '-numformat' => 'free',
+                  '-yoffset' => '3.353',
+                  '-leaderline' => {
+                    '-endoffset' => '7.01697841726619',
+                    '-doit' => 0,
+                    '-width' => '0.005i',
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '28.0679136690647'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '17.5424460431655'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '7.01697841726619',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.353',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Circle',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => '0',
+                  '-fillcolor' => 'white',
+                  '-num2skip' => '0',
+                  '-blankcolor' => 'white',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => '0'
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.015i',
+                  '-stepit' => '0',
+                  '-dashstyle' => undef,
+                  '-doit' => '0',
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Bar',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'v1:string'
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' ),
+        bless( {
+          '-username' => '',
+          '-setname' => 'pesticides.prn',
+          '-show_in_explanation' => 1,
+          '-file' => {
+            '-datetime_offset' => '0',
+            '-ordinates_as1_column' => '1',
+            '-sorttype' => 'numeric',
+            '-filedelimiter' => '\\s+',
+            '-sortdoit' => '0',
+            '-numlabellines' => '0',
+            '-fileisRDB' => '0',
+            '-userelativepath' => '1',
+            '-missingval' => '-999',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-thresholds' => '0',
+            '-numskiplines' => '0',
+            '-numlinestoread' => '',
+            '-fullfilename' => '/accounts/sun3/wasquith/tkg2/TestData/pesticides.prn',
+            '-megacommand' => 0,
+            '-common_datetime' => '',
+            '-columntypes' => 'auto',
+            '-numskiplines_afterlabel' => '0',
+            '-relativefilename' => 'TestData/pesticides.prn',
+            '-sortdir' => 'ascend',
+            '-dataimported' => '0',
+            '-skiplineonmatch' => '^#'
+          },
+          '-DATA' => [
+            {
+              '-origabscissa' => 'v1:string',
+              '-username' => '',
+              '-showthirdord' => undef,
+              '-origthirdord' => undef,
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'Underground Storage Tank Farm No. 11',
+              '-origordinate' => 'v5:number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'grey75',
+                  '-doit' => '1',
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '7.01697841726619',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => 1,
+                  '-justify' => 'left',
+                  '-numdecimal' => 0,
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => 8,
+                    '-slant' => 'roman',
+                    '-stackit' => 0,
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => 0,
+                    '-custom2' => undef,
+                    '-blankcolor' => 'white',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => 0,
+                  '-numformat' => 'free',
+                  '-yoffset' => '3.353',
+                  '-leaderline' => {
+                    '-endoffset' => '7.01697841726619',
+                    '-doit' => 0,
+                    '-width' => '0.005i',
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '28.0679136690647'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '17.5424460431655'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '7.01697841726619',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.353',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Circle',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => '0',
+                  '-fillcolor' => 'white',
+                  '-num2skip' => '0',
+                  '-blankcolor' => 'white',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => '0'
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.015i',
+                  '-stepit' => '0',
+                  '-dashstyle' => undef,
+                  '-doit' => '0',
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Bar',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'v1:string'
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' ),
+        bless( {
+          '-username' => '',
+          '-setname' => 'pesticides.prn',
+          '-show_in_explanation' => 1,
+          '-file' => {
+            '-datetime_offset' => '0',
+            '-ordinates_as1_column' => '1',
+            '-sorttype' => 'numeric',
+            '-filedelimiter' => '\\s+',
+            '-sortdoit' => '0',
+            '-numlabellines' => '0',
+            '-fileisRDB' => '0',
+            '-userelativepath' => '1',
+            '-missingval' => '-999',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-thresholds' => '0',
+            '-numskiplines' => '0',
+            '-numlinestoread' => '',
+            '-fullfilename' => '/accounts/sun3/wasquith/tkg2/TestData/pesticides.prn',
+            '-megacommand' => 0,
+            '-common_datetime' => '',
+            '-columntypes' => 'auto',
+            '-numskiplines_afterlabel' => '0',
+            '-relativefilename' => 'TestData/pesticides.prn',
+            '-sortdir' => 'ascend',
+            '-dataimported' => '0',
+            '-skiplineonmatch' => '^#'
+          },
+          '-DATA' => [
+            {
+              '-origabscissa' => 'v1:string',
+              '-username' => '',
+              '-showthirdord' => undef,
+              '-origthirdord' => undef,
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'Highly urbanized town somewhere in Texas, USA',
+              '-origordinate' => 'v6:number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'white',
+                  '-doit' => 1,
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '0.1i',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => 1,
+                  '-justify' => 'left',
+                  '-numdecimal' => 0,
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => 8,
+                    '-slant' => 'roman',
+                    '-stackit' => 0,
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => 0,
+                    '-custom2' => undef,
+                    '-blankcolor' => 'white',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => 0,
+                  '-numformat' => 'free',
+                  '-yoffset' => '3.353',
+                  '-leaderline' => {
+                    '-endoffset' => '7.01697841726619',
+                    '-doit' => 0,
+                    '-width' => '0.005i',
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '28.0679136690647'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '17.5424460431655'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '7.01697841726619',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.353',
+                  '-doit' => 0,
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Circle',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => 0,
+                  '-fillcolor' => 'white',
+                  '-num2skip' => 0,
+                  '-blankcolor' => 'white',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => 0
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.015i',
+                  '-stepit' => 0,
+                  '-dashstyle' => undef,
+                  '-doit' => 0,
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Bar',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => 0,
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'v1:string'
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' )
+      ], 'Tkg2::DataMethods::DataClass' ),
+      '-ylmargin' => '58.891',
+      '-canvwidth' => 659,
+      '-bordercolor' => 'black'
+    }, 'Tkg2::Plot::Plot2D' )
+  ],
+  '-y_grid' => [],
+  '-annosymbol_plot_order' => '2',
+  '-scaling' => '0.832360471070148',
+  '-snap_to_grid' => '1',
+  '-tkg2filename' => '/home/wasquith/tkg2/bar.tkg2',
+  '-annoline_plot_order' => '1',
+  '-width' => '11',
+  '-fileformat' => 'DataDumper',
+  '-height' => '8.5',
+  '-postscript' => {
+    '-colormode' => 'color',
+    '-fontmap' => undef,
+    '-rotate' => 1
+  },
+  '-undonum' => 0,
+  '-annobox' => [],
+  '-needsaving' => 1,
+  '-annotext' => [],
+  '-color' => 'linen',
+  '-no_update_on_data_add' => undef
+}, 'main' );

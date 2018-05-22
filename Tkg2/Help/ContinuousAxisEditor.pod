@@ -1,0 +1,474 @@
+
+=head1 THE CONTINUOUS AXIS EDITOR
+
+This POD file provides detailed description of the Continuous Axis Editor dialog.  This documentation file is located at Tkg2/Help/ContinuousAxisEditor.pod.
+
+=head2 INTRODUCTION
+
+The Continuous Axis Editor is the only means for configuring the settings specific to the axis on the five continuous as opposed to discrete axis types supported by Tkg2.  The axis types are Linear, Logarithmic (base-10), Probability, Gumbel, and Time Series.  There is a Discrete Axis Editor for configuration of discrete axis types, and is described inits own documentation file.
+
+
+The editor is accessed either by double-left clicking on an axis or using the buttons at the bottom of the Plot Editor.  The Plot Editor is accessed by double clicking within the borders of a plot.
+
+
+=head2 LINEAR AXIS PARAMETERS tab
+
+=over 4
+
+=item Axis Title
+
+Specify the title of the axis in one or more lines.  Current versions of Tkg2 do not support text rotation.
+
+=item Reverse Axis
+
+Reverse the sense of the axis.  Instead of the minimum and the maximum being on the left (bottom) and right (top) of the plot, respectively, place the minimum and the maximum on the right (top) and left (bottom) of the plot, respectively.
+
+=item Hide Numbers and Title
+
+Hide the axis labeling (numbers) and the axis title.
+
+=item Double Label
+
+Label the axis on both sides of the plot.
+
+=item Autoconfigure X,Y,Y2-Axis Limits:
+
+By default Tkg2 does dynamic axis limit, labeling, and ticking determination based on the range of your data.  Both the minimum and maximum are determined individually.  For example, suppose you need a zero lower limit for you axis.  This is a common occurrence in the physical sciences as many phenomena have a zero lower bounds.  You would then set the lower axis limit or minimum to zero and toggle the Minimum checkbutton off.  The maximum works in a similar fashion.  If either the minimum or the maximum are dynamically determined then the labeling and the ticking potentially will change.  There is no way to over ride this.  The Tkg2 Instructions language does provide a way to tweak the axis during Tkg2 startup.  The Center checkbutton is applicable on linear axis types only and the origin is placed in the middle of the plot.  This is a handy feature for residual analysis from statistical regression procedures.
+
+=item Minimum
+
+Set the minimum axis limit.  If the entry is blank, the value defaults to the last dynamically determined axis limit.  If a plot is brand new, and no data has been read in, and the entry is blank, then an exception is thrown.
+
+=item Maximum
+
+Set the maximum axis limit.  See Minimum.
+
+=item Major Tick Interval
+
+Set the interval between major tick marks in the same unit base as the axis.
+
+=item No. of Minor Ticks
+
+Set the number of minor ticks between major tick marks.
+
+=item No. of Numbers to Skip
+
+Set the interval jump between labeled major ticks.  Sometimes it is desirable to have a lot of major tick marks, but the numeric text with each is so long as to cause the labels to run across each other.  You can trim back the labeling but not the ticking by setting a positive number in place of the zero default for this entry.
+
+=item Axis to percent basis
+
+The axis is converted to a percentage basis.  The type is converted to linear.  The minimum is set to zero; the maximum is set to 100; the major tick interval is set to 10; and the no. of minor ticks is set to 4.  The Apply or Ok buttons will have to be pressed for the effects to be seen, but the corresponding entries will change when this button is pressed.  The PlotEditor has a button the changes all axes to fractional percent basis and immediately updated the screen.
+
+=item Axis to fractional percent basis
+
+The axis is converted to a factional percentage basis.  The type is converted to linear.  The minimum is set to zero; the maximum is set to 1; the major tick interval is set to .1; and the no. of minor ticks is set to 4.  The Apply or Ok buttons will have to be pressed for the effects to be seen, but the corresponding entries will change when this button is pressed.  The PlotEditor has a button the changes all axes to fractional percent basis and immediately updated the screen.
+
+=item Label Transform Equation
+
+The label transform equation is another one of the little features in Tkg2 that is really rarely used, but extremely nice to have under special circumstances.  You can route the labeling through an arbitrary complex equation to produce alternative labeling.  For example, you can convert a scale in meters to feet or other unit conversion.  The equation uses one or more '$x' or '$X' to represent the original untransformed value.  The '$x' is used even if the axis is either the first or the second Y axis.  The following label transform equation converts the axis values to the equivalent circumference of a circle.
+
+ 
+  2*3.1415926*$x
+
+Sometimes it is helpful to have one axis in the base units, but the opposite axis in another unit.  Sort of like the nomographs of years past.  A semicolon ';' can be used to separate a unique string and the label equation.  When the semicolon is present, the transformation is only attempted on the opposite from usual axis (right or top).  The following label transform equation on a Y axis converts the right axis values to equivalent circumferences of a circle, but the left axis remains in the radius.  The string 'Circumference of Circle' is used as the right axis title.  The axis title is optional, in which case the string after the ';' begins the label transform equation.
+
+ 
+  Circumference of Circle;2*3.1415926*$x
+
+This feature is cool because it mitigates the problems with manuscript production in English and SI units and helps with international journal publication.
+
+=item Special Major Ticks
+
+Set by one or more space delimited, the specific locations in which special major ticks are to be drawn.  This is a handy feature to set specific locations on the axis for descriptive purposes, varying units, or for manual editing in graphic editing software.  For example, suppose you have an axis in units of days ranging from 0.5 to 2.5, yet you want to have specific ticks at certain hours of the first day near 6AM only, you can set the special major ticks as 1.25 1.125 1.375.  Comma delimiting in just the dialog box can be used instead of spaces.  However, the commas are replaced with a space as soon as the Appy or OK buttons are pressed.  The Tkg2 Instructions language can only use one or more space delimiting.
+
+=item Special Minor Ticks
+
+Set by space delimiting, the specific locations in which special minor ticks are to be drawn.  See Special Major Ticks.
+
+=back
+
+
+=head2 LOG AXIS PARAMETERS tab
+
+Many of the settings of the log axis are identical to the linear axis and are described above.  This section only discusses features specific to the log axis.
+
+=over 4
+
+=item Simple Log Scale
+
+Toggles on a simple log scale like one might see in a spreadsheet graphic.  This means that only the major tick of 1 or integer log cycles are labeled and no minor ticks are drawn.  If the log cycle range is greater than or equal to seven, the major ticks drawn are at 1 and 5.  If the range is greater than equal to 5 and less than 7, the major ticks are drawn at 1, 2, 4, 6, and 8.  If the range is less than 5, the major ticks are drawn at 1, 2, 3, 4, 5, 6, 7, 8, and 9.  The simple log scale settings are not preserved in the axis hash and hence shown in the dialog box upon clicking Apply or Ok.  The settings are dynamically determined and set within the LogLabels.pm module. 
+
+=item Min w/offset, Max w/offset, Offset
+
+The first two fields are non-editable fields and show the minimum and the maximum of the axis with the offset is applied.  The actual offset is shown in the editable entry field with the C<update min/max> button immediately to the right.  The button revises the min and max is offset using the value for the offset.  By default the offset is zero.  Essentially just the labeling and plotting location of the data change with the offset.  The stacking of the tick marks for a log scale remain the same.  As a example, suppose the minimum of an axis is .1, the maximum is 20.  If the offset is 0.6, then the shown that is labeled minimum is 0.7 and the shown maximum is 20.6.  The data will be plotting in the correct positions relative to what the labeling on the log scale indicates.  The offset on a log scale can be really handy for particular manual operations on log paper.  Log offsets are really popular with streamflow stage-discharge relations otherwise known as rating curves.
+
+=item Base Major Ticks to DRAW
+
+The major ticks to actually draw are specified here.  Typically the major ticks are 1, 2, 3, 4, 5, 6, 7, 8, 9 in multiples of powers of 10.  The 1-9 range is typical of most graphics packages and often constitutes the only scale resolution possible.  Sometimes the ticks for 7, 8, and 9 get so scrunched up when the axis ranges over a few orders of magnitude that it is nice to turn ed 7 and 9 ticking off in favor of 8 alone.  This would be accomplished by a base major ticks to draw of 1, 2, 3, 4, 5, 6, and 8.  The list is space delimited.  Arbitrary precision is possible.  For example, 1.5 would place a major tick at .15, 1.5, 15, 150, and so on.
+
+=item Base Major Ticks to LABEL
+
+The major ticks to label are specified here in the same fashion as those to draw in the entry field above.  It is a very nice feature to have the capability of specifying the ticks to label separately from the ticks to draw.  The values for drawing and for labeling can even be mutually exclusive.  Such a situation would arguably be a stupid arrangement.  (See Base Major Ticks to DRAW).
+
+=item Base Minor Ticks to DRAW
+
+Just like the major ticks to draw, the minor ticks to draw can be individually specified.  The premade minor ticks in the menubutton below this entry field is extremely handy as the lists can get quite long.
+
+=item Premade Minor Ticks
+
+This menubutton contains premade minor ticks to draw.  (See Base Minor Ticks to DRAW).
+
+=back
+
+
+=head2 PROBABILITY AXIS PARAMETERS tab
+
+Many of the settings of the two probability axis are identical to the linear axis and are described above.  A "Probability" axis is a normal probability axis that is symmetrical about the median and a normally distributed data set will plot as a straight line.  The Gumbel probability axis is an asymmetrical axis about the median and is sometimes convenient in hydrologic frequency analysis.  
+
+
+This section only discusses features specific to the two probability axis.  Tkg2 handles probability entirely in the traditional 0 to 1 sense.  Exactly zero and exactly unity (1) probabilities are not available on the probability axis.  You will have to resort to a linear axis if your application so dictates axis limits of 0 and 1.  Tkg2 considers all probability values in a cumulative or nonexceedance perspective, including the data.  The odd thing is that probability is labeled in percent on the axis as this is most common on probability paper that the author has seen and the easiest perspective to share with the less statistically inclined general public.
+
+=over 4
+
+=item (1-Prob)
+
+Toggle the axis from a nonexceedance perspective to an exceedance perspective.  Although, Tkg2 considers nonexceedance internally, you can quickly produce the compliment of the data probability with this checkbutton.  You will likely choose an axis title as "Exceedance Probability" instead of "Nonexceedance Probability".
+
+=item RI style
+
+Toggle on the RI (Recurrence Interval) style of probability, which means that equivalent recurrence intervals for the upper or right tail of the distribution are shown.  The common recurrence intervals of 2, 5, 10, 25, 50, 100, 250, and 500 years are shown and can not be user configured.  Although mathematically and certainly statistically it is preferable to use probability, recurrence intervals saturate the popular hydrologic literature.  Because Tkg2 strives to produce graphics with great visual appeal, the RI style of probability axis shows probability and recurrence interval simultaneously.  This promotes the linkage between recurrence interval and probability.
+
+=item Major Ticks to DRAW in probability
+
+Space delimited list of major ticks to draw.  The tick location is specified in nonexceedance probability.  (See Base Major Ticks to DRAW associated with log axis).
+
+=item Major Ticks to LABEL in probability
+
+Space delimited list of major ticks to label.  The location is specified in nonexceedance probability.  A tick is not drawn.  (See Base Major Ticks to LABEL associated with log axis).
+
+=item Minor Ticks to DRAW in probability
+
+Space delimited list of major ticks to label.  The location is specified in nonexceedance probability.  (See Base Minor Ticks to DRAW associated with the log axis).
+
+=back
+
+
+=head2 TIME SERIES AXIS PARAMETERS tab
+
+Many of the settings of the time series axis are identical to the linear axis and are described above.  This section only discusses features specific to the time series axis.
+
+
+Several handy time calculators are available in the dialog box.  First, Tkg2 uses an floating point number of days since January 1, 1900 for the drawing of the time series data and the axis.  The 'Computed date-time representations' non-editable fields near the bottom of the dialog box show the axis minimum and maximum date time fields converted to the floating point days.  Really handy for determine date-time offsets and a few other things.  Make sure that you hit the Apply button as the calculator does not automatically update itself.
+
+
+Another handy time calculator is the determination of whether a given year is a leap year.  The execution button is originally titled "PRESS".  After it is pressed the button will say Yes or No as whether the year to the left of the button is a leap year.  Yet another handy time calculator is the determination of the number of days into a year (DOY) that a given date is.  As with the leap year calculator, the execution button is originally title "PRESS".  The DOY of the date to the left of the button is reflecting as the button title after pressing.  This is a nice calculator to have around when your data loggers report DOY and not a date-time string in their output.  Neither the leap year or DOY calculator is connected to any portion of the dialog box.
+
+=over 4
+
+=item Show year
+
+Toggle the display of the year on or off.  For some types of plotting applications, it can be extremely useful to turn the year off.  For example, if two years of data are plotted for a common time period, say to show between year variation with a fake year for one of the data, then it is inappropriate to show the year on the time axis.
+
+=item Show day of week
+
+Toggle the display of the day of the week string such as Saturday or Mon.  Abbreviations are used as the number of displayed days increases.  At some point, Tkg2 decides that it is not visually pleasing to show the the day of the week and the option is toggled off during the rendering although the dialog will continue to show it on.  This behavior is considered a feature for batch processing operations.
+
+=item Show day of year instead of date
+
+The day of the year 1-365 or 1-366 is shown instead of the date.
+
+=item Abbreviated months in pub. style (periods, June, July, Sept.)
+
+A period is added to the month abbreviations and the really short months are fully spelled out.  The default is to not show the period and to show various abbreviations as space permits.  Toggling on the periods can be handy in automated publication situations.
+
+=item Label Depth
+
+Set the depth of labeling on the time axis.  Tkg2 algorithms for time axis generation are extremely complex and can not satisfy all tastes, but the Label Depth can be used to get some variation labeling styles.  Tkg2 will override the setting here based on a set of complicated rules in an attempt to garner visually pleasing spacing and resolution.
+
+=item Label Density
+
+Set the density of labeling and ticking on the time axis, see the Label Depth configuration.  Tkg2 will override the setting here based on a set of complicated rules in an attempt to garner visually pleasing spacing and resolution.
+
+=back
+
+
+=head2 SHORTCUTS ON DATE-TIME VALUE ENTRY
+
+In the time axis editor, the date and time components of the axis minimum and maximum are controllable.  Because date and time components are laborious to enter, numerous shortcuts have been provided.  Suggestions for more are always welcome.
+
+=over 4
+
+=item Date Field (yyyy/mm/dd)
+
+Date/time field means that the following shortcuts can be typed in either the date entry or the time entry.  Whether the shortcut is specific for the beginning or ending is identified.
+
+=over 4
+
+=item zero, null, or whitespace
+
+January 1 of current year for the beginning field.
+
+=item zero, null, or whitespace
+
+December 31 of current year for the ending field.
+
+=item now
+
+Right now using Perl's scalar localtime function.  Applicable in either the date or the time field.
+
+=item then
+
+One year ago from right now.  Applicable in either the date or the time field.
+
+=item yr-
+
+One year (-365 days) ago from right now.  Applicable in either the date or the time field.
+
+=item yr+
+
+One year (+365 days) from right now.  Applicable in either the date or the time field.
+
+=item yesterday
+
+One day ago from right now and can be shortened to 'yes'.  Applicable in either the date or the time field.
+
+=item tomorrow
+
+One day from right now and can be shortened to 'tom'.  Applicable in either the date or the time field.
+
+=item wk+
+
+One week (+7 days) in the future from right now. Applicable in either the date or the time field.
+
+=item wk-
+
+One week (-7 days) in the past from right now.  Applicable in either the date or the time field.
+
+=item mn+
+
+One month (+30 days) in the future from right now.  Applicable in either the date or the time field.
+
+=item mn-
+
+One month (-30 days) in the past from right now.  Applicable in either the date or the time field.
+
+=item wyr
+
+In the beginning fields provides October 1 of current water year.  In the ending fields provides September 30 of current water year.
+
+=item wyr#
+
+In the beginning fields provides a number of days (#) past October 1 of current water year.  In the ending fields provides a number of days past September 30 of current water year.
+
+=item wyr-#
+
+In the beginning fields provides a number of days (#) before October 1 of current water year.  In the ending fields provides a number of days before September 30 of current water year.
+
+=back
+
+Note that wyr can be shortened to wy in all the above wyr cases.  To clarify the wyr shortcut a bit further.  Assume that today's date is September 5, 2001.  We will consider the beginning date field first.  Typing wyr in either begin date or begin time will yield: Oct. 01, 2001; typing wyr-5 in either begin date or begin time will yield: Sept. 26, 2001; typing wyr5 in either begin date or begin time will yield: Oct. 06, 2001.  For the ending date or begin time, wyr, wyr-5, and wyr5 yield: Sept. 30, 2001, Sept 25, 2001, and October 07, 2001, respectively.
+
+
+Also, note that you get January 1 on the beginning date if you enter just a year and December 31 on the ending date if you enter just a year.  You get the first of the month if you enter a year and a month for the beginning field and you get the last day of the month in an ending date field--yes leap year supported.
+
+
+=item Time Field (hh:mm:ss)
+
+The time component entry space has the following shortcuts that are specific to it.  Other short cuts are identified in the Date Field shortcut description.
+
+=over 4
+
+=item zero, null, or whitespace
+
+Sets time to 00:00:00.
+
+=item number
+
+Sets time to number of hours.  For example, 11 provides 11:00:00 and 4 provides 04:00:00.
+
+=item number1:number2
+
+Sets the time to number of hours and number2 of minutes.  For example 13:20 provides 13:20:00.
+
+=item noon
+
+Sets the time to 12:00:00.
+
+=item tea
+
+Sets the time to 15:00:00.
+
+=item dinner
+
+Sets the time to 18:00:00.
+
+=item supper
+
+Sets the time to 18:00:00.
+
+=item bed
+
+Sets the time to 22:00:00.
+
+=back
+
+=back
+
+
+=head2 TITLE, LABELS, AND TICKS tab
+
+=over 4
+
+=item Axis title font style
+
+The axis title font, size, weight, slant, and color are configurable.
+
+=item Vertically stack text of the title
+
+This checkbutton places a newline behind each character for mitigate against the current absence of text rotation.
+
+=item Axis labels (numbers) font style
+
+The axis labels or numbers font, size, weight, slant, and color are configurable.
+
+=item Vertically stack text of the labels
+
+This checkbutton places a newline behind each character for mitigate against the current absence of text rotation.
+
+=item Label minimum
+
+The Label minimum checkbutton insures that the exact minimum of the axis is labeled.  Some publication requirements, and justifiably so, dictate that the value for the axis end points be shown.
+
+=item Label maximum 
+
+The Label maximum checkbutton insures that the exact maximum of the axis is labeled (see Label minimum).
+
+=item Minimum to begin labels
+
+A minimum other than the actual minimum set on the Axis Parameters tab can be defined.  The labeling will not begin at or near the actual minimum (see Label minimum), but it will begin at the value provided in the entry field.  Some error trapping is provided and invalid values such as a value less than the actual minimum or greater than the actual maximum.  If errors occur the value is set back to null.  Setting a beginning label other than the actual is really handy in double-Y axis applications to show a plot within a plot--sometimes one has to have ridiculous limits for visual appeal, but the data never comes close to the actual minimum and maximum.  (See Maximum to end labels. See Tick to actual minimum and maximum of the axis.)  For example, if the minimum to begin labels is -5 then the following plot would be produced.
+
+  10 +-----------+
+     +           +
+   5 +-         -+
+     +           +
+   0 +-         -+
+     +           +
+  -5 +-         -+
+     +           +
+     +-         -+
+     +           +
+     +-----------+
+
+=item Maximum to end labels
+
+Opposite sense of "Minimum to begin labels" (see above).   For example, if the maximum to end labels is 5 then the following plot would be produced.
+
+     +-----------+
+     +           +
+   5 +-         -+
+     +           +
+   0 +-         -+
+     +           +
+  -5 +-         -+
+     +           +
+ -10 +-         -+
+     +           +
+ -15 +-----------+
+
+=item Tick to actual minimum and maximum of the axis
+
+Since the limits of tick labeling can be controlled, it makes since that the ticking past the minimum to begin labels and maximum to end labelss is controllable as well.  By default the ticks are drawn to the axis minimum and maximum.  Consider a Y-axis and suppose the minimum to begin labels is -5 and the maximum to end labels is 1.  If the ticking to axis minimum and maximum is turned off, the following plot is created.
+
+     +-----------+
+     +           +
+     +           +
+     +           +
+   0 +-         -+
+     +           +
+  -5 +-         -+
+     +           +
+     +           +
+     +           +
+     +-----------+
+
+If the ticking to axis minimum and maximum is turned on, the following plot is created.
+
+     +-----------+
+     +           +
+     +-         -+
+     +           +
+   0 +-         -+
+     +           +
+  -5 +-         -+
+     +           +
+     +-         -+
+     +           +
+     +-----------+
+
+
+=item Title and Label location
+
+The location of the axis title is controlled by this menu button.  For X axis, the choices are Top and Bottom; and for Y axis, the choices are Left and Right.  This setting is overrided for the labeling by the Double Label checkbutton on the Axis Parameters tab, but the title still honors the location setting.  Double rendering of the axis title is not supported.  A double Y axis plot nullifies the location setting.
+
+=item Title Offset
+
+Controls the vertical (X axis) or horizontal (Y axis) offset for the axis title from the axis itself in units of inches.  Negative values are permissible.
+
+=item Title2 Offset
+
+Controls the horizontal (X axis) or vertical (Y axis) offset from the center of the axis in units of inches.  A zero value is default and a nonzero value is seldom used, but can be handy in situations in which the label minimum and label  maximum are considerably different from the actual minimum and maximum of the axis.  This way you can have the axis title centered within the labeled bounds of the axis.
+
+=item Label Offset
+
+Controls the vertical (X axis) or horizontal (Y axis) offset for the axis title from the axis itself in units of inches.  Negative values are permissible.  The sense of the Label Offset is the same as the Title Offset described above.
+
+=item Major Tick Length
+
+Set the length in inches of the major tick marks.  Even log cycle tick marks are made proportionally longer than the value given here for clarity.  The tick mark length on a time axis has variable meaning.
+
+=item Tick Width
+
+Set the line thickness width of the tick marks.  Both major and minor ticks have the same width.
+
+=item Minor/Major
+
+Set the ratio of the minor tick length to the major tick length.  The default is 0.6.
+
+=item Axis Format, Decimals
+
+Set the format for the labels as free, fixed, scientific, or significant and set the number of decimal places to show.  The significant format is experimental and does not quite support the concept of 'significant figures"--the 'g' is used in the Perl sprintf function call.  For scientific format or notation an 'e' is used and can not be changed to 'x10' or 'E', but this is a feature that could quickly be added.
+
+=item Commify Numbers
+
+Add commas to the number portion of a label.  For example, 1000 is changed to 1,000.  Turning commas on and off in axis labeling is a feature not generally seen in other graphics packages.
+
+=back
+
+
+=head2 GRID AND ORIGIN tab
+
+=over 4
+
+=item Major Grid Lines:
+
+Major grid lines can be toggled on and off, and their line thickness, color, and style (solid or various dashes) controlled.
+
+=item Minor Grid Lines:
+
+Minor grid lines can be toggled on and off, and their line thickness, color, and style (solid or various dashes) controlled.
+
+=item Origin Line:
+
+The origin line passes through zero on a linear axis and through .50 or 50 percent on a probability axis.  The origin has not meaning with log or time axis.  The origin is toggled on and off with the Doit checkbutton.  The line width, color, and style (solid or various dashes) are each configurable.  Having a quick way to draw the origin is an extremely handy feature that is commonly not seen in other graphics software.
+
+=back
+
+=head2 FURTHER DISCUSSION	
+
+Developers interested in the Continuous Axis Editor should consult the following module:
+
+ Tkg2/Plot/Editors/ContinuousAxisEditor.pm
+
+
+
+Z<>

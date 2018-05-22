@@ -1,0 +1,346 @@
+=head1 THE DATA SET EDITOR
+
+
+This POD file provides detailed description of the B<Data Set Editor> dialog.  The editor is accessed by selecting a plot and accessing the Edit Data Set button from the Data Class (File) Editor.  The Data Class (File) Editor is accessed using the C<Data / Edit Data or Do Statistics> menu option.  Another often more efficient access method is to double-left click on the explanation text (not the explanation title).  This documentation file is located at B<Tkg2/Help/DataSetEditor.pod>.
+
+
+=head2 INTRODUCTION
+
+
+A Data Set object is the primary structure for storage of data to plot, where and how to find the data or at least how the data was originally read in, explanation text, plotting order of individual columns of data, the plotting symbology.  The Data Set Editor provides access into the object to change the text in the explanation, the plotting order, removal of objects, and a method to access the Draw Data Editor.
+
+
+=over
+
+=item Edit Plot Style
+
+
+The selected entry in either "Ordinates (Y-title)" linked list boxes is made available to the Draw Data Editor and the editor is freshly launched.  The symbology can be changed.
+
+
+=item Raise in Set
+
+
+The selected entry in either "Ordinates (Y-title)" linked list boxes is raised to the top of the list--its Data Sets will be drawn first (on the bottom of everything else in the plot).
+
+
+=item Lower in Set
+
+
+The selected is raised to the top of the list--its Data Sets will be drawn is lowered to the bottom of the list--its Data Sets will be drawn last (on the top of everything else in the plot).
+
+
+=item Delete from Set
+
+
+The selected entry in either "Ordinates (Y-title)" linked list boxes is removed from the Data Set.  Note that it is possible to delete all data associated with the data file identified in the title bar of the dialog box, but the object itself is not.  The removal of the Data Set object is made in the Data Class (File) Editor.
+
+
+=item Modify Name
+
+
+The selected entry in either "Ordinates (Y-title)" linked list boxes is made available for modification of the "New (show on plot)" text.  This text is shown in the plot explanation.  The button turns red and the text is placed into the "Modify the selected ordinate title" widget.  The text can not be changed.  New lines are acceptable.  The text is committed by pressing the button again at which point it returns to the default foreground.  Note that the "Original" entry is not modified.  The "Original" entries are the column titles from the data file with C<:type> appended.  By making both entries (Original and the New) visible it is easier for the user to keep track of what data corresponds to what graphics.  (The USGS-G2 program did not possess this feature, which occassionally made the program hard to use.)
+
+
+=item Clear Field
+
+
+The button clears or empties the "Modify the selected ordinate title" widget.  This button is a feature to increase interface efficiency.
+
+
+=item OK and Exit DataSet Editor
+
+
+This button performs the usual acceptance of the changes if any and closes the dialog box.
+
+
+=item OK and Exit DataClass Editor
+
+
+This button provides the same function as the previous button; however, the Data Class (File) Editor is simultaneously closed if it is open.  This button provides a pinch of efficiency by not requiring the user to perform a secondary action.
+
+
+=back
+
+
+=head2 OBJECT DESCRIPTION
+
+
+The Data Set object is a complex object.  A full example is shown an the end of this section.  Many of the key-value pairs in the object are self explanatory and regrettably some are not.  The Data Set and Draw Data Editors provide tools to modify many of the non C<-file> related or non C<-data> fields.  Note that in the example shown in this section, C<-dataimported> is false thus the C<-data> later on is empty.  This is an example of a dynamic data loading Data Set--the author's preferred method.  The contents of C<-file> are controlled by the Add Data File to Plot dialog box (documented elsewhere).  Users often find it useful to modify the C<-relativefilename> or the C<-fullfilename> (absolute path and file name) values when the data file name changes but the overall appearance of the plot remains the same.  The default is for the C<-relativefilename> to be used (see that C<-userelativepath> is true).  This means that the Tkg2 process will started from its directory of launch for the data files.
+
+   
+   bless( {
+          '-file' => {
+            '-sorttype' => 'numeric',
+            '-skiplineonmatch' => '^#',
+            '-numlinestoread' => '',
+            '-sortdir' => 'ascend',
+            '-datetime_offset' => '0',
+            '-numskiplines' => '0',
+            '-relativefilename' => 'TestData/example_freq_curves.dat',
+            '-fullfilename' =>
+      '/home/wasquith/files/tkg2/TestData/example_freq_curves.dat',
+            '-missingval' => '',
+            '-thresholds' => '0',
+            '-ordinates_as1_column' => '0',
+            '-megacommand' => 0,
+            '-sortdoit' => '0',
+            '-numlabellines' => '1',
+            '-filedelimiter' => '\\s+',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-dataimported' => '0',
+            '-common_datetime' => '',
+            '-userelativepath' => '1',
+            '-fileisRDB' => '0',
+            '-numskiplines_afterlabel' => '0',
+            '-columntypes' => 'auto'
+          },
+          '-username' => '',
+          '-setname' => 'example_freq_curves.dat',
+          '-show_in_explanation' => '1',
+          '-DATA' => [
+            {
+              '-origthirdord' => undef,
+              '-username' => '',
+              '-showordinate' => 'Natural flood frequency curve',
+              '-origabscissa' => 'Nonexceed_Prob:number',
+              '-showthirdord' => undef,
+              '-origordinate' => 'Nat_Quan(ft3/s):number',
+              '-data' => [],
+              '-attributes' => {
+                '-xerrorbar' => {
+                  '-color' => 'black',
+                  '-dashstyle' => undef,
+                  '-whiskerwidth' => '0.05i',
+                  '-width' => '0.005i'
+                },
+                '-plotstyle' => 'X-Y Line',
+                '-yerrorbar' => {
+                  '-color' => 'black',
+                  '-dashstyle' => undef,
+                  '-whiskerwidth' => '0.05i',
+                  '-width' => '0.005i'
+                },
+                '-points' => {
+                  '-blankit' => '0',
+                  '-num2skip' => '0',
+                  '-fillstyle' => undef,
+                  '-doit' => '1',
+                  '-outlinewidth' => '0.015i',
+                  '-fillcolor' => 'black',
+                  '-symbol' => 'Circle',
+                  '-outlinecolor' => 'black',
+                  '-angle' => '0',
+                  '-dashstyle' => undef,
+                  '-size' => '4.193',
+                  '-blankcolor' => 'white'
+                },
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below',
+                  '-doit' => '0',
+                  '-fillcolor' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-numcommify' => 0,
+                  '-yoffset' => '3.353',
+                  '-doit' => 1,
+                  '-numdecimal' => 0,
+                  '-leaderline' => {
+                    '-blankit' => 0,
+                    '-color' => 'black',
+                    '-endoffset' => '5.84485393258427',
+                    '-doit' => 0,
+                    '-beginoffset' => '5.84485393258427',
+                    '-width' => '0.005i',
+                    '-blankcolor' => 'white',
+                    '-dashstyle' => undef,
+                    '-lines' => [
+                      {
+                        '-length' => '23.3794157303371',
+                        '-angle' => '225'
+                      },
+                      {
+                        '-length' => '14.6121348314607',
+                        '-angle' => '180'
+                      }
+                    ]
+                  },
+                  '-justify' => 'left',
+                  '-xoffset' => '1.196',
+                  '-numformat' => 'free',
+                  '-font' => {
+                    '-blankit' => 0,
+                    '-rotation' => 0,
+                    '-color' => 'black',
+                    '-family' => 'Helvetica',
+                    '-slant' => 'roman',
+                    '-custom1' => undef,
+                    '-weight' => 'normal',
+                    '-stackit' => 0,
+                    '-blankcolor' => 'white',
+                    '-custom2' => undef,
+                    '-size' => 8
+                  }
+                },
+                '-lines' => {
+                  '-linewidth' => '0.035i',
+                  '-doit' => '1',
+                  '-linecolor' => 'black',
+                  '-stepit' => '0',
+                  '-dashstyle' => undef
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-bars' => {
+                  '-fillstyle' => undef,
+                  '-direction' => 'below',
+                  '-doit' => '0',
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '5.84485393258427',
+                  '-fillcolor' => 'white',
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-showabscissa' => 'Nonexceed_Prob:number',
+              '-show_in_explanation' => '1',
+              '-origfourthord' => undef
+            },
+            {
+              '-origthirdord' => undef,
+              '-username' => '',
+              '-showordinate' => 'Regulated flood frequency curve',
+              '-origabscissa' => 'Nonexceed_Prob:number',
+              '-showthirdord' => undef,
+              '-origordinate' => 'Reg_Quan(ft3/s):number',
+              '-data' => [],
+              '-attributes' => {
+                '-xerrorbar' => {
+                  '-color' => 'black',
+                  '-dashstyle' => undef,
+                  '-whiskerwidth' => '0.05i',
+                  '-width' => '0.005i'
+                },
+                '-plotstyle' => 'X-Y Line',
+                '-yerrorbar' => {
+                  '-color' => 'black',
+                  '-dashstyle' => undef,
+                  '-whiskerwidth' => '0.05i',
+                  '-width' => '0.005i'
+                },
+                '-points' => {
+                  '-blankit' => '0',
+                  '-num2skip' => '0',
+                  '-fillstyle' => undef,
+                  '-doit' => '1',
+                  '-outlinewidth' => '0.015i',
+                  '-fillcolor' => 'white',
+                  '-symbol' => 'Square',
+                  '-outlinecolor' => 'black',
+                  '-angle' => '0',
+                  '-dashstyle' => undef,
+                  '-size' => '4.193',
+                  '-blankcolor' => 'white'
+                },
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below',
+                  '-doit' => '0',
+                  '-fillcolor' => 'grey85'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-numcommify' => 0,
+                  '-yoffset' => '3.353',
+                  '-doit' => 1,
+                  '-numdecimal' => 0,
+                  '-leaderline' => {
+                    '-blankit' => 0,
+                    '-color' => 'black',
+                    '-endoffset' => '5.84485393258427',
+                    '-doit' => 0,
+                    '-beginoffset' => '5.84485393258427',
+                    '-width' => '0.005i',
+                    '-blankcolor' => 'white',
+                    '-dashstyle' => undef,
+                    '-lines' => [
+                      {
+                        '-length' => '23.3794157303371',
+                        '-angle' => '225'
+                      },
+                      {
+                        '-length' => '14.6121348314607',
+                        '-angle' => '180'
+                      }
+                    ]
+                  },
+                  '-justify' => 'left',
+                  '-xoffset' => '1.196',
+                  '-numformat' => 'free',
+                  '-font' => {
+                    '-blankit' => 0,
+                    '-rotation' => 0,
+                    '-color' => 'black',
+                    '-family' => 'Helvetica',
+                    '-slant' => 'roman',
+                    '-custom1' => undef,
+                    '-weight' => 'normal',
+                    '-stackit' => 0,
+                    '-blankcolor' => 'white',
+                    '-custom2' => undef,
+                    '-size' => 8
+                  }
+                },
+                '-lines' => {
+                  '-linewidth' => '0.035i',
+                  '-doit' => '1',
+                  '-linecolor' => 'black',
+                  '-stepit' => '0',
+                  '-dashstyle' => undef
+                },
+                '-shades' => {
+                  '-fillcolor' => 'black'
+                },
+                '-bars' => {
+                  '-fillstyle' => undef,
+                  '-direction' => 'below',
+                  '-doit' => '0',
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '5.84485393258427',
+                  '-fillcolor' => 'black',
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-showabscissa' => 'Nonexceed_Prob:number',
+              '-show_in_explanation' => '1',
+              '-origfourthord' => undef
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' ),
+
+
+=head2 FURTHER DISCUSSION
+
+
+Developers interested in the Data Set Editor should consult the following module:
+
+
+ Tkg2/DataMethods/Class/DataSetEditor.pm
+
+
+
+Z<>

@@ -1,0 +1,263 @@
+
+=head1 NWIS HOST UTILITIES
+
+
+This POD file provides description of the external utilities that are shipped with the Tkg2 distribution that are specifically written to interface data retrievals on the USGS-NWIS host machines.  This utilities are generally wrappers on top of other command line programs such as C<nwts2rdb>.  This documentation file is located at B<Tkg2/Help/NWISUtilities.pod>.
+
+
+There is a very important caveat that needs description.  The tkpod utility for viewing POD files does not display the underscore '_' in first or second headings or when the next is bold face.  Some of the utilities described below have underscores in their name.  The usage examples should correct any confusion.
+
+
+Most of the utilities described in the following sections have soft links in /usr/local/bin pointing back to the Tkg2/Util directory structure.  The motivation of course is that /usr/local/bin is likely to be on the user's C<$PATH> variable.  The following links are created by the tkg2 RPM distribution in /usr/local/bin.
+
+  
+  gwsi_std2rdb.pl
+  outwat2rdb.pl
+  DVgetem.pl
+  DVgetpor.pl
+  DVlastwk.pl
+  UVgetem.pl
+  UVlastwk.pl
+  UVgetpor.pl
+
+
+For details on setting your PATH to include /usr/local/Tkg2/Util contact your system administrator or see introductory discussion in the GeneralUtilties help file.
+
+
+=head2 INTRODUCTION
+
+Tkg2 can not be built with an interface that satisfies both independent users and users needing a graphical plotting engine on a large corporate data base.  These users commonly have different requirements.  For example, an independent user might need Tkg2 to read a variety of loosely structured file formats; whereas the data base user might require rigidly structured formats.  It also is difficult to built interfaces in Tkg2 itself that talk directly to a particular data base because the prime directive of Tkg2 is to by a flexible stand-alone interactive graphics package.  In this light, several utilities are distributed with Tkg2 to make interaction with the USGS-NWIS data base easier without making Tkg2 itself an extension of NWIS.
+
+
+=head2 THE PROGRAMS
+
+=over 4
+
+=item dtgaprdb.pl
+
+A utility to insert fake missing records based on defined jumps of time for RDB files.  See documentation in GeneralUtilities.
+
+
+=item gwsi_std2rdb.pl
+
+The script converts GWSI Standard Table format files to a quasi-RDB compliant format with converted date field for easier parsing by Tkg2.  The input file is the first argument on the command line or standard input is used.  The output file is the second argument on the command line or standard input is used.  If the output file name is '-', then '.rdb' is added to the input file name to create the output file.
+
+  
+  cat input.gwsi | gwsi_std2rdb.pl > out.rdb
+  gwsi_std2rdb.pl input.gwsi -
+     # output written to input.rdb
+  gwsi_std2rdb.pl input.gwsi gwsi_as.rdb
+
+
+=item outwat2rdb.pl
+
+This script can be used to convert an OUTWAT fixed format ASCII (text) file to a quasi-compliant, but Tkg2 readable RDB file (a type of tab delimited file).  The biggest problem with OUTWAT files is that the year, month, and day of a data values are in separate columns.  Because Tkg2 is very column oriented in its file parsing (so are many spread sheet like applications), it is impossible for Tkg2 to see the three columns as a date.  
+
+  
+  Usage: outwat2rdb.pl outwat.in rdb.out
+  Usage: outwat2rdb.pl
+     To view the help page.
+
+
+=item DVgetem.pl (mature, but still experimental)
+
+A utility to assist in retrieving daily values starting from right now
+backwards in time a specified number of days using the C<nwts2rdb> program that resides on NWIS servers.  This program is really just a wrapper on top of the C<nwts2rdb> program, but has some special shortcuts and tweaks more inline with expected Tkg2 usage.  The program is readily used to build Tkg2 templates by using the megacommand functionality.  This allows one to quickly retrieve one more more stations and various data descriptors for plotting.  Much more efficient than using the common web interfaces because you can have more than one station or data descriptor per plot.  Build a Tkg2 template with built-in data retrieval and set back and drink your coffee in the morning.  Consult the help page for more details and see the description for C<DVlastwk.pl> below.  You should also consult the manpage for the C<nwts2rdb> command if you are not familiar with it; however, knowledge of the C<nwts2rdb> command is not required to use C<DVgetem.pl>.
+
+  
+  DVgetem.pl -h
+  
+  DVgetem.pl -d=1 -s=00003 -b=45 08167000
+
+The last command retrieves an RDB file on station 08167000 for the last 45 days (C<-b=45>, backwards 45 days) using statistic code 00003 (daily mean, C<-s=00003>) and data descriptor 1 (C<-d=1>).
+
+
+A note about C<nwts2rdb> is needed.  Apparently, an undocumented or underdocumented feature is a period of record pull with C<-b> and C<-e> values that look something like the following.  Zero for beginning and eight '9' digits for the ending will pull the period of record in whole multiples of water year.
+
+  
+  nwts2rdb -tdv -aUSGS -n08167000 -d1 -s00003 -b0 -e99999999 
+
+
+Here is what the C<nwts2rdb> author Scott Bartholoma C<sbarthol@usgs.gov> says about this functionality.
+
+For Daily values I<DV>, the C<-b> and C<-e> arguments are dates, not datetimes, so only eight characters are used.  Anything from C<-b0> to C<-b00000000> should act the same.  The other data types only output data that was found in the database, so the all zeros and all nines worked well.  For DV, I coded it to provide "complete" data with missing values included where needed to fill out the date range.  This caused an unanticipated problem when zeros and nines were used to get period of record.  It tried to write a complete file of daily values from year 0000 through year 9999--over 3.6 million rows.  So, the behavior of the DV module was changed to "see" C<-b00000000> to mean beginning of period and C<-e99999999> to mean end of period, so that they would work the same for DV as for the other data types.
+
+
+=item DVgetpor.pl (mature, but still experimental)
+
+
+Another daily value retrieval utility.  In the spirit of the C<DVgetem.pl> program, C<DVgetpor.pl> can be used to make period of record retrievals for a station.
+
+
+  DVgetpor.pl -h
+  
+  DVgetpor.pl -d1 08167000
+
+
+See the closing notes on C<DVgetem.pl> for discussion on how C<DVgetpor.pl> wraps C<nwts2rdb> and uses C<-b0> and C<-e99999999> (8 nines) to make the retrieval.  Note that C<nwts2rdb> pulls on a water year by water year basis in with these options.  Hence, the first water year is likely to be incomplete because the station probably did not go active on October 1.  The last water year is likely to be incomplete too because today--literally the time the program is run--is not September 30.
+
+
+=item DVlastwk.pl (mature, but still experimental)
+
+A utility to assist in retrieving daily values for the last week using the C<nwts2rdb> program that resides on NWIS servers.  This program is really just a wrapper on top of the C<nwts2rdb> program, but has some special shortcuts and tweaks more inline with expected Tkg2 usage.  The program is also a special case of the more general C<DVgetem.pl> program.  Integer multiples of one week can be retrieved by command line switch.  Consult the help page for more details and see the description for C<DVlastwk.pl> shown above.
+
+  DVlastwk.pl -h
+  
+  DVlastwk.pl -s=00003 -d=1 -o=2 08167000
+
+The last command retrieves an rdb file on station 08167000 for the last 14 days (C<-o=2>) using statistic code 00003 (daily mean, C<-s=00003>) and data descriptor 1 (C<-d=1>).
+
+
+=item UVgetem.pl (mature, but still experimental)
+
+A utility to assist in retrieving unit values starting from right now backwards in time a specified number of days using the C<nwts2rdb> program that resides on NWIS servers.  This command parallel is C<DVgetem.pl>.
+
+  
+  UVgetem.pl -h
+  
+  UVgetem.pl -b=30 -d=1 -s=C 08167000
+
+The last command retrieves an rdb file on station 08167000 for the last 30 days (C<-b=30>, backwards 30 days) using computed (-s=C) record on data descriptor 1 (C<-d=1>).
+
+
+=item UVlastwk.pl (mature, but still experimental)
+
+A utility to assist in retrieving unit values for the last week using the C<nwts2rdb> program that resides on NWIS servers.  Consult the help page for more details and see the description for C<DVlastwk.pl> shown above.  You should also consult the manpage for the C<nwts2rdb> command if you are not familiar with it; however, knowledge of the C<nwts2rdb> command is not required to use C<UVlastwk.pl>.
+
+  
+  UVlastwk.pl -h
+
+  UVlastwk.pl -d=1 -s=C 08167000
+
+The last command retrieves an rdb file on station 08167000 for the last 7 days using computed (C<-s=C>) record on data descriptor 1 (C<-d=1>).
+
+
+=item UVgetpor.pl (mature, but still experimental)
+
+
+Another unit-value retrieval utility.  In the spirit of the C<UVgetem.pl> program, C<UVgetpor.pl> can be used to make period of record retrievals for a station.
+
+
+  UVgetpor.pl -h
+  
+  UVgetpor.pl -d1 08167000
+
+
+See the closing notes on C<UVgetem.pl> for discussion on how C<UVgetpor.pl> wraps C<nwts2rdb> and uses C<-b0> and C<-e99999999999999> (14 nines) to make the retrieval.  Note that C<nwts2rdb> pulls on a water year by water year basis in with these options.  Hence, the first water year is likely to be incomplete because the station probably did not go active on October 1.  The last water year is likely to be incomplete too because today--literally the time the program is run--is not September 30.
+
+=back
+
+=head2 TUTORIAL
+
+This section provides a quick tutorial or example of the C<DVgetem.pl> and C<UVgetem.pl> utilities.  We will create a single plot on a Tkg2 template or sheet.  We will use the megacommand function to call these two utilities to pull the last 30 days of daily value and unit value data for a USGS station in Texas.
+
+
+B<1.  Create a portrait template with a single large plot>
+
+  % tkg2 -mktemp=p
+
+The Add Data File to Plot: DEFAULT dialog box should now shown.  This dialog box is used to read a data file or output from a command.  The DEFAULT is a plot with a 1.75, 1.0, 1.0, and 2.0 inch, left, right, top, and bottom margin, respectively.  This plot size can be set by the --mkplot command line option.
+
+
+B<2.  Set the Plot Type>
+
+We want to draw a line plot, so set the Plot Type to X-Y Line.  The Plot Type menubutton is the second button down from the top of the Basic tab.
+
+
+B<3.  Set the File Type to RDB>
+
+We will be reading a RDB file type, so toggle the 'File is RDB' checkbutton on by clicking on the little square to the left of the label.  Several of the fields will grey out and can be edited with this button is on.
+
+
+B<4.  Set the field checking>
+
+We know that the NWIS data base will provide well defined data fields.  Therefore to speed up the importation of the data, toggle the 'Do not verify/test field types (fast reading)' checkbutton on.
+
+
+B<5.  Set up the unit-value retrieval>
+
+Click on the Advanced tab and find the 'megacommand' entry field.  In this field you can run arbitrary programs.  The output of these programs is used for the data to plot instead of a file.  Temporary files are written to your directory.  In the entry field type the following.
+
+  
+  /usr/local/Tkg2/Util/UVgetem.pl -b=30 -d=1 -s=C 08167000
+
+or
+
+  
+  UVgetem.pl -b=30 -d=1 -s=C 08167000
+
+if a link to /usr/local/Tkg2/Util/UVgetem.pl has been made in a directory along your C<$PATH>.  It likely has been.  Your station number, data descriptor (C<-d>) and statistic code (C<-s>) will likely be different.  After you have entered the command, hit OK.
+
+
+B<6.  Load Data into first y-axis X-Y Line Plot>
+
+The command from step 5 immediate runs and should rapidly return an another dialog box.  This dialog is used to set which values are plotted against on another.  Select the DATETIME:time entry in the left listbox and hit the arrow to the Abscissa or X axis.  Select the VALUE:number entry and hit the arrow to the Ordinate Variables or Y axis and hit OK.  You should now see some data plotted into your plot.
+
+
+B<7.  Plot the daily-value data>
+
+We are now going to repeat most of the above steps with some minor variation.  First, select the plot with the left mouse button.  Little black squares should mark the perimeter of the plot showing you that you have selected the plot.  Next go to the DATA menu and select the 'Add Data File to Selected Plot' action.  The now familiar Add Data to Plot dialog box is launched.  The Plot Type should have remained X-Y Line and the File is RDB and field checking checkbuttons should have remained toggled on.
+
+
+Click on the Advanced tab and in the megacommand entry type the following.
+
+  
+  /usr/local/Tkg2/Util/DVgetem.pl -d=1 -s=00003 -b=30 08167000
+
+or
+
+  
+  DVgetem.pl -d=1 -s=00003 -b=30 08167000
+
+The data retrieved are daily values, which do not have a time component, e.g. 10/01/1978.  By default Tkg2 assumes a 00:00:00 time component if one is absent.  This is the most logical from a computational standpoint, but might be at odds with interpretive or stylistic desires of the user.  To mitigate, Tkg2 can be set to do a step plot across the day.  However, let us assume that you do not want this, but instead want the daily values plotting at noon or 12:00:00.  This can be done by setting the following into the 'Convert date-time ...' entry.
+
+  
+  -:-:-:12:00:00
+
+After that is done, hit OK.
+
+
+The Load Data into ... Plot dialog is now displayed.  Place the DATE:time in the X axis and the VALUE:number in the Y axis and hit OK.  You should now see the daily values plotted.  It is hard to distinguish between the two lines.  Let us change the plotting style of the daily values.
+
+
+B<8.  Change daily-value plotting style>
+
+In the explanation to the right of the plot, double-left click with the mouse on the bottom line symbol.  You will see the cursor change to a hand.  Do not click on the text strings in the explanation as this will launch a dialog box that we do not want at this time.  The Edit Data Drawing Styles dialog box should be displayed now with the Points tab raised.
+
+
+Click on the DoIt checkbutton and hit Apply.  White-filled circles are no added to the figure and the circles should coincide with 12:00:00 on the time axis.  Also change the color of the circle edge to red and the fill to red too.  You may hit Apply at any time to see your changes.
+
+
+Next, click on the Lines tab so that we can edit the line drawing style.  Let us change the line color to red too.  Finally, hit OK.
+
+
+B<9.  Save the template>
+
+Save the template.  Go to the FILE menu and select either the Save or the Save As (filename requested).  Name this sheet 'sta08167000_30days.tkg2' or something similar and save it.  Do not use the Save As (with imported data) as this saving function hard loads the pulled data into the plot.  We want this template to go an get the data every time it is opened or 'run'.  Finally, exit Tkg2.
+
+
+B<10.  Test the template>
+
+Before we spend more time configuring our plot with descriptive axis titles and moving the explanation around (right mouse click, by the way), we should test whether the template is capable of pulling data again.
+
+  
+  % sta08167000_30days.tkg2 -verbose
+
+The --verbose has been added to showing reporting of the retrieval calls.  If you encounter problems, adding the --megacmd_show option might help by showing the raw data pulled.
+
+  
+  % sta08167000_30days.tkg2 -verbose --megacmd_show
+
+You can even spool this plot directly to the printer--try the following command.
+
+  
+  % sta08167000_30days.tkg2 -batch -destination=laserx
+
+The --batch option does the spooling and adds the --autoexit command line option for convenience.  The --destination option sets the printer.  If the --destination is left off, then the default printer is used.
+
+
+You can now open the tkg2 file, edit it how you wish as save it.  Every time the file is opened, the last 30 days of daily and unit values will be displayed.  Is that cool or what?  The tutorial is complete.
+
+
+
+Z<>

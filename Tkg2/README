@@ -1,0 +1,59 @@
+README file for ./Tkg2/ [tkg2.pl and related modules]
+
+=head1 NAME
+
+tkg2.pl - The ultimate 2-D charting application.
+
+=head1 SYNOPSIS
+
+Welcome to a Perl/Tk based charting and data visualization program.
+
+=head1 LICENSE
+
+ This Tkg2 program is authored by the enigmatic William H. Asquith.
+     
+ This program is absolutely free software; 
+
+Author of this software makes no claim whatsoever about suitability,
+reliability, editability or usability of this product. If you can use it,
+you are in luck, if not, I should not be and can not be held responsible.
+Furthermore, portions of this software (tkg2 and related modules) were
+developed by the Author as an employee of the U.S. Geological Survey
+Water-Resources Division, neither the USGS, the Department of the
+Interior, or other entities of the Federal Government make any claim
+whatsoever about suitability, reliability, editability or usability
+of this product.
+
+=cut
+
+Author has primarily developed on Solaris 2.6 and Intel Linux 2.2.12-16.  Tkg2
+should run immediately on all Unix variants with a few minor configuration
+issues.  Tkg2 should also run on NT but the author has not committed significant
+resources to work out a Win32 port.
+
+
+CPAN MODULES NEEDED TO RUN
+  Other versions might work, but these are tested
+
+Tk800.022+  Segmentation faults occur in earlier versions of Tk 
+Data-Calc-4.3
+DateManip-5.39  required 5.39 or better
+Storable 0.610
+Tk::Pod 3.15  (has a tkpod reader!!!)
+
+
+EXTERNAL UTILITIES THAT ARE NICE TO HAVE AS TKG2 EXPECTS THEM FOR SOME TASKS
+pstoedit    (postscript to whatever converter)
+ghostscript (needed by pstoedit)
+
+IMPORTANT SYSTEM DIFFERENCES
+The file Tkg2/tkg2rc is an X-resources type file that contains various things
+that are platform or installation specific such as system color
+names.   The line thicknesses are those specific one for which testing has 
+shown that the Tk postscript driver produces as different thicknesses.  The
+Tkg2/tkg2rc file that comes with the distribution is widely used.
+
+See the Tkg2/Tkg2rc.pm module for details on where other .tkg2rc files are
+written or use the 'Help'->'Tkg2rc File' after a template is started with the
+'New' button.
+

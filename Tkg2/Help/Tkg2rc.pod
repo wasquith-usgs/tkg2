@@ -1,0 +1,299 @@
+
+=head1 TKG2RC FILES
+
+This POD file provides detailed description of the tkg2rc files that reside with the Tkg2 distribution, in the usual system dependent places, and the user's home directory.  This documentation file is located at B<Tkg2/Help/Tkg2rc.pod>.
+
+=head2 INTRODUCTION
+
+The tkg2rc files are very similar to the typical Xresources files.  The tkg2rc file is almost uniformally used to control the %::TKG2_CONFIG global hash.  The tkg2rc files are handled by the Tkg2/Tkg2rc.pm module.   A typical parameter is set in the following fashion.
+
+ 
+  [application]*[parameter]:[value]
+ 
+           Tkg2*height:        4
+
+In this case the height of all pages is set to 4 inches regardless of the original height in the tkg2 graphic files.  Leading '#' and '!' are treated as comment lines and politely ignored.
+
+
+Three potential tkg2rc files are read in successive fashion.  Each file potentially overrides settings from the previous.  In most cases resources set by the tkg2rc file can be overridden by command line options (see tkg2 --help).  The first tkg2rc file that is read and normally would always be present is the B<tkg2rc> file that comes with the tkg2 distribution.  The file would normally be located at '/usr/local/Tkg2/tkg2rc'.  The second tkg2rc file read is the system or site specific version as is called B<tkg2.rc>.  This file should contain parameters required by the system administrator for tweaking operation.  This file location is partially operating system dependent.  A summary of os-dependent path prefixes for the tkg2.rc file follows:
+
+  
+  Solaris: /usr/openwin/lib/app-defaults/tkg2.rc
+
+  Linux:  /usr/X11R6/lib/X11/app-defaults/tkg2.rc
+
+(at least on Red Hat 6.+)
+
+The third tkg2rc file read is in the user's home directory and uses the familiar dot file naming convention, B<.tkg2rc>.  This file is intended primarily for the user to override parameters set by the other files or more commonly by command line options provided by tkg2 wrapping programs.  For example, if a wrapping script calls tkg2 for the user in a display only mode and some of the fonts on the canvas are too small to read, then the user could choose to scale up all fonts by 20-percent by setting Tkg2*zoom: to 1.2 in their .tkg2rc file.
+
+=head2 PARAMETER LIST
+
+The following list of parameters are those currently supported in a tkg2rc file.  Some Tkg2*parameter have a single argument whereas others have a list.  Furthermore, a couple of parameters when repeated continue to add argument values to themselves.  Just as a parameter can occur in each of the three tkg2rc files, a parameter can be unlimited repeated in the file, but the last parameter read sets the value.  Some of the parameters are composed of two or more words.  These are separated by an underscore '_'.  The POD markup by the tkpod utility does not display underscores when the parameter is made in bold text.  For example, the parameter 'Tkg2*delete_loaded_data' is headed with 'Tkg2*delete loaded data'.  The tkg2rc files will not accept that.  HTML or other POD markup does not exhibit this behavior.
+
+
+B<Tkg2*colors:>--I<list context, repeating adds to list>
+
+Colors sets the list of available colors seen in the dialog box color selection widgets.
+
+ 
+ Tkg2*colors:    red green white
+ Tkg2*colors:    blue black
+
+
+B<Tkg2*debug:>--I<scalar context, last setting used, '0', 'stdout' or 'file'>
+
+Debug toggles the built in reporting mechanism for tkg2.  If stdout is used, then debug messages printed along STDOUT through the BUGS filehandle.  When the debug value is 'file' then debug messages are appended to /tmp/tkg2.bugs.
+
+ 
+ Tkg2*debug:  0
+
+to turn off, or
+
+ 
+ Tkg2*debug:  1
+
+to turn on.
+
+
+B<Tkg2*delete_loaded_data:>--I<scalar context, last setting used, '1' or '0'>
+
+When a file is saved by tkg2, a method is called on the template (page) that removes all dynamically loaded data from before the template is dumped into a string and then written to a file.  By default delete_loaded_data is 1 or true, but if the user requires that dynamic loading be turned off, then set delete_loaded_data to 0 or using the --importdata command line option.  A conscious decision to not make this feature available via the GUI has been made.
+
+ 
+ Tkg2*delete_loaded_data:      0
+
+to set to false, or
+
+ 
+ Tkg2*delete_loaded_data:      1
+
+to set to truth.
+
+
+B<Tkg2*delimiters:>--I<list context, repeating adds to list>
+
+Delimiters builds the list of strings that are used by tkg2 to C<split> files into columns of data.  Normally, the delimiters supplied by the Tkg2/tkg2rc file will be sufficient for just about all installations.  The user is given the ability through the GUI to select custom delimiters, so relatively little need exists for controlling these by the resource file method.  Note: foreign tkg2 files might use one or more delimiters that an installed version does not explicitly show.  This situation is B<not> a problem because the tkg2 file stores the exact string that it needs to delimit each file. 
+
+ 
+ Tkg2*delimiters:  \s \s+ \s\s+ \t , : |
+
+This example provides delimiters of one space, one or more spaces, two or more spaces, tab, comma, colon, and pipe.
+
+
+B<Tkg2*fileformat:>--I<scalar context, last setting used, 'DataDumper', 'Storable'>
+
+Fileformat sets the default file format for new template creation.  The default is to use the hash-like DataDumper format.  This is the preferred format as it is highly readable ASCII, cross-platform, archivable, and easily editable by users.  The file format can be changed using the File menu radiobuttons in the Save section.
+
+ 
+ Tkg2*fileformat:    Storable
+
+
+B<Tkg2*fonts:>--C<list context, repeating adds to list>
+
+Fonts are the font families that are to be shown in tkg2 font family widget selection buttons.  Great care must be taken when selecting font families to use as available fonts on a given platform or X server vary greatly.  There are even issues involving the compatability of X server and X client font support.  The default list (shown below) is recommended and testing has shown little trouble across platforms.  Perhaps the greatest danger is using a font in a tkg2 file on one platform that isn't supported on another.  Currently tkg2 makes no provision that a given font can actually be rendered until run-time.  Errors can the occur.  Change the default font families at your own risk.
+
+ 
+ Tkg2*fonts:       Courier Helvetica Times Palatino Symbol
+
+
+B<Tkg2*geometry:>--I<scalar context, last setting used>
+
+Geometry specifies the dimensions and location of the window provided by the window manager containing the template (page).  Either just the dimensions, just the location, or both dimensions and location can be controlled.  The format for the string is the usual X-windows geometry string C<(\d+[x]\d+[+-]\d+[+-]\d+)>.  The '\d+' denotes an integer.  The [x] is the character x and [+-] indicates the plus or minus sign.  Here are some examples:
+
+ 
+ Tkg2*geometry: 300x450
+
+This sets a 300 pixel width and 450 pixel height.
+
+ 
+ Tkg2*geometry: 45x300-100+20
+
+This sets 45 pixels by 300 pixels placed 100 pixels from left and 20 pixels down from top.
+
+ 
+ Tkg2*geometry: +100-20
+
+This sets a default width and height placed 100 pixels from right and 20 pixels up from bottom.
+
+ 
+ Tkg2*geometry: 100x500
+
+This sets 100 pixels by 500 pixels at the default location on the screen.
+
+Some variation on whether you will detect the effects of the geometry depend on the window manager that you are using and the natural size of the tkg2 sheet.
+
+
+B<Tkg2*height:>--I<scalar context, last setting used>
+
+Height specifies the height of the template (page) in inches that is to be used regardless of the value in the tkg2 file.  All graphic elements are remapped on the drawing canvas according to their percentage down from the top on the original.  This feature is useful because a single tkg2 file can take on an essentially unlimited range of heights.  The height can be equivalently set from the command line with --height=value (see --help).  If the value is 0 in the tkg2rc file, then the original height is used.  For width adjustment, see width later in this file and the --width=value option in the command line help.
+
+ 
+ Tkg2*height:   4
+
+This example sets the height of the page to 4 inches.
+
+
+B<Tkg2*increment_dialog_fonts:>--I<scalar context, last setting used>
+
+Increment dialog fonts increments the small, medium, and large font sizes used in tkg2 dialog boxes.  Most of the time this setting is not ever required, but occassionally on large monitors with high resolution, font size might be too small for older eyes.  The increment can be either positive of negative integers and are added to all fonts sizes.  For example, C<Tkg2*increment_dialog_fonts: 3> would increment each font up by 3 points.  The X server will probably use the closest available font for rendering, so don't expect to see a 17 point or other atypical font sizes.
+
+ Tkg2*increment_dialog_fonts: 2
+
+
+B<Tkg2*linethicks:>--I<list context, repeating adds to list>
+
+Linethicks sets the line thicks values in inches that are to be made available through the GUI on the line thickness or width widgets.  The default values shown in the example here have been carefully selected as each should be visually distinct in postscript output.  These setttings will less often show differences on the monitor.
+
+ 
+ Tkg2*linethicks:  0.005i 0.010i 0.015i 0.020i 0.025i 0.035i
+ Tkg2*linethicks:  0.045i 0.055i 0.065i 0.075i 0.085i 0.095i
+
+
+B<Tkg2*nozoom2unity:>--I<0|1>
+
+This parameter turns off the default behavior that --zoom is set to unity prior to postscript rendering.  This setting was added to bypass the switch to --zoom=1.  The checkbuttons on the Exporting and Printing dialog boxes are properly switched off--nice touch. There is also a --nozoom2unity command line option.  The addition of the nozoom2unity feature is important for certain batch processing tasks.
+
+ 
+ Tkg2*nozoom2unity: 0
+
+
+B<Tkg2*plotting_position_coe:>--I<scalar context, last setting used>
+
+The plotting position coefficient is used for direct probability calculations from a single column of inputted data.  A global variable is set and remains in effect until potentially changed with the next launching of tkg2.  This might not be the best design model, but a more elegant solution remains elusive.  The default value is 0.40, the Weibull plotting position coefficient.  See a good book on statisics and frequency analysis for further discussion.
+
+ 
+ Tkg2*plotting_position_coe:   0.40
+
+
+B<Tkg2*printers:>--I<list context, repeating adds to list>
+
+Printers sets the printers to be visible in the GUI regardless of whether the host can actually talk to a particular printer.  The printers list has been superceded on Solaris by the use of the C<'lpstat -v'> command.  This command might not be available on other systems.  The last printer identified in the tkg2rc file is used as the default and shown at the top of the dialog box.
+
+ 
+ Tkg2*printers:  hpblackandwhite  hpcolor
+
+
+B<Tkg2*queue_options:>--I<scalar context, last setting used>
+
+Additional command line arguments for the printer queue, usually plain-old and familiar 'lp' can be set by the queue_options token.  The value is set as one large string and not parsed, and the individual options checked.  No checking on the validity of the arguments therefore is made by Tkg2.  You will have to rely on the whether it works or not.  An example usage follows.
+
+ 
+ Tkg2*queue_options:   -o11x17 -y landscape
+
+
+You can check that the arguments get passed to the queue by invoking Tkg2 with the C<--verbose> command line option.  An example output is shown below.
+
+
+ % tkg2 -batch -verbose multiplots.tkg2
+ Tkg2-RenderPostscript: 11 x 8.5,
+                /home/wasquith/xxxxxxxtkg2printfile, color
+ Tkg2-correctTkPostscript for psfile =
+               /home/wasquith/xxxxxxxtkg2printfile
+ Tkg2-Postscript2Printer
+        Queue = lp -c -d lasertx -o11x17 -y landscape
+                /home/wasquith/xxxxxxxtkg2printfile 2>&1
+ Tkg2-Postscript2Printer: successful spool
+
+
+The contents of the queue options are shown in the 'Additional printer command line options' field of the print dialog box when it is launched from the File menu.  Tkg2 inserts the C<-c> and C<-d printername> arguments on all spooling operations.  Neither C<-c> or C<-d printername> can be modified by the user--only in Tkg2 source code.  The queue however can be changed using the $PRINTER_QUEUE environmental variable of the user's shell.  Normally, only specialized users would set this different from 'lp', so you can likely ignore the previous sentence.  For example, 'pdq' is an alternative print spooler in the market place.  Additionally, the queue options can not be set using the Tkg2 command line.
+
+
+A final word of warning, because Tkg2 I<always> inserts the C<-c> and C<-d> options to the queue, if you have a C<-d printer> in the queue_options of the tkg2rc file, then this printer is used instead of the printer specified by the dialog box or by the C<--destination> command line option.  This is because the spooling command would look something like this.
+
+
+ Queue = lp -c -d lasertx -d elvis /home/wasquith/xxxxxxxtkg2printfile 2>&1
+
+As far as your author knows, C<elvis> becomes the printer destination instead of C<lastertx>.  Again the C<--verbose> command line option will really help you in those weird circumstances in which something is not working.
+
+
+B<Tkg2*redrawdata:>--I<scalar context, last setting used, '0' or '1'>
+
+Redrawdata is used to toggle the 'Draw Data on Canvas Update' feature seen in the DataEdit menu during normal GUI operation.  This is a handy feature for plots with large amounts of data because all editing to plots and other canvas components can be made without have to wait for the canvas to be totally redrawn each time.  If the tkg2 file is saved or printed then the data is drawn regard less of value of redrawdata.  The value can be altered at run-time by the checkbutton in the DataEdit menu.  At the first rendering of the tkg2 file on the screen the data is drawn regardless of the value of redrawdata.  The data is not drawn on subsequent updates of the canvas.  The command line option --drawdata and --nodrawdata provide an equivalent toggling.
+
+ 
+ Tkg2*redrawdata:   0
+
+to set to false, or
+
+ 
+ Tkg2*redrawdata:   1      
+
+to set to truth.
+
+
+B<Tkg2*scaling:>--I<scalar context, last setting used, real number gt zero>
+
+Scaling alters the start up scaling constant of Tk (and Tkg2) by multiplying the constant by value of the parameter.  So if scaling is equal to 0.9, then the scaling constant of the whole Tkg2 session is 10 percent smaller.  The scaling constant represents the number of pixels per point where point is 1/72 of an inch.  This switch can make it easier to use tkg2 on a low resolution monitor and/or a small diagonal monitor.  Tkg2 does have some limited built rules to alter scaling dependent on the host resolution (see Tkg2/Base.pm, ResolutionHandler).  The author has limited machines to test monitor size and resolutions on, so the reader is encouraged to experiment with
+
+ 
+ % tkg2 --scaling=? --mktemp=8.5x11
+
+until the page fits satisfactorily on their screen and report their monitor size and scaling value to C<wasquith@usgs.gov>.  Small monitor users will likely want to add the Tkg2*scaling to their home directory tkg2rc file.  Another way to control the scaling constant is  with the --scaling command line option.  A scaling value in the tkg2rc file overrides any built in rule, but is itself overridden by the command line option.  A value of zero can be used within the tkg2rc file to toggle the scaling setting back to the built in rules without having to delete a line from the tkg2rc file.
+
+ 
+ Tkg2*scaling:    0.94
+ 
+
+B<Tkg2*showme:>--I<scalar context, last setting used, real number>
+
+Showme toggles the internal tracing of major subroutine entry along stdout.  This is functionally the same as the --showme=f command line option.  The real number is the second delay to add between subroutine calls.  Showme is the primary tool to determine the location in the code of major tkg2 crashes.
+
+
+B<Tkg2*splash:>--I<scalar context, last setting used, '0' or '1'>
+
+Splash toggles a SPLASH filehandle to either /dev/null or /dev/stderr.  Nearly every module in tkg2 prints an '=' to the SPLASH filehandle when it is first compiled by Perl.  The SPLASH filehandle is a mechanism by which the user can see that tkg2 is actually doing something.  SPLASH can also be controlled using the --splash or --nosplash command line options.  The default is for the splash to be visible.             
+
+ 
+ Tkg2*splash:   0
+
+to turn the splash off, or
+
+  
+ Tkg2*splash:   1
+ 
+to turn the splash on.
+
+
+B<Tkg2*verbose:>--I<scalar context, last setting used, '0' or '1'>
+
+Verbose toggles a VERBOSE filehandle to either /dev/null or /dev/stdout.  With verbose, the user can see which plot is being rendered and what data files are being read.  Startup times are also reported.  VERBOSE can also be controlled using the --verbose or --noverbose command line options.  The default is for verbose to be turned off.  See --help for more details.
+
+ 
+ Tkg2*verbose:   0
+
+to turn verbose off, or
+
+ 
+ Tkg2*verbose:   1
+
+to turn verbose on.
+
+
+B<Tkg2*width:>--I<scalar context, last setting used>
+
+Width specifies the width of the template (page) in inches that is to be used regardless of the value in the tkg2 file.  All graphic elements are remapped on the drawing canvas according to their percentage right from the left on the original.  This feature is useful because a single tkg2 file can take on an essentially unlimited range of widths.  The width can be equivalently set from the command line with --width=value (see --help).  If the value is 0 in the tkg2rc file, then the original width is used.  For height adjustment, see height earlier in this file and the --height=value option in the command line help.
+
+ 
+ Tkg2*width:   4.55
+
+This example sets the width of the page to 4.55 inches.
+
+
+B<Tkg2*wm_override_pod_geometry:>--I<scalar context, last setting used>
+
+Window manager override on geometry of pod placement occurs when this value is true.  The default is false, which cause tkg2 to use the Tk geometry method to place the marked up pod in the upper left corner.  Under some Linux systems using KDE this does not work correctly, so those user's might want to disable the geometry call with the following in their homespace tkg2rc file.
+
+ 
+ Tkg2*wm_override_pod_geometry:   1
+
+
+B<Tkg2*zoom:>
+
+Zoom is a partially misnamed parameter.  It is B<not> a zoom in/out factor seen in just about every graphical application.  Zoom is a multiplier on B<font> sizes created by tkg2 when rendering text on the canvas.  Zoom is a neat feature to use in combination with --width or --height.  A regular pagesize (8.5x11) can easily be enlarged to say 20x20 and the fonts will be disproportionately small unless zoomed by say by a factor of 2.  The command line option, --zoom, will override tkg2rc file value.               
+
+ 
+ Tkg2*zoom:     1.1
+
+
+
+Z<>

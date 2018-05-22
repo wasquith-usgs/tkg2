@@ -1,0 +1,2174 @@
+#!/usr/bin/perl -w
+# --------------------------------------------------------------
+# A Tkg2 file -- by the enigmatic William H. Asquith
+# --------------------------------------------------------------
+#   The following is the standard header written by tkg2
+#   during a file save.   Tkg2 requires that the DATA
+#   token be present as it uses this as a flag to begin actually
+#   reading a file in.  You can edit anything you want
+#   above the DATA token or even remove all this entirely.
+#   Or you can put any data retrieval scripts above the 'exec'
+#   to get the data files in place before tkg2 and this file is
+#   actually launched.
+
+# Begin the self executing portion
+#    contains the command line arguments following
+#         this file name: e.g. % ./tkg2go --presenter.
+#   ./tkg2go is the name of this file.
+exec("/usr/local/bin/tkg2 @ARGV $0") or      
+print STDERR "The error message above indicates that the 
+tkg2 executable could not be found along the above path 
+Because tkg2 is a continuously developing product, it is 
+possible that other versions are installed along your path 
+with names such as 'asqplot' or 'g2'.  Try editing './tkg2go' 
+and use one of these other names in the exec command.
+";
+
+__DATA__
+Tkg2 File Version|0.75-1|Data::Dumper|Wed Aug  7 13:44:31 2002
+$template = bless( {
+  '-x_grid' => [],
+  '-draw_annotation_first' => '0',
+  '-annoline' => [
+    bless( {
+      '-y1' => '265.38',
+      '-username' => '',
+      '-y2' => '202.262',
+      '-doit' => '1',
+      '-arrow1' => '9.768',
+      '-linecolor' => 'darkgreen',
+      '-arrow2' => '16.66',
+      '-arrow3' => '7.85',
+      '-capstyle' => 'round',
+      '-arrow' => 'none',
+      '-linewidth' => '0.075i',
+      '-dashstyle' => undef,
+      '-x1' => '265.38',
+      '-x2' => '277.175'
+    }, 'Tkg2::Anno::Line' )
+  ],
+  '-annosymbol' => [
+    bless( {
+      '-size' => '9.768',
+      '-username' => '',
+      '-doit' => '1',
+      '-fillstyle' => undef,
+      '-symbol' => 'Circle',
+      '-xorigin' => '270.276',
+      '-dashstyle' => undef,
+      '-outlinecolor' => 'black',
+      '-fillcolor' => 'white',
+      '-outlinewidth' => '0.01i',
+      '-yorigin' => '238.94',
+      '-angle' => '0'
+    }, 'Tkg2::Anno::Symbol' )
+  ],
+  '-annotext_plot_order' => '1',
+  '-plots' => [
+    bless( {
+      '-plottitleyoffset' => '14.382',
+      '-xmincanvas' => '74.792',
+      '-RefLines' => bless( {
+        '-y' => [],
+        '-y2' => []
+      }, 'Tkg2::Anno::ReferenceLines' ),
+      '-xmaxcanvas' => '366.003',
+      '-plottitlefont' => {
+        '-weight' => 'bold',
+        '-size' => '10',
+        '-slant' => 'roman',
+        '-stackit' => '0',
+        '-family' => 'Helvetica',
+        '-custom1' => undef,
+        '-custom2' => undef,
+        '-rotation' => 0,
+        '-color' => 'black'
+      },
+      '-explanation' => {
+        '-title' => 'EXPLANATION',
+        '-font' => {
+          '-weight' => 'normal',
+          '-size' => '8',
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Times',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-linewidth' => '19.9566746543779',
+        '-area_line_point_order' => 0,
+        '-outlinecolor' => 'white',
+        '-colspacing' => '0.1i',
+        '-titlexoffset' => 'auto',
+        '-fillstyle' => undef,
+        '-numcol' => '1',
+        '-titlejustify' => 'center',
+        '-xorigin' => '188.663594470045',
+        '-hide' => '1',
+        '-titleyoffset' => 'auto',
+        '-dashstyle' => 'Solid',
+        '-fillcolor' => 'white',
+        '-vertspacing' => 'auto',
+        '-horzgap' => '3.35607741935484',
+        '-outlinewidth' => '0.015i',
+        '-yorigin' => '44.0898617511521'
+      },
+      '-doit' => 1,
+      '-borderwidth' => '0.015i',
+      '-ypixels' => '120.775',
+      '-plotbgfillstyle' => undef,
+      '-yumargin' => '36.856',
+      '-plottitlexoffset' => '3.594',
+      '-xrmargin' => '292.997',
+      '-plottitlejustify' => 'center',
+      '-QQLines' => bless( {
+        '-one2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        },
+        '-negone2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        }
+      }, 'Tkg2::Anno::QQLine' ),
+      '-canvheight' => 509,
+      '-plotbgcolor' => 'white',
+      '-scaling' => '0.832360471070148',
+      '-username' => 'HYDROPLOT',
+      '-xpixels' => '291.211',
+      '-borderdashstyle' => 'Solid',
+      '-ymincanvas' => '36.856',
+      '-y2' => {
+        '-reverse' => 0,
+        '-max' => '12.5',
+        '-title' => 'Y-DATA',
+        '-origindoit' => 0,
+        '-invertprob' => 0,
+        '-numdecimal' => 0,
+        '-make_axis_square' => '0',
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-12.5',
+        '-numcommify' => 0,
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.694',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => undef,
+        '-labskip' => 0,
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => 9,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => 0,
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => 10,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-turned_on' => 0,
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'right',
+        '-laboffset' => '41.949',
+        '-datamax' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-hideit' => 0,
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900011312:00:00',
+          '-daydoit' => 1,
+          '-min' => '1899122012:00:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '2.5',
+        '-baseminor' => [],
+        '-doublelabel' => 0,
+        '-minor' => undef
+      },
+      '-plottitle' => '',
+      '-xlmargin' => '74.792',
+      '-ymaxcanvas' => '157.631',
+      '-x' => {
+        '-reverse' => '0',
+        '-max' => '80',
+        '-title' => 'X-DATA',
+        '-origindoit' => '0',
+        '-invertprob' => 0,
+        '-numdecimal' => '0',
+        '-num2offset' => '2.993',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-10',
+        '-numcommify' => '0',
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.993',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => [],
+        '-labskip' => '0',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => '9',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '0',
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => '10',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'top',
+        '-laboffset' => '11.984',
+        '-datamax' => {
+          '-whenlinear' => '70.58',
+          '-whenprob' => '0.6923445',
+          '-whenlog' => '70.58'
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => '0',
+          '-whenprob' => '0.6716775',
+          '-whenlog' => '0.83'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900032200:00:00',
+          '-daydoit' => 1,
+          '-min' => '1899122100:00:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '10',
+        '-baseminor' => [],
+        '-doublelabel' => '0',
+        '-minor' => undef
+      },
+      '-y' => {
+        '-reverse' => '0',
+        '-max' => '1.2',
+        '-title' => 'Y-DATA',
+        '-origindoit' => '0',
+        '-invertprob' => 0,
+        '-numdecimal' => '1',
+        '-make_axis_square' => '0',
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-0.2',
+        '-numcommify' => '0',
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.694',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => [],
+        '-labskip' => '0',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => '9',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '0',
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => '10',
+          '-slant' => 'roman',
+          '-stackit' => '1',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-turned_on' => 0,
+        '-numminor' => '2',
+        '-lab2offset' => 0,
+        '-location' => 'left',
+        '-laboffset' => '41.949',
+        '-datamax' => {
+          '-whenlinear' => '1',
+          '-whenprob' => '0.7778',
+          '-whenlog' => '1'
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => '0',
+          '-whenprob' => '0.1686',
+          '-whenlog' => '0.1686'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'sci',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900010204:48:00',
+          '-daydoit' => 1,
+          '-min' => '1900010104:48:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '0.2',
+        '-baseminor' => [],
+        '-doublelabel' => '0',
+        '-minor' => undef
+      },
+      '-dataclass' => bless( [
+        bless( {
+          '-username' => '',
+          '-setname' => 'dataexample.out',
+          '-show_in_explanation' => 1,
+          '-file' => {
+            '-datetime_offset' => '0',
+            '-ordinates_as1_column' => '0',
+            '-sorttype' => 'numeric',
+            '-filedelimiter' => '\\s+',
+            '-sortdoit' => '0',
+            '-numlabellines' => '2',
+            '-fileisRDB' => '0',
+            '-userelativepath' => '1',
+            '-missingval' => '',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-thresholds' => '0',
+            '-numskiplines' => '6',
+            '-numlinestoread' => '',
+            '-fullfilename' => '/home/wasquith/files/tkg2/TestData/dataexample.out',
+            '-megacommand' => 0,
+            '-common_datetime' => '',
+            '-columntypes' => 'auto',
+            '-numskiplines_afterlabel' => '0',
+            '-relativefilename' => 'TestData/dataexample.out',
+            '-sortdir' => 'ascend',
+            '-dataimported' => '0',
+            '-skiplineonmatch' => '^#'
+          },
+          '-DATA' => [
+            {
+              '-origabscissa' => 'MeanDis-(mi):number',
+              '-username' => '',
+              '-showthirdord' => undef,
+              '-origthirdord' => undef,
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'Mean-(--):number_from_/home/wasquith/files/tkg2/TestData/dataexample.out',
+              '-origordinate' => 'Mean-(--):number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'white',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '5.84485393258427',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => 1,
+                  '-justify' => 'left',
+                  '-numdecimal' => 0,
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => 8,
+                    '-slant' => 'roman',
+                    '-stackit' => 0,
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => 0,
+                    '-custom2' => undef,
+                    '-blankcolor' => 'white',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => 0,
+                  '-numformat' => 'free',
+                  '-yoffset' => '3.353',
+                  '-leaderline' => {
+                    '-endoffset' => '5.84485393258427',
+                    '-doit' => 0,
+                    '-width' => '0.005i',
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '23.3794157303371'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '14.6121348314607'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '5.84485393258427',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.353',
+                  '-doit' => '1',
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Triangle',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => '0',
+                  '-fillcolor' => 'white',
+                  '-num2skip' => '0',
+                  '-blankcolor' => 'white',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => '0'
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.015i',
+                  '-dashstyle' => undef,
+                  '-stepit' => '0',
+                  '-doit' => '0',
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Scatter',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'MeanDis-(mi):number'
+            },
+            {
+              '-origabscissa' => 'MeanDis-(mi):number',
+              '-username' => '',
+              '-showthirdord' => undef,
+              '-origthirdord' => undef,
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'StDev-(--):number_from_/home/wasquith/files/tkg2/TestData/dataexample.out',
+              '-origordinate' => 'StDev-(--):number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'black',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '5.84485393258427',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => 1,
+                  '-justify' => 'left',
+                  '-numdecimal' => 0,
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => 8,
+                    '-slant' => 'roman',
+                    '-stackit' => 0,
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => 0,
+                    '-custom2' => undef,
+                    '-blankcolor' => 'white',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => 0,
+                  '-numformat' => 'free',
+                  '-yoffset' => '3.353',
+                  '-leaderline' => {
+                    '-endoffset' => '5.84485393258427',
+                    '-doit' => 0,
+                    '-width' => '0.005i',
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '23.3794157303371'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '14.6121348314607'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '5.84485393258427',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.353',
+                  '-doit' => '1',
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Cross',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => '0',
+                  '-fillcolor' => 'white',
+                  '-num2skip' => '0',
+                  '-blankcolor' => 'white',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => '0'
+                },
+                '-shades' => {
+                  '-fillcolor' => 'black'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.010i',
+                  '-dashstyle' => undef,
+                  '-stepit' => '0',
+                  '-doit' => '0',
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Scatter',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'MeanDis-(mi):number'
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' )
+      ], 'Tkg2::DataMethods::DataClass' ),
+      '-ylmargin' => '351.369',
+      '-canvwidth' => 659,
+      '-bordercolor' => 'black'
+    }, 'Tkg2::Plot::Plot2D' ),
+    bless( {
+      '-plottitleyoffset' => '14.369',
+      '-xmincanvas' => '74.79',
+      '-RefLines' => bless( {
+        '-y' => [
+          {
+            '-y1' => '.2',
+            '-username' => '',
+            '-y2' => '.8',
+            '-doit' => 1,
+            '-linecolor' => 'black',
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-x1' => '0',
+            '-x2' => '20'
+          },
+          {
+            '-y1' => '1',
+            '-username' => '',
+            '-y2' => '.2',
+            '-doit' => 1,
+            '-linecolor' => 'black',
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-x1' => '20',
+            '-x2' => '40'
+          }
+        ],
+        '-y2' => []
+      }, 'Tkg2::Anno::ReferenceLines' ),
+      '-xmaxcanvas' => '362.946',
+      '-plottitlefont' => {
+        '-weight' => 'bold',
+        '-size' => '10',
+        '-slant' => 'roman',
+        '-stackit' => '0',
+        '-family' => 'Helvetica',
+        '-custom1' => undef,
+        '-custom2' => undef,
+        '-rotation' => 0,
+        '-color' => 'black'
+      },
+      '-explanation' => {
+        '-title' => 'EXPLANATION',
+        '-font' => {
+          '-weight' => 'normal',
+          '-size' => '8',
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Times',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-linewidth' => '19.9566746543779',
+        '-area_line_point_order' => 0,
+        '-outlinecolor' => 'white',
+        '-colspacing' => '0.1i',
+        '-titlexoffset' => 'auto',
+        '-fillstyle' => undef,
+        '-numcol' => '1',
+        '-titlejustify' => 'center',
+        '-xorigin' => '39.9884792626729',
+        '-hide' => '1',
+        '-titleyoffset' => 'auto',
+        '-dashstyle' => undef,
+        '-fillcolor' => 'white',
+        '-vertspacing' => 'auto',
+        '-horzgap' => '3.35607741935483',
+        '-outlinewidth' => '0.015i',
+        '-yorigin' => '223.52534562212'
+      },
+      '-doit' => 1,
+      '-borderwidth' => '0.015i',
+      '-ypixels' => '291.872',
+      '-plotbgfillstyle' => undef,
+      '-yumargin' => '179.225',
+      '-plottitlexoffset' => '3.59',
+      '-xrmargin' => '296.054',
+      '-plottitlejustify' => 'center',
+      '-QQLines' => bless( {
+        '-one2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        },
+        '-negone2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        }
+      }, 'Tkg2::Anno::QQLine' ),
+      '-canvheight' => 509,
+      '-plotbgcolor' => 'white',
+      '-scaling' => '0.832360471070148',
+      '-username' => 'PLOT',
+      '-xpixels' => '288.156',
+      '-borderdashstyle' => undef,
+      '-ymincanvas' => '179.225',
+      '-y2' => {
+        '-reverse' => 0,
+        '-max' => '12.5',
+        '-title' => 'Y-DATA',
+        '-origindoit' => 0,
+        '-invertprob' => 0,
+        '-numdecimal' => 0,
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-12.5',
+        '-numcommify' => 0,
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.694',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => undef,
+        '-labskip' => 0,
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => 9,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => 0,
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => 10,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-turned_on' => 0,
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'right',
+        '-laboffset' => '41.949',
+        '-datamax' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-hideit' => 0,
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900011312:00:00',
+          '-daydoit' => 1,
+          '-min' => '1899122012:00:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '2.5',
+        '-baseminor' => [],
+        '-doublelabel' => 0,
+        '-minor' => undef
+      },
+      '-plottitle' => '',
+      '-xlmargin' => '74.79',
+      '-ymaxcanvas' => '471.097',
+      '-x' => {
+        '-reverse' => '0',
+        '-max' => '80',
+        '-title' => 'MEAN SEPARATION DISTANCE, IN MILES',
+        '-origindoit' => '0',
+        '-invertprob' => 0,
+        '-numdecimal' => '0',
+        '-num2offset' => '2.993',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-10',
+        '-numcommify' => '0',
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.996',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => [],
+        '-labskip' => '1',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => '9',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '0',
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => '10',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'bottom',
+        '-laboffset' => '11.992',
+        '-datamax' => {
+          '-whenlinear' => '70.58',
+          '-whenprob' => '0.6923445',
+          '-whenlog' => '70.58'
+        },
+        '-ticklength' => '5.335',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => '0',
+          '-whenprob' => '0.6716775',
+          '-whenlog' => '0.83'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900032200:00:00',
+          '-daydoit' => 1,
+          '-min' => '1899122100:00:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '10',
+        '-baseminor' => [],
+        '-doublelabel' => '0',
+        '-minor' => undef
+      },
+      '-y' => {
+        '-reverse' => '0',
+        '-max' => '1.2',
+        '-title' => 'Y-DATA',
+        '-origindoit' => '1',
+        '-invertprob' => 0,
+        '-numdecimal' => '0',
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-0.2',
+        '-numcommify' => '0',
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.693',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => [],
+        '-labskip' => '0',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => '9',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '3.14*x+10;3.14*$x+10',
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => '10',
+          '-slant' => 'roman',
+          '-stackit' => '1',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => 1,
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => 1,
+        '-turned_on' => 0,
+        '-numminor' => '3',
+        '-lab2offset' => 0,
+        '-location' => 'left',
+        '-laboffset' => '41.936',
+        '-datamax' => {
+          '-whenlinear' => '1',
+          '-whenprob' => '0.7778',
+          '-whenlog' => '1'
+        },
+        '-ticklength' => '5.33',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => '0',
+          '-whenprob' => '0.1686',
+          '-whenlog' => '0.1686'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey50',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900010204:48:00',
+          '-daydoit' => 1,
+          '-min' => '1900010104:48:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '0.2',
+        '-baseminor' => [],
+        '-doublelabel' => '1',
+        '-minor' => undef
+      },
+      '-dataclass' => bless( [
+        bless( {
+          '-username' => '',
+          '-setname' => 'dataexample.out',
+          '-show_in_explanation' => 1,
+          '-file' => {
+            '-datetime_offset' => '0',
+            '-ordinates_as1_column' => '0',
+            '-sorttype' => 'numeric',
+            '-filedelimiter' => '\\s+',
+            '-sortdoit' => '0',
+            '-numlabellines' => '2',
+            '-fileisRDB' => '0',
+            '-userelativepath' => '1',
+            '-missingval' => '',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-thresholds' => '0',
+            '-numskiplines' => '6',
+            '-numlinestoread' => '',
+            '-fullfilename' => '/home/wasquith/files/tkg2/TestData/dataexample.out',
+            '-megacommand' => 0,
+            '-common_datetime' => '',
+            '-columntypes' => 'auto',
+            '-numskiplines_afterlabel' => '0',
+            '-relativefilename' => 'TestData/dataexample.out',
+            '-sortdir' => 'ascend',
+            '-dataimported' => '0',
+            '-skiplineonmatch' => '^#'
+          },
+          '-DATA' => [
+            {
+              '-origabscissa' => 'MeanDis-(mi):number',
+              '-username' => '',
+              '-showthirdord' => undef,
+              '-origthirdord' => undef,
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'Mean-(--):number_from_/home/wasquith/files/tkg2/TestData/dataexample.out',
+              '-origordinate' => 'Mean-(--):number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'white',
+                  '-doit' => 0,
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '0.1i',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => 1,
+                  '-justify' => 'left',
+                  '-numdecimal' => 0,
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => 8,
+                    '-slant' => 'roman',
+                    '-stackit' => 0,
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => 0,
+                    '-custom2' => undef,
+                    '-blankcolor' => 'white',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => 0,
+                  '-numformat' => 'free',
+                  '-yoffset' => '3.353',
+                  '-leaderline' => {
+                    '-endoffset' => '5.84485393258427',
+                    '-doit' => 0,
+                    '-width' => '0.005i',
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '23.3794157303371'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '14.6121348314607'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '5.84485393258427',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.353',
+                  '-doit' => 1,
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Circle',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => 0,
+                  '-fillcolor' => 'white',
+                  '-num2skip' => 0,
+                  '-blankcolor' => 'white',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => 0
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.015i',
+                  '-stepit' => 0,
+                  '-dashstyle' => undef,
+                  '-doit' => 0,
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Scatter',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => 0,
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'MeanDis-(mi):number'
+            },
+            {
+              '-origabscissa' => 'MeanDis-(mi):number',
+              '-username' => '',
+              '-showthirdord' => undef,
+              '-origthirdord' => undef,
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'StDev-(--):number_from_/home/wasquith/files/tkg2/TestData/dataexample.out',
+              '-origordinate' => 'StDev-(--):number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'black',
+                  '-doit' => 0,
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '0.1i',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => 1,
+                  '-justify' => 'left',
+                  '-numdecimal' => 0,
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => 8,
+                    '-slant' => 'roman',
+                    '-stackit' => 0,
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => 0,
+                    '-custom2' => undef,
+                    '-blankcolor' => 'white',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => 0,
+                  '-numformat' => 'free',
+                  '-yoffset' => '3.353',
+                  '-leaderline' => {
+                    '-endoffset' => '5.84485393258427',
+                    '-doit' => 0,
+                    '-width' => '0.005i',
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '23.3794157303371'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '14.6121348314607'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '5.84485393258427',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.353',
+                  '-doit' => 1,
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Square',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => 0,
+                  '-fillcolor' => 'white',
+                  '-num2skip' => 0,
+                  '-blankcolor' => 'white',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => 0
+                },
+                '-shades' => {
+                  '-fillcolor' => 'black'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.010i',
+                  '-stepit' => 0,
+                  '-dashstyle' => undef,
+                  '-doit' => 0,
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Scatter',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => 0,
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'MeanDis-(mi):number'
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' )
+      ], 'Tkg2::DataMethods::DataClass' ),
+      '-ylmargin' => '37.903',
+      '-canvwidth' => 659,
+      '-bordercolor' => 'black'
+    }, 'Tkg2::Plot::Plot2D' ),
+    bless( {
+      '-plottitleyoffset' => '14.376',
+      '-xmincanvas' => '441.854',
+      '-RefLines' => bless( {
+        '-y' => [],
+        '-y2' => []
+      }, 'Tkg2::Anno::ReferenceLines' ),
+      '-xmaxcanvas' => '620.839',
+      '-plottitlefont' => {
+        '-weight' => 'bold',
+        '-size' => '10',
+        '-slant' => 'roman',
+        '-stackit' => '0',
+        '-family' => 'Helvetica',
+        '-custom1' => undef,
+        '-custom2' => undef,
+        '-rotation' => 0,
+        '-color' => 'black'
+      },
+      '-explanation' => {
+        '-title' => 'EXPLANATION',
+        '-font' => {
+          '-weight' => 'normal',
+          '-size' => '8',
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Times',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-linewidth' => '19.9566746543779',
+        '-area_line_point_order' => 0,
+        '-outlinecolor' => 'white',
+        '-colspacing' => '0.1i',
+        '-titlexoffset' => 'auto',
+        '-fillstyle' => undef,
+        '-numcol' => '1',
+        '-titlejustify' => 'center',
+        '-xorigin' => '413.86478126381',
+        '-hide' => '0',
+        '-titleyoffset' => 'auto',
+        '-dashstyle' => undef,
+        '-fillcolor' => 'white',
+        '-vertspacing' => 'auto',
+        '-horzgap' => '3.35607741935483',
+        '-outlinewidth' => '0.015i',
+        '-yorigin' => '13.1385644845654'
+      },
+      '-doit' => 1,
+      '-borderwidth' => '0.015i',
+      '-ypixels' => '438.965',
+      '-plotbgfillstyle' => undef,
+      '-yumargin' => '37.444',
+      '-plottitlexoffset' => '3.592',
+      '-xrmargin' => '38.161',
+      '-plottitlejustify' => 'center',
+      '-QQLines' => bless( {
+        '-one2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        },
+        '-negone2one' => {
+          '-y' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          },
+          '-y2' => {
+            '-linewidth' => '0.015i',
+            '-dashstyle' => undef,
+            '-doit' => 0,
+            '-linecolor' => 'black'
+          }
+        }
+      }, 'Tkg2::Anno::QQLine' ),
+      '-canvheight' => 509,
+      '-plotbgcolor' => 'white',
+      '-scaling' => '0.832360471070148',
+      '-username' => '',
+      '-xpixels' => '178.985',
+      '-borderdashstyle' => undef,
+      '-ymincanvas' => '37.444',
+      '-y2' => {
+        '-reverse' => 0,
+        '-max' => '12.5',
+        '-title' => 'Y-DATA',
+        '-origindoit' => 0,
+        '-invertprob' => 0,
+        '-numdecimal' => 0,
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '-12.5',
+        '-numcommify' => 0,
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.694',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => undef,
+        '-labskip' => 0,
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => 9,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => 0,
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => 10,
+          '-slant' => 'roman',
+          '-stackit' => 0,
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => 0,
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => '0',
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => '0',
+        '-turned_on' => 0,
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'right',
+        '-laboffset' => '41.949',
+        '-datamax' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-ticklength' => '5.332',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => undef,
+          '-whenprob' => undef,
+          '-whenlog' => undef
+        },
+        '-hideit' => 0,
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900011312:00:00',
+          '-daydoit' => 1,
+          '-min' => '1899122012:00:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '2.5',
+        '-baseminor' => [],
+        '-doublelabel' => 0,
+        '-minor' => undef
+      },
+      '-plottitle' => '',
+      '-xlmargin' => '441.854',
+      '-ymaxcanvas' => '476.409',
+      '-x' => {
+        '-reverse' => '0',
+        '-max' => '78',
+        '-title' => 'MEAN SEPARATION DISTANCE',
+        '-origindoit' => '0',
+        '-invertprob' => 0,
+        '-numdecimal' => '0',
+        '-num2offset' => '2.993',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '11',
+        '-numcommify' => '0',
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.996',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'log',
+        '-origindashstyle' => undef,
+        '-basemajor' => [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9'
+        ],
+        '-major' => [],
+        '-labskip' => '0',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => '9',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '0',
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => '10',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => '0',
+        '-spectickratio' => '0.8',
+        '-logoffset' => '0',
+        '-automaxlimit' => '0',
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'bottom',
+        '-laboffset' => '11.992',
+        '-datamax' => {
+          '-whenlinear' => '70.58',
+          '-whenprob' => '0.6923445',
+          '-whenlog' => '70.58'
+        },
+        '-ticklength' => '5.335',
+        '-basemajortolabel' => [
+          '1',
+          '2',
+          '3',
+          '5'
+        ],
+        '-datamin' => {
+          '-whenlinear' => '0',
+          '-whenprob' => '0.6716775',
+          '-whenlog' => '0.83'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => '0',
+        '-time' => {
+          '-max' => '1900032200:00:00',
+          '-daydoit' => 1,
+          '-min' => '1899122200:00:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => 10,
+        '-baseminor' => [
+          '1.5'
+        ],
+        '-doublelabel' => '0',
+        '-minor' => undef
+      },
+      '-y' => {
+        '-reverse' => '1',
+        '-max' => '.6',
+        '-title' => '',
+        '-origindoit' => '0',
+        '-invertprob' => 0,
+        '-numdecimal' => '0',
+        '-num2offset' => '2.694',
+        '-gridminor' => {
+          '-linewidth' => '0.005i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-min' => '.2',
+        '-numcommify' => '0',
+        '-tickwidth' => '0.015i',
+        '-numoffset' => '2.693',
+        '-originwidth' => '0.015i',
+        '-tickratio' => '0.6',
+        '-type' => 'linear',
+        '-origindashstyle' => undef,
+        '-basemajor' => [],
+        '-major' => [],
+        '-labskip' => '0',
+        '-probUSGStype' => 0,
+        '-numfont' => {
+          '-weight' => 'normal',
+          '-size' => '9',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-labelequation' => '0',
+        '-labfont' => {
+          '-weight' => 'normal',
+          '-size' => '10',
+          '-slant' => 'roman',
+          '-stackit' => '0',
+          '-family' => 'Helvetica',
+          '-custom1' => undef,
+          '-custom2' => undef,
+          '-rotation' => 0,
+          '-color' => 'black'
+        },
+        '-gridmajor' => {
+          '-linewidth' => '0.015i',
+          '-dashstyle' => undef,
+          '-doit' => '0',
+          '-linecolor' => 'grey75'
+        },
+        '-blankit' => 0,
+        '-blankcolor' => 'white',
+        '-autominlimit' => '0',
+        '-spectickratio' => '0.8',
+        '-logoffset' => 0,
+        '-automaxlimit' => '0',
+        '-turned_on' => 0,
+        '-numminor' => '4',
+        '-lab2offset' => 0,
+        '-location' => 'left',
+        '-laboffset' => '41.936',
+        '-datamax' => {
+          '-whenlinear' => '1',
+          '-whenprob' => '0.8870',
+          '-whenlog' => '1'
+        },
+        '-ticklength' => '5.33',
+        '-basemajortolabel' => [],
+        '-datamin' => {
+          '-whenlinear' => '0.0000',
+          '-whenprob' => '0.0200',
+          '-whenlog' => '0.0200'
+        },
+        '-hideit' => '0',
+        '-discrete' => {
+          '-doit' => 0,
+          '-bracketgroup' => 1,
+          '-labelhash' => {}
+        },
+        '-origincolor' => 'grey85',
+        '-numformat' => 'free',
+        '-usesimplelog' => 0,
+        '-time' => {
+          '-max' => '1900010204:48:00',
+          '-daydoit' => 1,
+          '-min' => '1900010104:48:00',
+          '-seconddoit' => 1,
+          '-hourtickevery' => 'auto',
+          '-tickratio' => '0.7',
+          '-monthtickevery' => 'auto',
+          '-basedate' => [
+            1900,
+            1,
+            1
+          ],
+          '-yeartickevery' => 'auto',
+          '-secondtickevery' => 'auto',
+          '-monthdoit' => 1,
+          '-minutetickevery' => 'auto',
+          '-hourdoit' => 1,
+          '-showyear' => 1,
+          '-daytickevery' => 'auto',
+          '-minutedoit' => 1,
+          '-yeardoit' => 1
+        },
+        '-majorstep' => '0.05',
+        '-baseminor' => [],
+        '-doublelabel' => '1',
+        '-minor' => undef
+      },
+      '-dataclass' => bless( [
+        bless( {
+          '-username' => '',
+          '-setname' => 'dataexample.out',
+          '-show_in_explanation' => 1,
+          '-file' => {
+            '-datetime_offset' => '0',
+            '-ordinates_as1_column' => '0',
+            '-sorttype' => 'numeric',
+            '-filedelimiter' => '\\s+',
+            '-sortdoit' => '0',
+            '-numlabellines' => '2',
+            '-fileisRDB' => '0',
+            '-userelativepath' => '1',
+            '-missingval' => '',
+            '-transform_data' => {
+              '-script' => '',
+              '-doit' => 0,
+              '-command_line_args' => ''
+            },
+            '-thresholds' => '0',
+            '-numskiplines' => '6',
+            '-numlinestoread' => '',
+            '-fullfilename' => '/home/wasquith/files/tkg2/TestData/dataexample.out',
+            '-megacommand' => 0,
+            '-common_datetime' => '',
+            '-columntypes' => 'auto',
+            '-numskiplines_afterlabel' => '0',
+            '-relativefilename' => 'TestData/dataexample.out',
+            '-sortdir' => 'ascend',
+            '-dataimported' => '0',
+            '-skiplineonmatch' => '^#'
+          },
+          '-DATA' => [
+            {
+              '-origabscissa' => 'MeanDis-(mi):number',
+              '-username' => '',
+              '-showthirdord' => 'NumSam-(no.):number',
+              '-origthirdord' => 'NumSam-(no.):number',
+              '-show_in_explanation' => 1,
+              '-showordinate' => 'Median number from huge analysis on an
+SGI Origin',
+              '-origordinate' => 'Median-(--):number',
+              '-data' => [],
+              '-attributes' => {
+                '-bars' => {
+                  '-outlinecolor' => 'black',
+                  '-dashstyle' => undef,
+                  '-fillcolor' => 'white',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-outlinewidth' => '0.015i',
+                  '-barwidth' => '5.84485393258427',
+                  '-direction' => 'below'
+                },
+                '-yerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-text' => {
+                  '-anchor' => 'center',
+                  '-xoffset' => '1.196',
+                  '-doit' => '1',
+                  '-justify' => 'left',
+                  '-numdecimal' => '0',
+                  '-font' => {
+                    '-weight' => 'normal',
+                    '-size' => '8',
+                    '-slant' => 'roman',
+                    '-stackit' => '0',
+                    '-family' => 'Helvetica',
+                    '-custom1' => undef,
+                    '-blankit' => '0',
+                    '-custom2' => undef,
+                    '-blankcolor' => 'lightblue',
+                    '-rotation' => 0,
+                    '-color' => 'black'
+                  },
+                  '-numcommify' => '0',
+                  '-numformat' => 'free',
+                  '-yoffset' => '9.584',
+                  '-leaderline' => {
+                    '-endoffset' => '5.84485393258427',
+                    '-doit' => '0',
+                    '-width' => '0.005i',
+                    '-shuffleit' => undef,
+                    '-lines' => [
+                      {
+                        '-angle' => '225',
+                        '-length' => '23.3794157303371'
+                      },
+                      {
+                        '-angle' => '180',
+                        '-length' => '14.6121348314607'
+                      }
+                    ],
+                    '-dashstyle' => undef,
+                    '-beginoffset' => '5.84485393258427',
+                    '-blankit' => 0,
+                    '-blankcolor' => 'white',
+                    '-color' => 'black'
+                  }
+                },
+                '-points' => {
+                  '-size' => '3.352',
+                  '-doit' => '1',
+                  '-fillstyle' => undef,
+                  '-symbol' => 'Star',
+                  '-dashstyle' => undef,
+                  '-outlinecolor' => 'black',
+                  '-blankit' => '0',
+                  '-fillcolor' => 'white',
+                  '-num2skip' => '0',
+                  '-blankcolor' => 'palegreen1',
+                  '-outlinewidth' => '0.015i',
+                  '-angle' => '0'
+                },
+                '-shades' => {
+                  '-fillcolor' => 'white'
+                },
+                '-lines' => {
+                  '-linewidth' => '0.015i',
+                  '-dashstyle' => undef,
+                  '-stepit' => '0',
+                  '-doit' => '0',
+                  '-linecolor' => 'black'
+                },
+                '-xerrorbar' => {
+                  '-dashstyle' => undef,
+                  '-width' => '0.005i',
+                  '-whiskerwidth' => '0.05i',
+                  '-color' => 'black'
+                },
+                '-plotstyle' => 'Text',
+                '-special_plot' => undef,
+                '-shade' => {
+                  '-fillcolor' => 'black',
+                  '-doit' => '0',
+                  '-fillstyle' => undef,
+                  '-shadedirection' => 'below'
+                },
+                '-which_y_axis' => '1'
+              },
+              '-showfourthord' => undef,
+              '-origfourthord' => undef,
+              '-showabscissa' => 'MeanDis-(mi):number'
+            }
+          ]
+        }, 'Tkg2::DataMethods::DataSet' )
+      ], 'Tkg2::DataMethods::DataClass' ),
+      '-ylmargin' => '32.591',
+      '-canvwidth' => 659,
+      '-bordercolor' => 'black'
+    }, 'Tkg2::Plot::Plot2D' )
+  ],
+  '-y_grid' => [],
+  '-annosymbol_plot_order' => '2',
+  '-scaling' => '0.832360471070148',
+  '-snap_to_grid' => '1',
+  '-tkg2filename' => '/home/wasquith/tkg2/multiplots.tkg2',
+  '-annoline_plot_order' => '3',
+  '-width' => '11',
+  '-fileformat' => 'DataDumper',
+  '-height' => '8.5',
+  '-postscript' => {
+    '-colormode' => 'color',
+    '-fontmap' => undef,
+    '-rotate' => 1
+  },
+  '-undonum' => 4,
+  '-annobox' => [],
+  '-needsaving' => 1,
+  '-annotext' => [
+    bless( {
+      '-anchor' => 'nw',
+      '-username' => '',
+      '-borderwidth' => '0.01i',
+      '-doit' => '1',
+      '-text' => 'References Lines are shown here
+and NOT line annotation.',
+      '-fillstyle' => undef,
+      '-justify' => 'center',
+      '-font' => {
+        '-weight' => 'normal',
+        '-size' => '10',
+        '-slant' => 'roman',
+        '-stackit' => '0',
+        '-family' => 'Helvetica',
+        '-custom1' => undef,
+        '-custom2' => undef,
+        '-rotation' => '0',
+        '-color' => 'black'
+      },
+      '-xorigin' => '224.736',
+      '-outlinecolor' => undef,
+      '-dashstyle' => undef,
+      '-fillcolor' => undef,
+      '-yorigin' => '224.736'
+    }, 'Tkg2::Anno::Text' )
+  ],
+  '-color' => 'white',
+  '-no_update_on_data_add' => undef
+}, 'main' );

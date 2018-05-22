@@ -1,0 +1,134 @@
+
+=head1 THE FILE MENU
+
+This POD file provides detailed description of the B<File> menu available at the top of each template container.  This documentation file is located at B<Tkg2/Help/FileMenu.pod>.
+
+
+=head2 INTRODUCTION
+
+The Tkg2 file menu closely follows the traditional file menu by providing new, open, save, and exit functions.  The menu has the following entries:
+
+ New
+ Open
+ ---------
+ Save
+ Save As (filename requested)
+ Save As (with imported data)
+ HASH Format (preferred)
+   Compact the hash
+ ---------
+ Export
+ ---------
+ Print (postscript)
+ Print and Exit
+ ---------
+ Close
+ Exit Tkg2
+
+=head2 THE ACTIONS
+
+The following are the actions or commands supported by the menu.
+
+=over 4
+
+=item New and Open
+
+The New and Open features work like expected.  New launches the create template dialog box in which the page size of the template is specified.  New functionality is provided by the Tkg2/DeskTop/CreateTemplate.pm module.  Open launches a getOpenFile Tk widget group and the user is provided a familiar dialog box to specify the file to open by Tkg2.  Open functionality is provided by the Tkg2/DeskTop/OpenSave.pm module.
+
+=item Save, Save As, and Formats
+
+The Save and Save As features work like expected.  Save will save the template into the existing file name.  Template has not been given a file name yet, then the Save As is called automatically.  The Save As prompts the user for a file name.  Save functionality is provided by the Tkg2/DeskTop/OpenSave.pm module.  Tkg2 currently supports hash (ASCII) storage. 
+
+
+The Save As (with imported data) hard loads all dynamically loaded data into the file and toggles the embedded switches not to load the data at run-time.  This is a particularly useful feature when one desires to send another Tkg2 user a file without having to ship them the data files.
+
+
+The hash format is the preferred format as the Tkg2 graphics objects are dumped into a hash that is really just Perl code.  The compact switch strips all newlines and padding spaces from the hash format and reduces the Tkg2 objects to the minimal size that is still executable Perl code.  Hand editing of hash format is relatively simple.  Plus, years into the future, this format will still be readable and the image contents derivable even if Tkg2 is not around or long since forgotten.  Archival of data is a very important feature of Tkg2 as everything is ASCII based. The compact the hash option produces the smallest hash possible---no extra 'whitespace'. The compact representation might be useful on some systems for speeding up the initial startup sequence.
+]
+
+=item Exporting
+
+Exporting of Tkg2 files to other formats is not accomplished using a selection list in the Save As like many other applications, but is instead performed through separate interface.  The native export format is postscript as the Tk::Canvas only supports a postscript dump.  Fortunately, there are numerous utilities to convert postscript to other formats.  The are four principle output formats: MIF, PDF, PNG, and PS (postscript).
+
+
+BRIAN LOVING COMMENTS REGARDING PNG.
+Sure:
+
+#Make tkg2 plots in pdf format (tkg2 direct to png has a rotation bug)
+tkg2 -DISPLAY=:1.0  -format=pdf -exportfile=CDFplot.pdf CDF.tkg2 2>tkg2.err
+tkg2 -DISPLAY=:1.0  -format=pdf -exportfile=TSplot.pdf TS.tkg2 2>tkg2.err
+tkg2 -DISPLAY=:1.0  -format=pdf -exportfile=Latencyplot.pdf Latency.tkg2 2>tkg2.err
+
+# Convert pdf files to png for web display 
+rm -f CDFplot.png TSplot.png Latencyplot.png
+gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r100 -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -sOutputFile=CDFplot.png CDFplot.pdf
+gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r100 -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -sOutputFile=TSplot.png TSplot.pdf
+gs -dSAFER -dBATCH -dNOPAUSE -sDEVICE=png16m -r100 -dGraphicsAlphaBits=4 -dTextAlphaBits=4 -sOutputFile=Latencyplot.png Latencyplot.pdf
+
+
+
+
+
+
+
+
+
+Framemaker Interchange Format (MIF) is for importation into Adobe Framemaker.  Framemaker is an incredible application that sadly does not seem to garner the attention that other Adobe products do.  MIF is a very simple ASCII vector graphics format that is highly tagged.  These tags make editing by external scripts much easier than trying to edit postscript directly.  The C<pstoedit> open-source utility is used to convert the Tk postscript to MIF.  Another utility distributed with Tkg2 is the C<tkmiffix.pl> script that provides some adjustments to the C<pstoedit> MIF for better handling for Framemaker importation and graphics editing--this is partially motivated by your author's habits in Framemaker use.  All adjustments to the MIF file performed by the C<tkmiffix.pl> script are identified by comments in the file.  Relevant Tkg2 codes is found in Tkg2/DeskTop/Rendering/RenderMIF.pm, Tkg2/DeskTop/Batch.pm, and Tkg2/DeskTop/Printing.pm.
+
+
+The Portable Document Format (PDF) is a common format that most users should already by familiar with.  In the author's opinion PDF is under utilized for document transmission than it should be compared to MS Word.  PDF generation was originally done by C<pstoedit>, but Ghostscript now provides the postscript to PDF conversion.  Relevant Tkg2 code is found in Tkg2/DeskTop/Rendering/RenderPDF.pm, Tkg2/DeskTop/Batch.pm, and Tkg2/DeskTop/Printing.pm.
+
+
+The Portable Network Graphics (PNG) format is used for the raster export format of Tkg2.  Support for gif will not be provided as PNG is the nature successor of GIF without the patented compression issues.  PNG generation is provided by the C<wpng> utility along with Ghostscript, but this may change in future versions.   Relevant Tkg2 code is found in Tkg2/DeskTop/Rendering/RenderPDF.pm, Tkg2/DeskTop/Batch.pm, and Tkg2/DeskTop/Printing.pm.
+
+
+The postscript (PS) format is the native dump of Tk::Canvas graphics.  At the present time (fall 2000), there appears to be a bug in the postscript output.  This bug involves the translate command in the file.  The first translate command need to be modified to properly support non-8.5x11 page sizes.  The script, C<Tkg2/Util/tkpsfix.pl>, provides a conversion filter.  More research in the postscript generation by Tk is needed.  Relevant Tkg2 code is found in Tkg2/DeskTop/Rendering/RenderPS.pm, Tkg2/DeskTop/Batch.pm, and Tkg2/DeskTop/Printing.pm.  The C<tkpsfix.pl> script writes a debug file in user's home directory titled B<.tkg2_tkpsfix_debug> if an only if this file already exists.  The contents of this file contain the original lines in the postscript file that are now 'fixed' in the postscript file.  You can create the debug file like this:
+
+  
+  % cd ~
+  % touch .tkg2_tkpsfix_debug
+
+
+See discussion in the Printing section of this help page for more information on some of the features provided in the Export dialog box.
+
+
+The C<tkpsfix.pl> fixes many problems, but there are reports of large format printers (HP755CM) wasting copious amounts of paper when printing from Tkg2 with or without the C<tkpsfix.pl> program being run.  Thus, additional tweaks to the postscript output are needed.  Some Tkg2 users report that if they placed the following commands after the C<%%EndComments> line near the beginning or header of the postscript file, the file spooled properly to the printer.
+
+  %%Beginfeature: *PageRegion AnsiC
+  2 dict dup /PageSize [2448 1775] put dup
+  /ImagingBBox null put setpagedevice
+  %%End Feature
+
+It is possible that the two values after the C</PageSize> will require adjustment for specific page sizes or printer dimensions.
+
+
+=item Printing
+
+Printing (see Exporting) is performed by dispatching the the dumped postscript output to a specified printer along the user's printer queue.  The printer queue can be changed using the tkg2rc files.  See the Tkg2rc.pod for more details.  The printers are determined by the tkg2rc files or the C<lpstat -v> command on Solaris.  On unix there are a few variations on the printing queue.  For example, Solaris uses 'lp', while Linux uses 'lpr'.  Another popular print utility is 'pdq'  For this reason, Tkg2 consults a environment variable $PRINTER_QUEUE to determine the command to use to spool Tkg2 files.  In the absence of the variable, Tkg2 uses C<lp -c>.  Relevant Tkg2 code is found in Tkg2/DeskTop/Rendering/RenderPS.pm, Tkg2/DeskTop/Printing, Tkg2/Tkg2rc.pm, and Tkg2/DeskTop/Batch.pm.
+
+
+There are four additional printing options that are set below the selection of the printer.  First, two options (no rotate or 90 rotate) of postscript orientation are provided.  Tkg2 usually defaults to the most appropriate for printer spooling, but in the export dialog box, one might want to turn off.  This is especially true for non-postscript exporting.
+
+
+Second, two options (rescale fonts or do not rescale fonts) on the canvas are provided.  The default is for fonts to be rescaled.  The Tk canvas on which Tkg2 renders graphics is not quite as advanced as one would want so zooming in and out is not easy.  For this reason, Tkg2 has a --zoom multiplier on font sizes to make fonts readable on the screen.  However, when one goes to print a file, this zooming on the font size is not desirable.  Tkg2 temporarily sets the global variable --zoom to unity, redraws the canvas, spools to the printer, and then redraws the canvas with the original --zoom setting.  If your canvas is huge, redrawing might be irritating, but this is a nice feature to have as default.
+
+
+Third, two options (bypass the postscript correction script or not) on postscript postprocessing are provided.  See the discussion in the Exporting section of this help page.
+
+
+Fourth, two options (color or mono) on the postscript rendering are provided.  Use color if you want color in the postscript or use mono if you do not want color.  Tk supports greyscale, but there appears to be a bug on some systems(?), so Tkg2 does not provide this utility as of August 2001.
+
+
+=item Exiting
+
+The Close action exits the current template with confirmation, but does not entirely exit Tkg2.  The Exit Tkg2 action exits all templates and Tkg2 entirely.  The Exit action is not provided in the menu when the --nomw commandline option is used.  Relevant code is found in Tkg2/DeskTop/Exit.pm.
+
+=back
+
+=head2 FURTHER DISCUSSION
+
+The Tkg2/MenusRulersScrolls/Menus.pm module generates the actual menus seen.  One of the great design features of Tkg2 is that the main dialog is small and easily shuffled on the desktop and each Tkg2 template is in its own window and entirely self sufficient.
+
+
+
+Z<>

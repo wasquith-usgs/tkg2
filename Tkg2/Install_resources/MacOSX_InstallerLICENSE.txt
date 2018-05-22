@@ -1,0 +1,30 @@
+tkg2.pl (and all related modules)
+
+            This program is absolutely free software; 
+
+Author of this software makes no claim whatsoever about suitability, reliability, editability or usability of this product. If you can use it, you are in luck, if not, I should not be and can not be held responsible. Furthermore, portions of this software (tkg2 and related modules) were developed by the Author as an employee of the U.S. Geological Survey Water-Resources Division, neither the USGS, the Department of the Interior, or other entities of the Federal Government make any claim whatsoever about suitability, reliability, editability or usability of this product.
+
+----------------------------------------------------------------------------
+
+Water Resources Applications Software 
+
+U.S. Geological Survey Software 
+
+User's Rights Notice 
+
+If you distribute copies or modifications of U.S. Geological Survey (USGS) software and related material, make sure the recipients receive a copy of this notice and receive or can get a copy of the original distribution. If the software and (or) related material are modified and distributed, it must be made clear that the recipients do not have the original and are informed of the extent of the modifications. For example, modified files must include a prominent notice stating the modifications, author, and date. This restriction is necessary to guard against problems introduced in the software by others, reflecting negatively on the reputation of the USGS. 
+
+The software is public property.
+
+You may charge fees for distribution, warranties, and services provided in connection with the software or derivative works thereof. The name USGS can be used in any advertising or publicity to endorse or promote any products or commercial entity using this software if specific written permission is obtained from the USGS. 
+
+The user agrees to appropriately acknowledge the authors and the USGS in publications that result from the use of this software or in products that include this software in whole or in part. 
+
+Because the software and related material is free (other than nominal materials and handling fees) and provided "as is", the authors, USGS, or the United States Government have made no warranty, expressed or implied, as to the accuracy or completeness and are not obligated to provide the user with any support, consulting, training or assistance of any kind with regard to the use, operation, and performance of this software nor to provide the user with any updates, revisions, new versions or "bug fixes." 
+
+The user assumes all risk for any damages whatsoever resulting from loss of use, data, or profits arising in connection with the access, use, quality, or performance of this software. 
+
+Notice taken from
+USGS Water Resources Applications Software Page 
+The URL for this page is http://water.usgs.gov/software_notice.html/ 
+This page is maintained by <h2osoft@usgs.gov> 

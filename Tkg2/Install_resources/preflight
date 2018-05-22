@@ -1,0 +1,28 @@
+#!/usr/bin/perl
+
+print "This is the Tkg2 PERL-based preflight script.\n";
+
+my $x11 = "/Applications/Utilities/X11.app";
+print "   Perl is testing whether X11.app is in the expected location ..."; 
+if(! -d  $x11) {
+  print "    \nERROR: The X11.app is not available where expected at '$x11',\n",
+        "      the preflight script concludes that X11.app is not available\n",
+        "      for the potential host machine.\n";
+  exit(1);
+}
+print " DONE.\n";
+
+my @LIBS = qw(Tk Tk::POD Tk::JPEG Date::Calc Date::Manip);
+foreach my $lib (@LIBS) {
+  print "   Perl is test loading the '$lib' module ...";
+  unless(eval "require $lib") {
+      print "    \nERROR: Perl could not find the '$lib' module\n".
+            "             CONSULT CPAN: www.cpan.org or www.perl.org\n",
+            "             for information about module installation\n";
+      exit(1);
+  }
+  print " DONE.\n";
+}
+print "The preflight script is exiting successfully.\n";
+exit(0);
+

@@ -1,0 +1,99 @@
+
+=head1 THE PLOT MENU
+
+Detailed description of the B<Plot> menu is provided below.  This documentation file is located at B<Tkg2/Help/PlotMenu.pod>.
+
+=head2 INTRODUCTION
+
+The Tkg2 plot menu is used to create and otherwise edit plots on the canvas.  The menu has the following entries:
+
+ Add Plot by Dragging
+ Add Plot by Editor
+ ---------
+ Select Plot
+ Plot Editor
+ X-Axis Editor
+ Y-Axis Editor
+ Y2-Axis Editor
+ ---------
+ Copy Plot
+ Cut Plot
+ Paste Plot
+ Delete Plot
+ ---------
+ Raise Plot
+ Lower Plot
+ ---------
+ Show explanation
+ Hide explanation
+ Auto axis configuration ON
+ Auto axis configuration OFF
+
+=head2 THE ACTIONS
+
+The following are the actions or commands supported by the menu.
+
+=over 4
+
+=item Adding a Plot
+
+Plots can be added to the canvas by two methods.  The first method, 'Add Plot by Dragging' is by dragging the mouse with start and ending clicks of the first mouse button.  In this way, a plot is created in an interactive fashion.  The second method, 'Add Plot by Editor' is by launching the Plot Editor, setting the margins, and hitting the OK button.  Either method is identical in its results.  Multiple plots are easily create.  Creating one or more plots automatically from the command line is also possible, see the --mktemp and --mkplot command line options.  Command line options are reviewed by typing 'tkg2 --help' at the command line.
+
+=item Select Plot
+
+The select plot feature provides a scale or selection dialog for the plots.  The scale identifies all plots that are on the canvas, whether visible or not.  This is an important feature, because it provides a means to grab and edit plots otherwise untouchable by the mouse.  Examples of untouchable plots include plots that were made too small, or plots in which the -doit checkbutton has been turned off (see the Plot Editor).
+
+=item Plot Editor
+
+The plot editor is used to edit plot-wide parameters such as margins, background color, or border thickness.  The plot editor is a relatively complex dialog box that controls many features.  Thus, the plot editor is not discussed in detail here, (see Tkg2/Help/PlotEditor.pod file).
+
+=item Axis Editors
+
+The axis editors are used to edit axis specific parameters such as minimum and maximum limits, tick lengths, or axis titles.  The axis editors are relatively complex dialog boxes with many features.  Thus, the axis editors are not discussed in detail here, (see Tkg2/Help/AxisEditor.pod file).
+
+=item Copy, Cut, Paste, and Delete
+
+The common editing operations of copying, cutting, pasting, and deleting a plot are performed here and not in the Edit menu.  The partial motivation for this is that the editing functions for a major drawing object (a plot) are compartmentalized with other plot editing features.  Also, you author has not figured out a suitably simple way in which to implement general cut, copy, paste, and delete functions in the Edit menu.
+
+
+A plot must be selected first for these operations to work.  A plot is selected by clicking the first mouse button once somewhere in the interior of a plot or using the Select Plot feature.  When a plot is pasted a small horizonal and vertical offset to the right and down is made.  The plot will have to be moved by clicking with the third mouse button.  It is not currently possible to paste a plot at the current location of the mouse.
+
+=item Raising and Lowering Plots
+
+Raise plot and lower plot are simply means to change the drawing order of the selected plot.  See the previous section on selecting a plot.  A bring to front or move to back feature is not provided as these have been deemed unnecessary.
+
+=item Show explanation
+
+Toggle the explanation I<on> for the selected plot.  A similar action is found in the Data menu, but operates on all plots on the screen.  This is can also be performed, and historically was, by the Explanation tab in the PlotEditor (double-left click on plot).
+
+=item Hide explanation
+
+Toggle the explanation I<off> for the selected plot.  A similar action is found in the Data menu, but operates on all plots on the screen.  This is can also be performed, and historically was, by the Explanation tab in the PlotEditor (double-left click on plot).
+
+=item Auto axis configuration ON
+
+Toggle all the automatic axis configurations I<on> for the selected plot.  A similar action is found in the Data menu, but operates on all plots on the screen.  This is can also be performed, and historically was, by the Plot tab in the PlotEditor (double-left click on plot) or in the AxisEditors (double-left click on an axis).
+
+=item Auto axis configuration OFF
+
+Toggle all the automatic axis configurations I<off> for the selected plot.  A similar action is found in the Data menu, but operates on all plots on the screen.  This is can also be performed, and historically was, by the Plot tab in the PlotEditor (double-left click on plot) or in the AxisEditors (double-left click on an axis).
+
+=back
+
+=head2 FURTHER DISCUSSION
+
+Much of the editing code is found in C<Tkg2/MenusRulersScrolls/Menus.pm> which then calls methods:
+ 
+ Tkg2/Plot/Editors/ContinuousAxisEditor.pm
+ Tkg2/Plot/Editors/DiscreteAxisEditor
+ Tkg2/Plot/Editors/PlotEditor.pm.
+
+Relavent code to moving or resizing a plot around the screen is: 
+
+ Tkg2/Plot/Movements/DraggingPlot.pm
+ Tkg2/Plot/Movements/MovingPlot.pm
+ Tkg2/Plot/Movements/ResizingPlot.pm.
+
+
+
+Z<>

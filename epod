@@ -1,0 +1,50 @@
+#!/usr/bin/perl -w
+use strict;
+use Tk;
+use vars qw($MW $TL_FILES %FILES $EDITOR $font);
+
+$font = "Fixed  9 normal";
+$EDITOR = (@ARGV) ? shift() : 'nedit';
+
+$MW = MainWindow->new(-title => "PID $$");
+$MW->geometry("-20+0");  # upper right corner
+&MainDialog();
+&MainLoop;  # LAUNCH THE TK EVENT LISTENER, AMONG MANY OTHER THINGS
+
+sub MainDialog {
+   foreach my $file (qw(About.pod
+                        AddDataFile.pod
+                        AnnoMenu.pod
+                        CmdLine.pod
+                        CmdLineSummary.pod
+                        ContinuousAxisEditor.pod
+                        DataClassEditor.pod
+                        DataMenu.pod
+                        DataSetEditor.pod
+                        DiscreteAxisEditor.pod
+                        EditMenu.pod
+                        Environment.pod
+                        faqs.pod
+                        FileMenu.pod
+                        GeneralUtilities.pod
+                        info.pod
+                        Instructions.pod
+                        main.pod
+                        NewFor.pod
+                        NWISUtilities.pod
+                        PlotEditor.pod
+                        PlotMenu.pod
+                        SettingsMenu.pod
+                        Tkg2rc.pod                  
+                   )) {
+      $MW->Button(-text     => "$file",
+                  -font     => $font,
+                  -width    => 25,
+                  -command  => sub { my $pathfile = "Tkg2/Help/$file";
+                                  system(" $EDITOR $pathfile & "); } )
+         ->pack;
+   }
+   $MW->Button(-text    => 'EXIT',
+               -fg      => 'red',
+               -command => sub { exit; } )->pack;
+}

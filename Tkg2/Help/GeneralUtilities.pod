@@ -1,0 +1,280 @@
+
+=head1 GENERAL UTILITIES
+
+This POD file provides description of the external utilities that are shipped with the tkg2 distribution that are specifically written to do neat stuff, to make tkg2 more powerful, and to make your job easier.  This documentation file is located at B<Tkg2/Help/GeneralUtilities.pod>.
+
+
+There is a very important caveat that needs description.  The tkpod utility for viewing POD files does not display the underscore '_' in first or second headings or when the next is bold face.  Some of the utilities described below have underscores in their name.  The usage examples shown below should correct any confusion.
+
+
+Most of the utilities described in the following sections have soft links in /usr/local/bin pointing back to the Tkg2/Util directory structure.  The motivation of course is that /usr/local/bin is likely to be on the user's C<$PATH> variable.  The following soft links are created by the Tkg2 RPM distribution in /usr/local/bin.
+
+  
+  checktkg2time.pl
+  daysbetween.pl
+  dtgaprdb.pl
+  rdb_dt2d_t.pl
+  rdb_ymd2d_t.pl
+  rdbtc.pl
+  strip_nonzero_from_rdb.pl
+  sumtkg2log.pl
+
+and the following soft links are created to add in rapid creation of multiple plots per template.
+
+  
+  tkg2p2.pl
+  tkg2p3.pl
+  tkg2p4.pl
+  tkg2pd2.pl
+  tkg2pd3.pl
+  tkg2pd4.pl
+
+
+Your system administrator will probably not have /usr/local/Tkg2/Util set along your PATH.  You can do this yourself on a per terminal basis or you could modify one of your rc files in your home directory.  The C<.bashrc> is used by the Bash shell.
+
+
+For Bash shell users, to view and then to set the path if needed:
+
+ 
+  echo $PATH
+  export PATH="$PATH:/usr/local/Tkg2/Util"
+
+For C-shell users, to view and then to set the path if needed:
+
+   
+  echo $PATH
+  setenv PATH "$PATH:/usr/local/Tkg2/Util"
+
+
+In the C<.bashrc> file, you can insert the above export command after the system profile rc files are called.  This usually means that you need to place the export near the end of the file.  Contact your system administrator for assistance.
+
+
+=head2 UTILITIES IN Tkg2/Util
+
+=over 4
+
+=item checktkg2time.pl
+
+This script can be used to check whether or not a specific date-time format can be properly parsed by Tkg2.  Tkg2 can handle a huge variety of date-time formats because it uses the C<ParseDateString> subroutine of the Date::Manip module.
+
+  
+  checktkg2time.pl 10.04.1969
+
+
+You should see that the test date '10.04.1969' parsed to '1969100400:00:00'.
+
+
+=item daysbetween.pl
+
+This utility is a quick to compute the floating point offset of the number of days between two dates provided on the command line.  The -help command line option provides further details.
+
+
+The offset can be useful in determining the date-time offset for Tkg2 or other software.  For example, it is often convenient to plot two hydrographs for different locations on the same river in an over lapping fashion.  The C<daysbetween.pl> program could compute the offset between the flood peak times and provide a better offset than just guessing.
+
+ 
+  daysbetween.pl date1 date2
+
+
+=item dtgaprdb.pl
+
+A utility to insert fake missing records based on defined jumps of time for RDB files.  C<dtgaprdb.pl> takes an RDB file and if and only if there is a column that case insensitively matches DATE or TIME, scans the file and inserts fake missing values and a fake time stamp if the interval between two consecutive date-time values is larger than a user defined value. This is a handy utility because Tkg2 does not know how to read file headers to determine whether or not a file has a constant time step.  The fake missing values line cause Tkg2 to 'lift the pen' when drawing line points.
+
+  
+  dtgaprdb.pl --help
+
+
+=item ldat
+
+The script provides a convenient means to list *.dat and *.txt files for editing by nedit (default) or the editor of your choice.  The files are found by recursive finding of all *.dat or *.txt files from the directory of execution downward.  The *.dat files are listed by default or the C<-d> command line option and *.txt files are listed by the C<-t> command line option.  The editor is as a command line argument.
+
+  
+  ldat -t xemacs
+
+
+Launches a list box showing *.txt files and xemacs is used to edit them.
+
+  
+  ldat
+
+
+Launches a list box showing *.dat files and nedit is ued to edit them.  The ldat utility has very little to do with Tkg2, but is a handy tool never the less and I will know that it will be available on platforms with Tkg2 installed.
+
+
+=item leapyears.pl
+
+This script lists each year between 1900 and 2050 and reports whether or not the year is a leap year.  You can really get clever with a quick grep.  You will have to call this program explicitly using the full path.
+
+  /usr/local/Tkg2/Util/leapyears.pl | grep 1969
+  1969 no
+
+
+=item lineindex.pl
+
+This script inserts the index or line count of each 'data' record on the left-hand side of the data file.  The word INDEX is used for each label line in the file.  Lines beginning with # are not modified.  The file delimiter is user specified using a prompt along standard error.  The number of label lines is also user specified.  A null label line count from the user is treated as 1.
+
+
+  lineindex.pl  data_file.dat  > data_file_with_index.pl
+
+
+This program is handy if you need to fake a time series plot an you only have the data columns.
+
+
+=item rdbtc.pl
+
+This script takes an RDB file piped along standard input and converts any and all date columns (designated by a 'd' or 'D' in the format line) to the Tkg2 internal date-time representation along standard output.  The Tkg2 internal date-time representation is fractional days since 19000101.  Considerable overhead is required inside Tkg2 to parse date-time strings, the C<rdbtc.pl> script provides you a way to bypass the parsing if you know what the format of the date-time strings in your data files are.  A quasi-compliant RDB file is created but is certainly readable by Tkg2.  The script requires Tkg2/Util/RDBtools.pm.
+
+
+  rdbtc.pl -h
+
+
+Launches the built in help.
+
+  
+  cat my.rdb | rdbtc.pl 'MM/DD/YYYY@HH:MM:SS' \ 
+      > my_converted.rdb
+
+
+=item rdb_dt2d_t.pl
+
+A number of RDB files have the DATE and the TIME component in separate columns.  This is unacceptable to the Tkg2 data model that was developed early on.  Instead of writing or developing a cumbersome interface within Tkg2 to handle this, the C<rdb_dt2d_t.pl> script was developed for preprocessing.  C<rdb_dt2d_t.pl> takes an RDB file and if and only if there is a DATE field and a TIME field these columns are replaced with a single DATE_TIME field.  The script requires Tkg2/Util/RDBtools.pm.
+
+  
+  rdb_dt2d_t.pl -h
+
+
+Launches the built in help.
+
+  
+  rdb_dt2d_t.pl orig.rdb > my_converted.rdb
+  
+  cat my.rdb | rdb_dt2d_t.pl \ 
+      > my_converted.rdb
+
+
+=item rdb_ymd2d_t.pl
+
+The script is very similar to the C<rdb_dt2d_t.pl> described above.  A number of RDB files have the YEAR, MONTH, DAY, and option TIME fields in separate columns.  Again, this is at odds with the Tkg2 data model.  C<rdb_ymd2d_t.pl> takes an RDB file and if and only if there is are YEAR, MONTH, DAY fields and an optional TIME field these columns are replaced with a DATE_TIME field.  The script requires Tkg2/Util/RDBtools.pm.
+
+  
+  rdb_ymd2d_t.pl -h
+
+
+Launches the built in help.
+
+  
+  rdb_ymd2d_t.pl orig.rdb > my_converted.rdb
+
+  cat my.rdb | rdb_ymd2d_t.pl \
+      > my_converted.rdb
+
+
+=item RDBtools.pm
+
+A module with many RDB specific methods for development of RDB utilities for Tkg2.
+
+
+=item strip_nonzero_from_rdb.pl
+
+Occassionally, one encounters very large RDB files with many zero values.  It can be desirable to remove the zero values before plotting or otherwise processing the data.  This program reads a RDB file or reads standard input and prints to standard output only the records with a non-zero value in the VALUE field.  The field identifier VALUE is hard wired and can only be changed by modifying the program itself.
+
+  
+  strip_nonzero_from_rdb.pl original.rdb > my_converted.rdb
+
+  cat my.rdb | strip_nonzero_from_rdb.pl > my_converted.rdb
+
+
+=item sumtkg2log.pl
+
+The script summarizes the B</tmp/tkg2.log> file.  The number of users is determined as well as the number of executions of Tkg2 for each.  Tab delimited output suitable for time series plotting is produced showing the number of executions per day.  Summary statistics are also reported.  The output is quasi-RDB compliant.
+
+  
+  sumtkg2log.pl > grabbed_output.rdb 
+
+
+=item tkg2lines.pl
+
+The script can be used to see what line thickness resolution is possible and that the postscript options is working on default printer.  The script was developed during the early stages of Tkg2 development for testing what line thicknesses where distinguishable when the postscript was rendered.
+
+=item tkmiffix.pl
+
+A postprocessing script that enhances the Framemaker Interchange Format.  By default this script is executed on all MIF format exports from Tkg2, but it can be toggled off.
+
+=item tkpsfix.pl
+
+A postprocessing script that fixes 'bugs' in the Postscript output from the Tk tool kit.  It is unknown whether there really are bugs in the Postscript, but this script makes some adjustments to the C<%PageSize> region of the Postscript file to make printers work better.  The original portions of the file are written to a B<.tkg2_tkpsfix_debug> file in the user's home directory if and only if this file exists.  By default this script is executed on all Postscript format exports from Tkg2, but it can be toggled off.
+
+=item ps2png.pl
+
+A Postscript to PNG format conversion utilities based on Ghostscript and other dependencies described in the script.
+
+=item xvfb_driver.pl
+
+The Tk toolkit requires a connection to an X server in order to work.  This implies that a DISPLAY variable must be set.  This is a major restriction if one desires to run Tkg2 in a C<cron> job fashion.  The Xvfb (X virtual frame buffer) program is a possible option.  Your author does not have much experience with this like others have, but the C<xvfb_driver.pl> script should provide a starting point in using Xvfb.
+
+=back
+
+=head2 UTILITIES in Tkg2/Util/PreMades
+
+The utilities here are extremely short scripts that build up a Tkg2 command line to create portrait or landscape sheets with one or more plots on them.  There are no command line options for these utilities.  You can run the usually Tkg2 command line options through these.  These utilities require that your system supports the C<exec> command in Perl--all Unix-like do.
+
+
+The 'p' in the script name denotes a portrait (8.5x11 inch) page; whereas the 'l' denotes a landscape (11x8.5 inch) page.  The pagesize is set by the --mktemp Tkg2 command line options.  The 'd' in the name reflects a 0.5 inch vertical spacing between the plots.  If the 'd' is is not present, then there is a 0.25 inch vertical spacing between the plots.  The right and left margins of the plots are 1.5 and 1 inch, respectively.  The upper margin of the upper or top plot is 1 inch and the bottom margin of the bottom or lower plot is 1.5 inches.  The lower margin is bigger so that a figure title can be inserted.  The 0.25 inch space plots are intended for situations in which all of the X axis are the same type and will have the same range.  The axis title can labeling can readily be turned off.  The plots are set by multiple --mkplot=#x#x#x# command line options.
+
+
+Finally, a neat feature is that the AddDataFile dialog box is provided for each plot, and the applicable plot dimensions are shown at the top of the dialog box.  
+
+=over 4
+
+=item tkg2p2.pl
+
+ Tkg2_PreMade, Tkg2/Util/PreMades/tkg2p2.pl:
+   /usr/local/bin/tkg2 -mktemp=portrait
+                       -mkplot=1.5x1x1.000x5.875
+                       -mkplot=1.5x1x5.375x1.50
+
+=item tkg2p3.pl
+
+ Tkg2_PreMade, Tkg2/Util/PreMades/tkg2p3.pl:
+   /usr/local/bin/tkg2 -mktemp=portrait
+                       -mkplot=1.5x1x1.0000x7.3333
+                       -mkplot=1.5x1x3.9167x4.4166
+                       -mkplot=1.5x1x6.8333x1.5000
+
+=item tkg2p4.pl
+
+ Tkg2_PreMade, Tkg2/Util/PreMades/tkg2p4.pl:
+   /usr/local/bin/tkg2 -mktemp=portrait
+                       -mkplot=1.5x1x1.0000x8.0625
+                       -mkplot=1.5x1x3.1875x5.8750
+                       -mkplot=1.5x1x5.3750x3.6875
+                       -mkplot=1.5x1x7.5625x1.5000
+
+=item tkg2pd2.pl
+
+ Tkg2_PreMade, Tkg2/Util/PreMades/tkg2pd2.pl:
+   /usr/local/bin/tkg2 -mktemp=portrait
+                       -mkplot=1.5x1x1.00x6
+                       -mkplot=1.5x1x5.50x1.50
+
+=item tkg2pd3.pl
+
+ Tkg2_PreMade, Tkg2/Util/PreMades/tkg2pd3.pl:
+   /usr/local/bin/tkg2 -mktemp=portrait
+                       -mkplot=1.5x1x1.00x7.50
+                       -mkplot=1.5x1x4.00x4.50
+                       -mkplot=1.5x1x7.00x1.50
+
+=item tkg2pd4.pl
+
+ Tkg2_PreMade, Tkg2/Util/PreMades/tkg2pd4.pl:
+   /usr/local/bin/tkg2 -mktemp=portrait
+                       -mkplot=1.5x1x1.00x8.25
+                       -mkplot=1.5x1x3.25x6.00
+                       -mkplot=1.5x1x5.50x3.75
+                       -mkplot=1.5x1x7.75x1.50
+
+=back
+
+
+
+Z<>

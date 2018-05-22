@@ -1,0 +1,241 @@
+
+=head1 FREQUENTLY ASKED QUESTIONS -- FAQs
+
+=head2 Are there any web resources for Tkg2?
+
+ http://tx.usgs.gov/usgs/tkg2
+ http://wwwnwis.er.usgs.gov/graphics/nwisgraphics.htm
+ http://wwwqvarsa.er.usgs.gov/unix/solaris/tkg2.html
+
+=head2 I am having two problems with Tkg2 for some users.  Tkg2 graphs appear briefly and then disappear when tkg2 is forked from another process, and Tkg2 graphs disappear when run by itself.
+
+This is a known problem with Tkg2 and Reflection X (X-client software).   As a short term solution, check the font order in the Client Manager -> Setup -> fonts and make sure 100dpi comes before 75dpi.  This change seems to get things running.
+
+=head2 My saved tkg2 files keep reconfiguring my custom settings whenever I open them--I don't want this to happen.
+
+Tkg2 has a different approach to graphics handling.  Tkg2 is geared for the batch processor, scriptor, and the person who want to avoid repetitive tasks.  Tkg2 believes that it should be a markup engine on data files that are likely to change often.  By providing the best behavior for change data files on default, the user is alerted to a different perspective of data plotting, research, and exploratory analysis.  Hence, each axis is set for automatic configuration.  This can be disabled by the following checkbuttons that are found on the axis editors (double left click on an axis) or in the plot editor (double left click inside a plot).
+
+ 
+  Autoconfigure *-Axis Limits: [] Minimum  [] Maximum  []Center?
+
+As you can see, minimums and maximums can be treated separately.  Often in environmental sciences, zero is the physical minimum for a plot, and one does not want tkg2 to configure an axis (linear only) with negative numbers.  Setting a hard zero is done by setting the axis minimum to zero and toggling the minimum checkbutton off.  Center is used to center the origin line on the axis during the autoconfiguration--a neat feature for residual plots common in regression analysis.
+
+=head2 Can Tkg2 do multiple Y-axis plots with different data?
+
+Yes.  First create a plot and add some data to it.  By default the data is placed on the first (left) Y axis".  Next add more data to said plot, but click on the "Data for Second Y Axis" just below the plot type specification on the AddDataToPlot Dialog box.  The incoming data is now placed on the second or right Y-axis.  You can not add data to the second Y axis before data is added to the Y axis.  Each axis, dubbed Y1 and Y2, are fully and independently configurable.  You might be interested in the next FAQ.
+
+=head2 Can Tkg2 draw a second Y-axis in order to show different units for the same data?
+
+Yes.  An example plot would be a time series of ground water elevations above sea level simultaneous with a depth below land surface axis.  The data is the same, just a transformation to the other axis is needed.
+
+First create a plot and add some data to it.  By default the data is placed on the first (left) Y axis".  Now double click on the Y-axis.  Toggle the "Double Label" checkbutton on.  Edit the "Label Transform Equation" entry field on the axis editor.  Here is an example:
+
+ 
+ Different Label;5*$x+10
+
+If a semicolon is present, the preceeding string is used as the
+second label.  The equation following is the conversion or transformation of the label values on the left axis to label values on the right axis.  As shown on the dialog box, $x (dollar sign x) is a surrogate for the tick values along the axis.  Separate tick control on the second labeling is not currently available.  This type of I<independent> double labeling is only supported on linear and log axis plots.  Transformation is also possible on the X axis too, but much less common.
+
+=head2 I am using tkg2 across a slow network.  Do I have other options?
+
+Possibly.  Remote display of graphics only is usually slow, but still acceptable.  However, if tkg2 is then used in an interactive fashion to reconfigure objects, such as plots, it would be best if the user did a "Save As (with imported data)" from the file menu.  Then the user sftp's the tkg2 file to their local machine.  Tkg2 files are relative small without data, so transfer times are tremendously faster than graphics and not much slower than downloading data files from the remote machine.  Then the user would launch tkg2 locally and open their files.  For example,
+
+ 
+  %user@local: tkg2 ratplot_file_with_loaded_data.tkg2
+
+Tkg2 can read pipes of data.  Hence, networking of tkg2 processes is possible, not recently tested, not ever tested with secure shell, and not implemented by the graphics team at this time.  Here is what the tkg2 help says (-withdraw is the key as the remote server does not pipe graphics across the network):
+
+ 
+ --display=[host]:server[.screen] or
+ --DISPLAY=[host]:server[.screen]
+        The display that tkg2 is to operate under can be changed
+        if and only if --display is the very first command line
+        option.  Tkg2 requires some special internal handling
+        of display before the other command line options can be
+        processed.  Using --display allows variations on the
+        following remote shell application:
+           % tkg2 -stdout -withdraw -autoexit -importdata \
+           tkg2file.tkg2 | rsh server.domain \
+           "tkg2 -display=local:0.0 -stdin"
+        This is a clear example of the shear power provided by
+        simple redirection of STDOUT and STDIN channels, and
+        why all good software should have both graphical and
+        commandline interfaces.
+
+=head2 The font size in dialog boxes is too small or too large to read on my screen.  Can I change this?
+
+Yes. You will need to create or modify your .tkg2rc file in your home directory or have your system administrator modify tkg2's system level tkg2rc file if numerous users have problems seeing the fonts.  The default font size is oddly dependent on the X-server/client relationship.  The details are vague at best, but the fix is to increment the font size up or down as needed.  This is done with the
+
+ 
+ Tkg2*increment_dialog_fonts:  number
+
+resource in the tkg2rc files.  For a my laptops, set number to 3, which gives me very large and easily readable letters and numbers.  The underscores are mandatory.  The capital T in Tkg2 is mandatory too.
+
+
+=head2 I can't read the dialog boxes, white text on white backgrounds and I am using Solaris with the CDE desktop.
+
+In CDE on the Sun, if you select a palette in the style manager that has a dark xterm/window background, the text automatically changes to white.  Then any software with light backgrounds become almost impossible to read.  This works for Framemaker, apparently TKG2, and another I can't remember.  The only fix we found was to change the window background to a lighter color so the text stays black.
+
+=head2 Tkg2 crashes Reflection X.
+
+Suggest removing the 100dpi and 75dpi from the fonts for reflection settings.  If you do this and are a user of AIS, the AIS menu's are very ugly.  What we found worked was to move the 75dpi to later in the list (100dpi we did remove) and that things worked fine.
+
+=head2 Can Tkg2 left the pen on line plots?  I have missing data, but this fact is not reflected in the data files.
+
+Tkg2 is not smart enough to test of incremental stepping of your data.  This includes time series too.  Tkg2 will 'lift' the pen if and only if one or more missing values are encountered in the data file.  Tkg2 has no mechanism to ask itself, if the data is say daily values and there is a break of two or more days.  We are inserting missing fields for our groundwater level plots in Texas for the data reports.  Here is example
+
+ 
+  DATE  Q
+  10/01/1969   45
+  10/02/1969   50
+  10/03/1969   --
+  10/04/1969   55
+
+The pen is thus lifted on Oct 3rd if the missing value string is set
+to '--'.  You might have to preprocess your data to find the gap around Oct 3rd.  Tkg2 implementation of the pen lifting in this fashion provides logical extension to non-time series data.
+
+=head2 Could I have a tutorial on batch processing tkg2?
+
+Batch processing with tkg2 is really easy once you do it the first time, and incredibly complex or advanced scripting can be done.  Tkg2 is suitable for use as a graphics engine on top of data bases--as long as data base produces nice ASCII files.  The easiest model to to create your 'template' on temporary or junk file names of your data.  Search your example tkg2 file for '-relativefilename'.  If that name points to a temporary file, then you can script something like this.
+
+1) You want three plots.  You have three files for station X.
+  sta08177600_daily.rdb
+  sta08177600_mean.rdb
+  sta08177600_rain.rdb
+
+2) You want to create generic tkg2 file to plot this type of data.
+
+3) copy these files to some temporary names
+   copy("sta08177600_daily.rdb", "TMP_daily.rdb");  # daily mean streamflow (daily values)
+   copy("sta08177600_mean.rdb", "TMP_mean.rdb");    # mean daily streamflow
+   copy("sta08177600_rain.rdb", "TMP_rain.rdb");    # daily rainfall
+
+4) Create your tkg2 plot(s) using the TMP* files.  Call the created file: joes_plots.tkg2
+
+5) Make sure that you are using relative paths and dynamic loading of data (these are defaults so you don't have to do anything).
+
+6) Write a wrapping script.
+   % touch joes_plots.pl        # create the file
+   % chmod 755 joes_plots.pl    # make it executable
+   % nedit joes_plots.pl        # nedit is my favorite editor
+
+In joes_plots.pl type this
+
+  #!/usr/bin/perl -w
+  use strict;
+  use File::Copy;
+  die "Please provide station number on command line\n" unless(@ARGV);
+  my $station = shift(@ARGV);
+  my $daily = "sta".$station."_daily.rdb";
+  my $mean  = "sta".$station."_mean.rdb";
+  my $rain  = "sta".$station."_rain.rdb";
+  print "Using these files: $daily\n $mean\n  $rain\n";
+  my $tmpdaily = "TMP_daily.rdb";
+  my $tmpmean = "TMP_mean.rdb";
+  my $tmprain = "TMP_rain.rdb";
+
+  copy($daily, $tmpdaily);
+  copy($mean, $tmpmean);
+  copy($rain, $tmprain);
+
+  system("tkg2 --justdisplayone joes_plots.tkg2");
+
+  unlink($tmpdaily, $tmpmean, $tmprain);  # delete the tmp files
+  exit;
+  #EOF
+
+Ok that should do it.  Now you need to figure out how to get your data in to the sta########_*.rdb name.  Your users do this, then type joes_plots.pl 08177600 and off you go.
+
+=head2 PDF looks bad.
+
+Tkg2 uses GhostScript to convert the Postscript to PDF and does not have its own PDF rendering engine.  The most usual problem is that some fonts get bitmapped instead of rendered.  At other times all text lines with a hyphen will get bitmapped and not rendered.  This is not a Tkg2 bug, but appears to be a bug in GhostScript?  Your author does not know.  This appears to be a bug in GhostScript postscript to PDF generation because Postscript to printers looks good every time--Fonts are never bitmapped.  As a fix, could you possibly important the postscript to Illustrator and save as PDF there?
+
+
+=head2 Text rotation is possible when using Framemaker.
+
+By default tkg2 will run a /usr/local/Tkg2/Util/tkmiffix.pl script on the raw outputted mif.  The mif is generated from the pstoedit command from the postscript that tkg2 produces.  Tkg2 only produces postscript--conversion provided by external utilities.  If you are heading to Frame you can hack the rotation by adding a string like the following to ANY line of text including the Y-axis label.
+
+ 
+  <Angle 90>, <ang90>, <Ang90>,
+
+So on the screen your Y-axis title might look like this.
+
+ 
+  Y-DATA<Ang90>
+
+Note, have to have the text stacking turned off.
+
+Now if you export this to mif, the text will be rotated 90 degrees counterclockwise.  The caveat is that each line of text requires rotation.
+
+ 
+  FLOW,<Ang90>
+  IN CFS<Ang90>
+
+Yet another problem is that the rotation occurs on the upper left hand corner of the text and not in the center.  I can not get around this at the present time.  You will have to reposition the text as necessary to get the rotation to come out right--experimentation by you is required.  Also manual editing from Frame might be needed, but that is not too hard to time consuming.  You might prefer to delete the title for the Y-axis in favor of using Text Annotation as you have greater flexibility in position control.
+
+
+=head1 NWIS/ADAPS FAQs
+
+=head2 Shift Analysis Plotting
+
+While generating a shift analysis and shift-bar plot and graph for station "05514840 Dardenne Creek at O'Fallon", the following message appeared in the terminal window:
+
+ 
+Bareword found where operator expected at (eval 208) line 28, near "'USGS 05514840 Dardenne Creek at O'Fallon" (Missing operator before Fallon?) Bareword "Fallon" not allowed while "strict subs" in use at (eval 208) line STARTING " (Missing operator before STARTING?) String found where operator expected at (eval 208) line 29, near ") `'     , ,, (Might be a runaway multi-line ' ' string starting on line 28) (Missing operator before ', '?) 
+
+
+SOLUTION:
+
+
+The single quote (') in the station name was causing unbalanced quotes.
+Remove the single quote (') from station name O'Fallon in the header file (using GWSI).
+
+
+=head2 More notes about Reflection Fonts, Tkg2, and ADAPS
+
+From: Shawn C Noble <scnoble@usgs.gov>
+Subject: Reflection Fonts, Tkg2, ADAPS
+
+
+This is an FYI on a problem that the Iowa District has been having with segmentation faults when opening Tkg2 plots.  We noticed it creating hydrograph and rating plots via ADAPS, though it's not really an ADAPS issue, it was a reflection font settings issue.  It ended up we needed to have the "hp" font set included in the reflection "Subdirectories and font servers" section.  We had removed this in the past thinking it was not needed.
+
+
+=head2 Tkg2 not working with Reflection X on XDMCP connection--Tkg2 freezes.
+
+This problem is found when using XDMCP (in some, not all cases).  
+
+So the workaround is to use OPENSSH connection method (not XDMCP) in
+Reflection X.  
+
+This presents another problem in that, for some, this solution does
+not give the user his Solaris CDE that s/he's become used to.
+
+=head2 Tkg2 collapsing characters of a font (metrics of the boxes around the characters seems to be screwed up).
+
+Inspection of the postscript file shows that a font substitution is being made. In the problem discussed below, the Courier font was being substituted for Fixed.
+
+SOLUTION:
+Date: Wed, 10 Dec 2008 09:03:00 -0600
+From: Shawn C Noble <scnoble@usgs.gov>
+To: William Asquith <wasquith@usgs.gov>
+Subject: Re: Text  Problem with Tkg2 file
+
+William,
+
+I should have checked my FAQs also.  I found the following in my notes that looks to have fixed our problem.
+
+Shawn
+
+
+Ran into a problem with the graphs produced by swreview. Specifically it appeared as though some fonts were incorrect.
+
+The fix was in Reflection X, settings->fonts.  Needed to deselect
+"Allow font scaling" and "Try font server on client host".
+
+It worked after that.
+
+
+
+
+
+Z<>

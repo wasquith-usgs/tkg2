@@ -1,0 +1,27 @@
+# ADJUSTMENT FOR POTENTIAL REGULATION EFFECTS -- RESULTS
+# SITE ID: 
+# Region=South, Area=1000 (square miles), Shape=30 (--)
+# Slope=10 (feet per mile), Delta_in_mean=3000 (cubic feet per second)
+# Natural L-moments: Mean=13215.369 Tau2=0.517 L-skew=0.470 L-kurtosis=0.249
+# Nonexceed_Prob=Annual Nonexceedance Probability
+# Nonexceed_Prob=1-1/T where T=recurrence interval
+# Nat_Quan=Estimated quantile for natural basin for nonexceed_prob
+#          derived from regional equations to estimated the L-moments
+# Reg_Quan=Estimated quantile for regulated basin by adjusting natural
+#          basin L-moments used to calculated Nat_Quan
+# Adjustment_Factor=Ratio of regulated quantile to natural quantile
+ Nonexceed_Prob    Nat_Quan(ft3/s)     Reg_Quan(ft3/s)    Adjustment_Factor
+    0.200            3241.96                241.96            0.075
+    0.300            4243.89               1243.89            0.293
+    0.400            5639.74               2639.74            0.468
+# the following are really interesting data points
+    0.500            7534.25               4534.25            0.602
+    0.600           10126.84               7126.84            0.704
+    0.700           13817.89              10817.89            0.783
+    0.800           19555.71              16555.71            0.847
+    0.900           30564.94              27564.94            0.902
+    0.960           47195.37              44195.37            0.936
+    0.980           61326.40              58326.40            0.951
+    0.990           76859.15              73859.15            0.961
+    0.996           99716.59              96716.59            0.970
+    0.998          118929.67             115929.67            0.975

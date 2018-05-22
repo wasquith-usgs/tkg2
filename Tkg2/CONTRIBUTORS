@@ -1,0 +1,26 @@
+Tkg2 --- William H. Asquith
+
+As of version 0.39 (July 21, 2000), nearly 100 percent of the code has been written by me, but though I have implemented tkg2 in perhaps innovative ways, little of tkg2 graphical capabilities are original.  I freely admit that I have liberally stolen ideas of graphical software from literally every source that I could think of and find.  The real contributors (known and unknown) to tkg2 are those that gave me the ideas to implement, extend, adopt, modify, and reject during the last two years or so.
+
+It is impossible to list all those responsible for the tkg2 effort.  Unfortunately, this is most often the lament of all large scale projects.  First, I will thank those to whom I owe so much--the Perl Community.  They have provided such a totally FUN language to work with that I seldom threw my hands up in frustration as I could adapt the language to fit the miriad of problems that I have encountered.  I believe indeed that Perl's motto is it's true strength--There is more than one way to do it.  MY WAY!
+
+I really want to use this opportunity to thank all the individuals with whom I have had direct contact with about this project.
+
+James A. Bisese (Jimmy)
+Thanks for the one or two day training course on Perl.  Perl came to me by accident, I guess tkg2 has too?  Thanks for being always approachable for questions--even when I clearly annoyed you.  Thanks for encouraging the war I started with tkg2 and thanks for being my friend.
+
+Dane Ohe
+Thanks for quietly guiding to the light of Unix and installing Tk at my request.  You said three things to me years ago.  First, was the comment of approval on the 'guerilla movement' out there fighting the status quo of software--this was before I knew the term Open-Source--that provided truly useful and mission critical tools without a lot of fan fare.  The second was, as we watched Perl build, that those guys (and gals) were immortal.  Speaking of immortalitly, you provided endless motivation with the comment that the mighty Jim Fulton was immortal too.  I only pray that tkg2 lives up to your approval.  Finally, your devotion to BSD saw to it that an Ultra 5 was available for me.
+
+Willard Gibbons
+Thanks for all the testing and being the official first adopter of tkg2 in lue of a particularly terrible batch processing 'offical' graphics package.  Also thanks for you many suggestions on implementation of the software interface.  Finally, thanks for getting me through August 1999 to December 1999 as I extended tkg2 far beyond the immediate graphical needs of my project work.
+
+Peter VanMetre
+You do not know it, but your advid use of USGS-g2 and suggestion one day as I was drafting a plea that g2 be ported to Solaris that I should rewrite it.
+
+Jenning Lanning-Rush, Lynne Falhquest
+Thanks for the ideas and early encouragement
+
+Gloria Stiltner 
+Thanks for seeing to it that USGS-g2 wasn't ported to Solaris and for providing the Texas district and extra Ultra 5.
+

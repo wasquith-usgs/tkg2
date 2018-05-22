@@ -1,0 +1,706 @@
+
+=head1 ADD DATA FILE TO PLOT
+
+This file documents the dialog box for importing data from a file into a plot and documents the various subtle behind-the-scenes data file reading activities. This file is located at B<Tkg2/Help/AddDataFile.pod>.  Because data file reading is so important to Tkg2, extensive discussion of ancillary data issues than just the settings in the dialog box are discussed as well.
+
+
+=head2 INTRODUCTION AND TKG2 DATA FILES
+
+Tkg2 reads data from ASCII or plain text files.  ASCII text is a very convenient file storage format for the type of tasks that Tkg2 provides.  ASCII is cross platform, archivable, and certainly years from now your ASCII files will continue to be readable and adaptable to other software.  Tkg2 views data files as a collection of delimited columns and not fixed format files per se.  These files are readily produced by or imported into spreadsheets and other computer programs.  The Tkg2 philosophy is to keep everthing in ASCII.
+
+
+Tkg2's founding principle is that the graphics package should basically be an interactive graphing package and I<also> a markup engine for 2-D data much like a web browser is a markup engine for HTML.  Tkg2 is not intended to be an interactive data editor like a spreadsheet or a data base.  Further, although there are many statistics that Tkg2 computes with its boxplot algorithms and thus Tkg2 can be used as a statistical analysis package too, Tkg2 is not intended to be an statistical package either.
+
+
+In the spirit of becomming a unique 2-D plotting engine, Tkg2 has some very powerful and flexible data file parsing features as well as scriptability features.  These are discussed in some detail in later parts of this section.  First let us quickly focus two features and data file concepts that might be surprizing to the first time user.
+
+=over 4
+
+
+=item Dynamic Data File Loading
+
+One of the coolest features of Tkg2 and the feature that impressed me so much with a package that we had at the USGS in the 1990's was the ability to have a plotting package read in the data everytime the graphics file was opened up.  This has the immediate benefit of detaching the graphic from the data--if the data file changes, which they do often, then the graphic is automatically updated.  With this in mind, the default behavior for Tkg2 is to not hard load or import the data into the graphics file, but to read the files on the fly.  You do not have to use this feature and during the initial file loading the hard loading can be turned on.  Also the FILE menu provides a way to save a graphics file with the data hard loaded even though some or all of the data might have been read in on the fly.
+
+=item Automatic Axis Configuration
+
+Because the dynamic loading is encouraged, Tkg2 by default does dynamic configuration on axis settings such as minimum, maximum, and number of labels.  This behavior can be turned off on a per axis basis and individually on the minimum and maximum of the axis.  The autoconfiguration will likely be surprizing and possibly annoying to the first time user (judging from my email).  However, the default autoconfiguration is considered a feature.  Specifically, the new user will load their data in, reconfigure the axis, and either still have the dynamic loading working or will add more data to the plot.  This cause the configuration algorithms to be executed and likely the manually choosensettings to be overrided.
+
+
+=item Data File Concepts
+
+Tkg2 considers four distinct portions of a data file: the header or comments, labels, optional format, and the data.  The header or comments are lines of the file that are completely ignored by Tkg2.  The header is the portion in the file before the label lines and comments are all other lines to skip.  Tkg2 can not use the contents in a file header like other software might.  By default lines beginning with a leading # are ignored, this can be overridden.
+
+
+The label lines denote the titles of the data columns.  More than one label can be used or the label line can left off altogether, in which case v1, v2, etc. are used to distinguish between the columns.  The labels on concatenated together.  The column count in each of the labels lines must match or an error is generated.
+
+
+The optional format line immediately follows the label lines.  If a format line is present, its column count must match the count in the label lines.  By default Tkg2 does automatic type detection on the data values.  Four data types are recognized.  These are numeric, string, date-time, and computed date-time.  Most users should only concern themselves with the first three.  The computed date-time is a precomputed date-time value in the internal format used internally by Tkg2.  Internally Tkg2 converts a date-time value to a floating point number of days since January 1, 1900.  The computed date-time can be useful in speeding up the data reading operations.
+
+
+Lastly, the data lines are present.  Comments or empty lines can be interspersed witin in the data provided that the file reading settings know to skip the lines.  The column count in the data lines must match the counts from the labels.
+
+
+Each of the last three paragraphs mentions that the column count must remain constant through out the file.  Columns are determined solely on the choice of file delimiter.  Visually this can be hard to distinguish with some file types such as tab delimited files as the delimiter is hard to seen.  Violation of the constant column requirement will spawn errors during the read in phase.  Read these error messages carefully.  Tkg2 should help you determine what parts of your file needs 'correction'.  The most common gotcha occurs with space delimited files--especially hand entered ones.  Trailing spaces at the end of a record but not all records will throw an exception.  This is necessary so that Tkg2 can parse space delimited files in which the last column is null.  If you suspect that your data file suffers from inconsistent trailing spaces, you can strip them with the following perl code that works for Unix files.
+
+
+  % perl -pi -e 's/\s+\n$/\n' your_data_file.txt
+
+
+Some examples of 'valid' data files are needed to further the discussion.  The following file has a two line header with an blank line embedded between the two lines, one label line, no format line, and three data lines.  The file is also space delimited.
+
+ 
+ # header here
+ 
+ # more header
+ data1  temperature
+  45      23
+  23      65
+ # whoops data logger went bad
+  24      34
+
+The following file has no header, no label, no format line, and is comma delimited.
+
+  
+  45,23
+  23,65
+  24,34
+
+
+The following file has a header, multiple label lines, a format line, and is tab delimited.  The tab is denoted by the <t>.
+
+ 
+ # Header
+ DATE<t>FLOW<t>TEMP
+ TIME<t>CFS<t>F
+ d<t>n<t>n
+ 19701001<t>45<t>23
+ 19800906<t><t>34
+ 
+
+The format line and the 'd' is needed in the above file because the date-time values look like integer numbers although they need to parse into a date.  The 'd' tells Tkg2 to cast the contents of this column as a date.  The column titles are DATE_TIME, FLOW_CFS, and TEMP_F.  Tkg2 concatenates the underscore for you.  Also note that two tabs are touching in the last line.  Tkg2 will recognize the FLOW as a missing value in this line.
+
+=item The __END__ token
+
+In Perl and hence naturally in Tkg2, reading of a file ceases if an __END__ token is placed in a file.  This token as two leading and two trailing underscores.  This is handy for testing features of Tkg2 on large files, but you do not need the entire file read in to see that you tweaks are working properly or maybe you simply want to comment out the tail of the file.
+
+=back
+
+
+=head2 THE DIALOG BOX
+
+With the AddDatatoPlot dialog box the location of the axis titles, the plot type, and other plot parameters are set.  The dialog box also provides a comprehensive interface into data file reading activities including such parameters as file delimiter and file length.  The toggle whether to import or hard load the data or have the data dynamically loaded is provided.  Furthermore, this dialog box provides a powerful interface to additional user specified data processing.  This is a very important dialog box in which the regular user will see quite often.  Only through this dialog box can data be loaded for the first time into a plot.  The Perl module that provides the dialog box is located at Tkg2/Data/Class/AddDataToPlot.pm.
+
+
+=head2 ACCESSING THE DIALOG BOX
+
+The dialog box can be launched by either selecting a plot first by clicking Button-1 inside the plot.  Eight black squares demark the corners and edges of a plot when it is selected.  Next from the I<DataEdit> menu select I<Add Dataset to Plot>.  An alternative method to launch the dialog box is from the command line when --mktemp and optionally --mkplot options are used.  These options allow quick construction of a template (--mktemp) and one or more plots (--mkplot).  For each plot so generated, the AddDataToPlot dialog box is provided for convenience.
+
+=head2 BASIC tab
+
+=over 4
+
+=item Position Axes
+
+Place the axis title and labeling along the desired axis.  The settings can be changed using the Continuous or Discrete Axis Editors, which are usually accessed by double-clicking mouse button-1 on the axis.  Changing the axis position does not create a double-X plot nor a double-Y plot.  "Double" meaning that each X axis line or Y axis line is independent.  Actually, Tkg2 does not support double-X axis, but does support double-Y axis.  If you want a double-Y plot, toggle the checkbutton labeled B<Data for second Y axis?>.
+
+
+=item Plot Type
+
+Numerous plot types are currently supported.  These are briefly discussed here.  Just go and try them out and see whether you like them or not.  Axis types such as linear, log, probability, gumbel, and time series are controlled using the axis editors.
+
+
+  Scatter
+
+Requires X and Y data points, no connecting line.
+
+
+  X-Y Line
+
+Requires X and Y data points with a connecting line. 
+
+
+  Text (Annotation)
+
+Requires X, Y, and another column in data file for text source, and plots as points, lines, and text near the points.  Leader lines and other advanced options for the text are provided by the DrawDataEditor.  If the text has the following special content C<pscale:###>, in which C<###> is a number, then that number is multiplied on the symbol size of the scatter plot. The text is literally still drawn on the plot; users will likely turn the text drawing off in the DrawDataEditor.  An example is useful.  The following file has a single label line and is one or more space delimited. The lines beginning with # are ignored by default.  The file contents when plotted as a text plot would have three different symbols sizes drawn for the five data points. The text labels are drawn by default and can be toggled off; the changes in symbol size will still be used.
+
+  XVALUE   YVALUE   SIZE
+  # Make a symbol half the symbol size
+  150       610     pscale:0.5
+  # Make a symbol twice the symbol size
+  155       780     pscale:2.0000
+  # Make a symbol at the same size as the symbol size
+  160       520     pscale:1
+  # Make two additional symbols at the symbol size 
+  130       390     some_other_label
+  153       272     yet_another_label
+
+  
+  Y-Accumulation
+
+All the Y data values are accumulated as the data is read in.  The accumulation occurs on all columns.  The accumulator is initially set to zero.
+
+
+  Y-Accumulation(text)
+
+Just like a regular Text plot except that all the Y data values are accumulated as the data is read in like the regular Y-Accumulation plot.
+
+
+  X-Probability
+
+Requires only a single data column, Tkg2 computes the plotting positions, and plots the plotting position probabilities on the X axis and the data on the Y axis.  The plotting position is set globally through the Tkg2rc file or the B<Global Settings> menu.  An important note about missing data is needed.  It is very complicated to compute plotting positions in the presence of missing data; therefore, tkg2 B<throws out> missing values.  This means that the original data array contain both values and missing values is truncated or trimmed to another array containing only values; the plotting positions are then computed from this new array.  The user is not provided any warnings that this has occurred; however, the user can be assured that this is a necessary step.  Moral--know your data sets?
+
+
+  Y-Probability
+
+Opposite of X-Probability, requires only a single data column, Tkg2 computes the plotting positions, and plots the plotting position probabilities on the X axis and the data on the Y axis.  See X-probability plot for discussion about missing values.
+
+
+  Bar
+
+Like a Scatter plot, but draws bars from either the top, bottom, left, or right plot edges to the points.  This is not a histogram plot.  Tkg2 does not support histogram plots, as your author (statistician by training) does not condone the use of histograms as they easily distort the true nature of the data.  Cumulative probability curves are better.
+
+
+  Shade
+
+Like a Line plot, but also shades from lines to either the top, bottom, left, or right plot edges.  It is not possible to shade between two 'columns' of data.  In order to gain the capability to plot shade between two columns, a 'Shade Between' plot is required (see below).
+
+
+  Shade Between
+
+A Shade Between plot is quite different in external appearance and certainly internal representation than a shade plot.  Because there is more going on behind the scenes, a Shade Between plot can be noticably slower in rendering than a Shade plot.  A data set in which one might want between shading is:
+
+  
+  DAY    MIN_TEMPERATURE   MAX_TEMPERATURE
+  1         34                56
+  2         37                58
+  3         45                65
+  4         51                72
+
+The day is desired along the X axis and a shaded region between the minimum and maximum temperatures is needed.  During the data loading or actually in the data loading dialog box, the DAY would be choosen for the X-axis, say MIN_TEMPERATURE would be choosen for the Y-axis and MAX_TEMPERATURE choosen for the 'Value to shade between' entry field.  The usual point symbols and lines are drawn between the DAY and the MIN_TEMPERATURE and a shaded region extending up (uniformally in this example) to the MAX_TEMPERATURE is drawn.  A line on the border of the shaded region is not drawn to provide greater flexbility.  If a line between the DAY and the MAX_TEMPERATURE values was desired too, then a separate X-Y Line plot would have to be overlayed.
+
+
+  Shade Between Accumulation
+
+Like a Shade Between plot, except that accumulation of both the Y values and the values for the third column or the values to shade too are accumulated as well.  There may or may not be problems if your data has missing Y values, but not the shade too values.  Or when the shade too values have missing values and the Y values do not.
+
+
+  Y-Error Bar
+
+Like an X-Y Line plot; however, error lines can be drawn and later configured.  A third column of data, which sets the error, is requested.  The error is subtracted from and added to the Y data values to produce the bar.  For example, a Y value equals 50 and the corresponding error is 6.  Error lines from 50 to 56 and from 50 to 44 are drawn.  This is a symmetrical bar.  You can get an asymmetrical plot by having your errors delimited with a '<=>' string as in 5<=>6.  Thus, 5 units will be subtracted from the Y data point and 6 units will be added.  The error line for the symmetrical and then asymmetrical example would like like the following.
+
+ 
+       44------50------56
+        45-----50------56
+
+Non-numeric errors values are treated as missing values.  The missing value string that is specified for the other data columns can be used with the error lines as well.  Consult the Error Line Data discussion in the Further Discussion section below for more discussion.
+
+ 
+  Y-Error Limits
+
+Like a Y-Error Bar plot, expect that the third column of data is the terminal point of the error line.  For example, a Y value equals 50 and the corresponding error limit is 56.  An error line extending from 50 to 56 is drawn.  If the error limit is 45, then an error line extending from 50 to 45 is drawn.  Unlike the 'Error Bar' plots, the error line is one sided by default.  Double-sided error lines can be generated using the '<=>' string as a delimiter between the two limits.  The error line for the delimited example would look like the following.  Consult the Error Line Data discussion in the Further Discussion section below for more discussion.
+
+ 
+               50------56
+        45-----50
+        45-----50------56
+
+
+  X-Y Error Bar
+
+Just like an Y-Error Bar plot except that error lines in both X and Y can be drawn.  See discussion associated with Y-Error Bar.
+
+
+  X-Y Error Limits
+
+Just like an Y-Error Limit plot except that error lines in both X and Y can be drawn.  See discussion associated with X-Y Error Limits.
+
+
+  X-Discrete
+
+Usually, Tkg2 only changes an axis to discrete if the data column is determined to be a string, that is, not a number or a valid time format. However, if a number is to be treated as a string, the user can either wrap quotes around each in the data file or use X-Discrete, or specify the format of the columns. X-Discrete forces the X-axis to be discrete.
+
+
+  Y-Discrete
+
+Exactly like X-Discrete, but works on the Y-axis.
+
+
+  XY-Discrete
+
+Exactly like X- or Y-Discrete, but both the X- and Y-axis are turned into discrete.
+
+
+=item Data for Second-Y Axis?
+
+This checkbutton will toggle the second Y-axis on and plot this data using it.  The second Y axis become the Y axis line on the right hand side of the plot.  This type of plot is also known as a double Y plot.  The discussion under the B<Position Axes> is also relevant.  Tkg2 will not permit a double-Y plot, meaning that data will be loaded into the second Y axis, before data is loaded into the first Y axis.  A warning message window is provided to prevent this.  After data is loaded into the first axis, choosing between first or second Y axis is permitted with all additional data loading.
+
+
+=item Number of Lines to Skip
+
+How many lines at the top of the file need to be outright skipped as data is being read in.  For example, the following file probably needs a number of skip lines equaling 2.
+
+ 
+   # EXAMPLE DATA SET
+   # FOR TKG2 add_data_set.pod
+    X_DATA Y_DATA
+    (feet) (gallons)
+      |        |
+      |      -9999
+    # |        |
+      V        V
+
+
+=item Missing Value Identifier
+
+Occasionally, a data file will have missing values in it.  Whatever this value is can be controlled using this entry field.  For example in the 'Example Data Set' file seen above, -9999 is a missing value.  Missing value identifier is thus '-9999'.  In all cases actual undefined or null values in a data file are loaded in, but quietly ignored during the graphics rendering.  The missing values also provide Tkg2 with a mechanism to 'lift the pen' when drawing line plots.  For example, the following data set has a six year wide gapb between the years of periodic measurements.
+
+ 
+  DATE_TIME    DISCHARGE
+  10/04/1991    560
+  11/21/1992    670
+  04/23/1999    700
+  08/19/2000    450
+
+If this data file if plotted with DATE_TIME on the X axis and DISCHARGE on the Y axis, then a straight line connecting 670 and 700 will be drawn.  This is inappropriate because a jump in the interval is present.  Tkg2 has no mechanism to handle fixed interval time series data so internally it has no way of determining whether it should 'lift the pen' between 1992 and 1999.  You can trick Tkg2 into lifting the pen by inserting a time value between 11/21/1992 and 04/23/1999 and provide no discharge.  In the example '--' is the missing value string.  Each of the following are equivalent.  Only a single missing value line is needed for pen lifting.
+
+ 
+  DATE_TIME    DISCHARGE
+  10/04/1991    560
+  11/21/1992    670
+  11/22/1992     --
+  04/23/1999    700
+  08/19/2000    450
+
+or
+
+ 
+  DATE_TIME    DISCHARGE
+  10/04/1991    560
+  11/21/1992    670
+  01/01/1998     --
+  04/23/1999    700
+  08/19/2000    450
+
+or
+
+ 
+  DATE_TIME    DISCHARGE
+  10/04/1991    560
+  11/21/1992    670
+  04/22/1999@12:13:21     --
+  04/23/1999    700
+  08/19/2000    450
+
+Consult the Tkg2/Util/dtgaprdb.pl utility for assistance with missing value insertion in rdb files.
+
+
+=item File Delimiter
+
+Specify the file delimiter such as tab, comma, or space.  Some of the delimiters are shown in regular expression context.  The following table defines each. The Tkg2rc file specifies the delimiters and the default delimiter at runtime. If custom is chosen, then the 'Custom File Delimiter' field needs to be filled in.
+
+ 
+     \s       a single space
+     \s+      one or more spaces
+     \s\s+    two or more spaces
+     \t       tab
+     |        a pipe
+     ,        a comma
+     :        a colon
+     custom   now use 'Custom File Delimiter'
+
+
+=item Custom File Delimiter
+
+Specify the custom file delimiter such as 'CustomBreakPoint'. If given as this '3 C<\n>' or '6 C<\r\n>', then a newline (C<\n>, Unix files), or a carriage return newline (\r\n, Windows files) becomes the delimiter and 3 or 6 lines of the file are read in at a time.
+
+
+=item Number of Label Lines
+
+Specify the number of label or column heading lines in the file.  The labels for a given column are catenated together.  If the same column header is used, then Tkg2 catentates a counter on the end of the label. For example, in the 'Example Data Set' file seen above, the number of label lines is 2.  Thus, the first column is labeled as X-DATA(feet).
+
+
+=item Skip Line Identifier
+
+Specify how optional commenting of the data is in the file.  Perl regular expression syntax is used.  The default of '^#', tells Perl to just ignore any lines in the data part of the file that start (^) with a 'X'.  For example, in the 'Example Data Set' file seen in the 'Missing Value Identifier' section, the line after the line containing -9999 is ignored.
+
+
+Because the full power of Perl's regular expressions (a language unto itself), you can have more complicated logic.  Suppose you have a comma delimited file from a data logger.  You have added comments in the data file concerning the data and related matters.  Also these files have three distinct record identifiers.
+
+ 
+  # Battery voltage remained nominal
+  ID110,YEAR,DAY OF YEAR,TEMP
+  ID245,YEAR,DAY OF YEAR,HUMIDITY,WIND
+  ID262,YEAR,DAY OF YEAR,RAINFALL1,RAINFALL2 
+  110,2001,345,45
+  245,2001,345,23,1.1234
+  262,2001,345,0,0
+  110,2001,346,56
+  245,2001,346,16,0.942
+  262,2001,346,0,0
+  110,2001,347,38
+  245,2001,347,78,3.780
+  262,2001,347,.56,.85
+
+Clearly in this file we have three distinct record types and each has a different number of columns.  Plotting this is indeed a problem.  We can not directly produce a time series plot because the year and the day of the year are not in the same column nor can Tkg2's parser in its present state make the conversion for you.  That being said, we can still plot any of the data values against the day of the year.  Here are some examples of Skip Line Identifiers that will permit reading and plotting of data in this file.
+
+ 
+  ^#|^\w+110|^\w+245|^110|^245
+
+This regular expression is summarized as: 1) Skip the leading # lines (^#), 2) Skip the ID110 line (^\w+110) with one or more letters (^\w+) and the number 110, 3) Skip the ID245 line (^\w+245), 3) Skip the records starting with 245 (^245), and 4) Skip the records starting with 262 (^262).  The pipe symbol '|' denotes logical OR and the caret '^' means 'starting with'.
+
+
+With the multiple OR regular expression, a number of label lines setting of 1, and a comma as the delimiter, the above file could be read in.  Variations on the regular expression of course are possible to read in just the 110 line or the 262 line.
+
+
+The example should demonstrate a really powerful tool.  Consult the Perl documentation itself for further discussion of regular expression syntax.
+
+
+The sense of the skip line regular expression can be inverted (only for non-RDB files) by the "invert it" checkbutton to the right of the entry field.  This toggle greatly simplifies the above example.  To illustrate, suppose that the lines containing the 262 record id were the only ones desired.  The skip line identifier could be set to C<^262>; then only those lines contain 262 in the first three columns would be read in.  This makes it even easier to have multiple 'data files' contained within one file.  Cool or what?  A suggested framework for file construction would be the following.
+
+ 
+  # Battery voltage remained nominal
+  110,YEAR,DAY OF YEAR,TEMP
+  245,YEAR,DAY OF YEAR,HUMIDITY,WIND
+  262,YEAR,DAY OF YEAR,RAINFALL1,RAINFALL2 
+  110,2001,345,45
+  245,2001,345,23,1.1234
+  262,2001,345,0,0
+  110,2001,346,56
+  245,2001,346,16,0.942
+  262,2001,346,0,0
+  110,2001,347,38
+  245,2001,347,78,3.780
+  262,2001,347,.56,.85
+
+Notice how the "ID" was removed from the record labels shown in the preceding file?  Now with ^262 and inversion on, the line
+
+ 
+  262,YEAR,DAY OF YEAR,RAINFALL1,RAINFALL2
+
+will get picked up as the label line.
+
+
+=item Invert it
+
+This checkbutton reverses the sense of the skip line identifier.  This results in the extraction of the 262 record of the previous examples as easy as setting the skip line identifier to '^262' and toggling the Invert it on.
+
+
+=item Column types (a|DSNT|f)
+
+As described in the Introduction, Tkg2 identifies four data types.  These are numbers, strings, date-times, and computed date-time values.  The format abbreviation for each are n, s, d, and t, respectively.  The abbreviation is case insensitive so N, S, D, and T are equivalent.  By default the Column Types of a file are set to 'auto'.  The default is abbreviated as 'a' in the entry field.
+
+The 'auto' setting means that Tkg2 will successively test each data value as a number the as a date-time value.  If it files to parse either of these the value becomes a string.  Testing for the computed date-time is not possible (see discussion under the Data File Concepts section for more details about computed date-time values).  As soon as a value is determined to be a string, then the whole column is identified as a string even if the other data types are present.  Tkg2 then internally and externally maintains the data type distinction on each data column.  This type casting is preserved for dynamic data loading.  The automatic type determination can be CPU expessive.  Therefore, one can specify the column types too.
+
+
+Suppose you have the following file.
+
+ 
+ ID,DATE,RAIN1,RAIN2,COMMENTS
+ ID110,20010609,.25,.10,
+ ID110,20010610,.56,.85,last valid value
+
+The ID and COMMENTS columns are strings.  The two RAIN columns are numbers.  These would are compatible with the auto type determination.  However, since the DATE column is really just a number, you must override the auto type detection with your on types.  Three suitable entries for the Column types are
+
+ 
+ SDNNS
+ sDnnS
+ sdnns
+
+One character per column is required.  An alternative type casting mechanism is to specify the column type in the file itself.
+
+ 
+ ID,DATE,RAIN1,RAIN2,COMMENTS
+ s,d,n,n,s
+ ID110,20010609,.25,.10,
+ ID110,20010610,.56,.85,last valid value
+
+In this situation, the Column Types entry would be
+
+ 
+ f
+
+or
+
+ 
+ file
+
+for 'file'.  The line immediately following the label line(s) is considered the format.  An error will be thrown if no format line is in place.
+
+
+RDB files are the only file types in which Tkg2 insists that the column types are specified by the format line in the file.
+
+
+=item File is RDB  (quasi compliant, d|D for dates)
+
+If the file is a RDB file, a tab delimited file with special restrictions, then all other file settings other than missing value and skip line identifier are reset behind the scenes.  Note that Tkg2 is only quasi-RDB compliant as discussed in this section and will remain so.  The biggest hangup is that RDB format does not distinguish between numbers and time.  If time is a number, then to RDB the type is n, and if the time has non-numeric characterics, then the type is a string or s.  Tkg2 requires d or D for proper date-time casting.  Tkg2 will also handle the t or T data type--computed date-time.  A basic RDB looks something like this:
+
+ 
+ # Stations in this file include:
+ #  08167000 GUADALUPE RIVER AT COMFORT, TX
+ #
+ datetime<t>value<t>code
+ 10d<t>12n<t>3s
+ 19390601<t>36<t>
+ 19390602<t>32<t>
+
+Notice in this example, that the first column has the 'd' type.  An RDB file has an arbitrary number of lines in the header.  These are the lines starting with #.  A single label line is used and is followed by the format line.  In RDB, the format line as numeric 'widths' to assist RDB compliant commands to produce formatted output.  Tkg2 ignores these.  In RDB the width number is to come before the type (10d), but Tkg2 does not care if the number follows the type (n12) because the number are not used by Tkg2.  Also RDB does not permit comments inside the data.  Tkg2 does because the Skip Line Identifier remains functional.
+
+
+=item Import data (no dynamic loading)
+
+Should the data be loaded into the Tkg2 file that you are about to create? If data is not loaded, then at runtime, Tkg2 will try to load the data in on the fly.  This allows dynamic loading of data and template creation of Tkg2 files.  This feature is extremely powerful and flexible.  The dynamic loading of data is one of the most critically useful features of Tkg2.  Therefore, it is turned on by default.
+
+
+=item Skip handy x-y axis configuration on 1st data loaded
+
+By default Tkg2 forces auto configuration of the all the axes when the first data is loaded into a plot.  This is done because Tkg2 needs to track parameters such as the minimum and maximum data values.  This is done regardless of whether the auto configuration options on the individual axes are toggled off.  Occasionally, a user will have already configured the axes before data is loaded and does not want the axes changed.  This checkbutton is not seen after the first data is loaded.  Also, skipping the axis configuration had no meaning when Tkg2 dynamically loads data files automatically.
+
+
+=item Use relative path for file Name
+
+When data is dynamically loaded at runtime, you have a choice on having Tkg2 look for the data file along a absolute path (/u/wasquith/projects/datafile.txt) or along a relative path starting from the current directory of the Tkg2 file (projects/datafile.txt)--notice no leading '/'.  If you are accessing data files that are at or below the current directory of the Tkg2 file or location where this Tkg2 file you are creating is saved, you can use the relative path.  However, if you need to 'go up and over' or 'go up, over, and down' to find your data files, you must use absolute path names.  Hence, turn this checkbutton off. Tkg2 will issue a warning blurb if you try to go up etc without the checkbutton off.  The warning is not issued until after this dialog box is Ok'd.  This functional behavior is needed because of the way in which Tkg2 does its dynamic loading.  Tkg2 must be able to find data files in such a fashion that you can ship a Tkg2 file and subordinate data files to other directories and still have things work.
+
+
+=item Do not verify/test field types (fast reading)
+
+By default Tkg2 tests each and every entry in the data file as to whether it is a number, time, or string value.  This is CPU expensive and is particularly so for time as Tkg2 uses an extremely flexible, but lengthy algorithm for conversion of time fields to a common basis for further internal processing.  You usually can leave this option off until files get over about 75,000 values; unless you are working on a busy machine.  The option provided in this dialog box is only applicable during the first importation.  You can control the field verification with the --nofieldcheck command-line option, which of course only has meaning if you have not imported the data either by Import Data (see above) or later saving by File-->SaveAs(with imported data) menu command.
+
+
+=item Show me the data file contents
+
+Forget what the data file looks like?  Take a peek at it with this button.  You are not able to modify the file as to slow you down and force you to work in an external text editor.  The idea is to limit the potential of messing up important data.
+
+
+=back
+
+=head2 ADVANCED tab
+
+=over 4
+
+=item Convert ordinates to single column
+
+A really cool feature for certain kinds of data sets.  Multiple columns of ordinate data can be collated into a single column.  The abscissa values get duplicated.  The following diagram best demonstrates what this feature does.
+
+ 
+ Original Data Set
+  X  Y1  Y2  Y3
+  1  11  21  31
+  2  12  22  32
+ 
+ Converted Data Set
+  X  Y1:Y2:Y3
+  1     11
+  2     12
+  1     21
+  2     22
+  1     31
+  2     32
+
+
+=item Thresholds -- EXPERIMENTAL!!!!!!!!!!!!
+
+Tkg2 permits some control (Ignore, Substitute, and Make missing) over what it should do with thresholds for box plots and encounters with data values having > or < signs prepended to them.  This is a highly experimental feature as there are logical complications in how to present the user interface and how to properly apply statistical adjustments to box plots.  Because they are experimental, you the regular user might not even detect that something has or has not happened.
+
+
+=item Route data through external program
+
+A potentially very powerful utility.  The read in data, which is stored in a single complex hash, can be dumped to the file system.  An external program can pick up this dumped hash, processes it as needed, and return a revised dumped hash back to the file system.  Tkg2 then substitutes the original hash with this new one.  The script in Tkg2/Scripts/DoNoTransform_JustTest.pl script provides an example of the necessary frontend and backend to an external processing program.
+
+
+=item Use a 'megacommand' in liew of a file
+
+This is a cool feature that permits Tkg2 to grab the data from commands or pipe lines without having to actually create a file (well sort of, see below).  For example to read the vertical bar (pipe symbol) delimited Tkg2 log file, one could type 'cat /tmp/tkg2.log' in the entry field.  All other options on the dialog box such as delimiter, number of label lines, and column types apply.  A really popular command to run might be something like /usr/local/bin/get_me_some_rdb_data.pl arg1, where arg1 is some argument for the program.  This command retrieves some data in rdb format, so all you have to do is toggled the File is quasi-RDB checkbutton.  
+
+
+Megacommand has some command line options: --megacmd_args=<string> --megacmd_keep, and --megacmd_show.  The args option permits you to pass arguments to the command.  For example, suppose we used just /usr/local/Tkg2/Util/DVlastwk.pl without the station number.  We could pass the number in via --megacmd_args=08167000.  Additional arguments are provided by an underscore delimitation (--megacmd_args=08167000_-c30_45).  One caveat is that Tkg2 must see some actual data from the command the first time around.  This means that providing the station number for a arbitrary station is at first.  Then you have to manual edit the Tkg2 file, seach for '-file' and then '-megacommand' to find the command and remove the station number.  Then you can use the --megacmd_args.  
+
+
+The --megacmd_keep keeps the data files pulled by Tkg2 into the current directory without deleting these temporary files as Tkg2 exits.  The --megacmd_show provides a verbose mechanism to see what Tkg2 is doing and how execution of the command is proceeding.
+
+
+Either then --verbose or --megacmd_show command line options will show output to the terminal that looks like this.
+
+ 
+      A MegaCommand is retrieving the data.
+        MEGA: %% /usr/local/Tkg2/Util/UVlastwk.pl -d=2 08167353  %%
+        MEGA: Results of STDOUT directed to
+        MEGA: /u/wasquith/tkg2_megacommand_file_4
+        MEGA: which had 2057 lines.
+
+To hit you see the exact command that was used as will as the location in which the megacommand temporary file was written to.  The temporary files (like the postscript files) are written into the user's home directory.
+
+
+=item Sort
+
+Line plots are very ugly on unsorted X data.  Click sort here to fix that.  You are provided with some options for the sorting.  Furthermore, sorting of alphabetical characteristics is possible perhaps one would need this for some categorical or discrete plots.
+
+
+=item Optional plot user name
+
+You can give the plot a totally optional user name.  The user name is a human readable and persistent string identifying the currently selected plot.  You only need to specify the name if you plan on using the Tkg2 Instructions language for external control of Tkg2 graphic objects (see Instructions Help).  The name provide here is not useful in any portion of an interactive Tkg2 session other than setting it and does not contribute to any type of labeling on the screen.
+
+=back
+
+
+=head2 DATE-TIME tab
+
+=over 4
+
+=item Convert date-time to a common base
+
+This is another extremely cool and useful feature when you need it.  Almost universally time series data is plotted at the time that the data occurs.  At times, however, one might want to overlay all the data along a pseudo year in order to see the annual trajectories of the data or one might want to overlay all the data along a pseudo day in order to better visualize diurnal variations.  Instead of having to preprocess your data files and risk tampering with your good data, let Tkg2 do it for you; albeit in a CPU expensive fashion.  The feature works by providing a colon (:) delimited list specifying the common date-time base to use instead of the actual component as the date-time is internally processed just prior to graphic rendering.  This feature works just as you would expect with dynamic loading and on a per data file basis.
+
+
+For example, to visualize annual daily variation for a 1927 to 1990 data set on top of an already loaded 2001 daily data set, just enter 2001 in the field and all the years for the 1927-1990 data set will be converted to 2001.  This will draw the data on top of the 2001 data, assuming the the 2001 data was already been loaded.
+
+
+To view the diurnal variation of some subdaily increment data, entry 2001:10:01 to move all the data to October 1 of 2001.  The hourly, minute, and seconds are left alone.  
+
+
+The general field look like the following: yyyy, yyyy:mn, yyyy:mn:dy, yyyy:mn:dy:hr, yyyy:mn:dy:hr:mi, or yyyy:mn:dy:hr:mi:sc.  Fields can be left blank, set to '-', or set to zero if you do not want a particular field modified.  For example, suppose you wanted all the data plotted into a single month (say October), then -:10 would be the field.
+
+
+If the yyyy component is preceeded by the characters 'wy' or 'WY' then the water year is used and not the calendar year.  This means that the year used for the months of October, November, and December will by yyyy-1 and not yyyy as will be done for the remaining nine months.  This common water year feature is extremely handy if one desires to plot a water year (October to September) of data against another water year without having to preprocess the data file.  For example, suppose you wanted to plot all the values for dates such as 1969/10/04 as the 2000 water year with the values plotted at noon and not 00:00:00, then set the common date time to 'wy2000:-:-:12:00:00'.
+
+
+As a note, leap years are properly handled.  If you provide a leap year, then Februrary 29th is shown, but if you do not then it is not.
+
+
+Finally, your author finds this feature incredibly useful and has never seen it on commercial software.
+
+
+=item Use noon
+
+This button sets the common date-time to noon, -:-:-:12:00:00.  This is handy when your date values do not contain a time compontent.  Tkg2 defaults to 00:00:00 when there is no time component.  Setting the -:-:-:12:00:00 sets the time component to 12:00:00 to all date values.  Tkg2 does not dynamically determine whether your date-time values actually have a time component.
+
+
+=item As WatYr
+
+This button appends 'wy' to the beginning of the common date time value.  This button acts to facilitate the water year conversion for users who have not read this particular help page.  If the 'wy' is already prepended then the 'wy' is not added.  If the common date time entry field is empty then a helpful message is placed into the field to tell the user what this button does. 
+
+
+=item Default
+
+This button clears the common date-time field.
+
+
+=item Date-Time Offset
+
+Yet another extremely cool and useful feature when you need it.  One can uniformally offset all time columns in a given data file by a floating point value for days.  To pull a time series back one day and a half, enter -1.5 in the field and to push a time series forward seven days an a quarter, enter 7.5.  This is great funcationality to have when one needs to compare the timing or overlap streamflow hydrographs and other 'traveling' phenomena.  A message box is displayed with a warning if a non-numeric value is specified.
+
+
+At present no other techniques exist to modify numeric or string column types during the data loading.   It is hoped that this funcationality will also be included in future Tkg2 releases.  For example, converting feet into meters on the fly.
+
+
+The date-time conversion calculator within the Time Axis Editor will assist you in converting usual dates into the internal time representation of fractional days since January 1, 1900.  Thus, to determine a suitable offset, all that is needed is to compute the days representation of two dates and take the difference between them.  The days between 2001/10/01@00:12:00 and 2001/10/03@05:16:00 is (37165.219444 - 37163.008333) = 2.211111 days.
+
+
+=item Days Calculator
+
+Because computing the difference between two date-time values is hard, we have placed a calculator to compute the difference in floating point days between two arbitrary dates.  This is really handy for determining suitable a date-time offset.
+
+
+=item Compute date2 - date1
+
+This button computes the offset and displays the result in the sunken field to the right of the button.  Errors are shown inside the field.
+
+
+=item Load days to offset
+
+This button loads the computed days offset into the date-time offset field for convenience.
+
+
+=back
+
+
+=head2 FURTHER DISCUSSION
+
+=over 4
+
+=item Error Line Data
+
+
+Additional description of the processing of error limits (and equivalently bars) is needed with specific attention to the handling of asymmetrical values denoted by the <=> string combination.  In the following two or more space delimited data example, we have a record ID column, a column of Y-VALUES and their associated error limits (Y-RANGE), a column of X-VALUES and their associated error limits (X-RANGE).  Notice that the <=> string is not provided in all fields and does not have to be.  The -- (double hyphen) string is a missing value, but this string is not available in all fields.  Tkg2 considers null fields as missing regardless of the setting of the missing value string.  Our attention here is on the X-VALUES and the X-RANGE fields.  Pairs or groups of records were created to better distriguish between cases.  Following each pair are a series of commented lines, which are shown by the leading #, that graphically illustrate what the X Error Lines will look like.  The pipe symbol or vertical bar represents the whisker on the line and the equal signs represent the error lines.  The graphics assume that X increases from left to right.  The asterisk illustrates the data point when both X and Y values are known--notice that values for X and Y are not known in all cases.  When the X or Y values are not known, the error line does not originate from respective axis coordinate, but instead an attempt is made to draw the error line between the two limits (see records 136 and 137).  (Actually internally to tkg2, a fake X values is created on-the-fly halfway between the limits so two line renderings are still performed.)  In the examples below, when this is done the asterisk is I<not> shown.  An individual description of each situation follows the graphic.  Further, the illustrations are in the X direction, but the generalization to the Y direction is obvious.
+
+
+ ID  Y-VALUES  Y-RANGE  X-VALUES  X-RANGE
+ 125  2.90  1.35<=>      -0.05  -0.07<=>
+ 126  2.80  1.46<=>1.46  -0.20  -0.22<=>--
+ #      |
+ #      |======*
+ #      |
+
+One-sided with no whisker through data point because the maximum limit is not provided.
+
+
+ 128  2.70    --<=>2.86  -0.53      <=>-0.50
+ 129  2.60  2.69<=>2.69  -0.57    --<=>-0.55
+ #                     |
+ #             *=======|
+ #                     |
+
+One-sided with no whisker through data point because the minimum limit is not provided.
+
+
+ 130  2.50  2.40<=>--   -0.66       <=>
+ 231  2.40  2.48        -0.39     --<=>--
+ #             *
+
+Lone data point because of missing limits.
+
+
+ 132  2.30  2.06<=>2.06  -0.27  -0.27<=>-0.26
+ 133  2.20  2.20<=>2.20  -0.22  -0.22<=>-0.21
+ #             |        |
+ #             *========|
+ #             |        |
+
+One-sided with whisker through the data point; the whisker is drawn through the point because -0.27 or -0.22 is provided.
+
+
+ 134  2.10      <=>2.2   0.18   0.14<=>0.18
+ 135  2.00  2.60<=>2.60  0.00  -0.03<=>0.00
+ #      |      |
+ #      |======*
+ #      |      |
+
+One-sided with whisker through the data point; the whisker is drawn through the point because 0.18 or 0.00 is provided.
+
+
+ 136  1.90  1.64<=>1.95   --  -0.06<=>-0.02
+ 137  1.80  1.29<=>1.29   --   0.05<=>0.07
+ #      |           |
+ #      |===========|
+ #      |           |
+
+Asymmetrical error line but the data point is unknown so the line is drawn from the minimum to the maximum.  An extremely important note is needed about this case.  Although the error line is drawn there is I<no> data point to draw.  This means that a subsequent text plot of ID plotted next to the point symbol for each X and Y VALUE could I<not> be plotted for these two records.
+
+
+ 138  1.70      --       -0.02  -0.03<=>0.00
+ 139  1.60  1.34<=>1.70   0.00  -0.01<=>0.01
+ #      |           |
+ #      |======*====|
+ #      |           |
+
+A normal(?) asymmetrical error line.
+
+
+ 140  1.50  1.34<=>1.34  -0.50  -0.50<=>-0.50
+ 141  1.40  1.34<=>1.34   0.05   0.05<=>0.05
+ #             |
+ #             *
+ #             |
+
+Single whisker through data point because the values for the X-RANGE are equal to the X-VALUE.
+
+
+ 142   1.30  1.34<=>1.34    --       <=>
+ 143   1.25   --            --     --<=>--
+
+Neither 142 or 143 can be plotted as both X and Y are unknown and can not be faked because both minimum and maximum limits are unavailable.
+
+
+=back
+
+
+Z<>

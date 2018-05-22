@@ -1,0 +1,6 @@
+#!/usr/bin/perl -w
+unlink("tkg2go"); # just in case it was left over, system crashes and such
+`ln -s Tkg2/tkg2.pl tkg2go`;
+system("tkg2go @ARGV");
+unlink("tkg2go");
+

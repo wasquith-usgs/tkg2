@@ -1,0 +1,47 @@
+
+=head1 THE EDIT MENU
+
+This POD file provides detailed description of the B<Edit> menu available at the top of each template container.  This documentation file is located at B<Tkg2/Help/EditMenu.pod>.
+
+
+=head2 INTRODUCTION
+
+The Tkg2 edit menu is still an area of research and development as it is not entirely parallel to edit menus seen in other applications.  The menu has the following entries:
+
+ Undo 1
+ Undo 2
+ ---------
+ Update Canvas
+ Step-Wise Update
+ ---------
+ View Dumped Template
+
+=head2 THE ACTIONS
+
+The following are the actions or commands supported by the menu.
+
+=over 4
+
+=item Undo 1 and 2
+
+Tkg2 has two levels of undo.  The code could be modified for unlimited levels of undo.  Your author has not spent much time working on a redo, never the less, undo 1 can be used in a redo sense.  Undo functionality is provided by the Tkg2/DeskTop/Undo.pm module.
+
+=item Update Canvas
+
+The C<Update Canvas> instructs tkg2 to redraw everything on the canvas.  This is a seldom used feature, as all dialog boxes exit with an update of the canvas.  The main use of update canvas is when the user switches the 'Draw Data on Canvas Update' variable in the 'Global Settings' menu.  For moderate to large data sets, turning the data drawing off can make editing the plots and annotation more efficient.  The switch will be temporarily turned on when printing.  The update canvas code is located in Tkg2/TemplateUtilities.pm::UpdateCanvas.
+
+=item Step-Wise Update
+
+This action functions just like the C<Update Canvas> except that all major steps of the canvas drawing are incremented through.  The user is prompted along standard output whether the step was properly performed or at least believed to be properly performed.  The user answers yes or no.  Details are written to the C<~/.tkg2message> file.  The C<Step-Wise Update> is intended to help the author diagnosis problems that users might experience.
+
+=item View Dumped Template
+
+Performs a Data::Dumper dump to ASCII of the template hash an recursively traverses deep data structures and loads the text into a text widget.  This feature is primarily for the developer during debugging, but could be informative to other contributors.  The output is essentially identical to a Save with the Hash format except that anonymous subroutines and some process dependent information are not removed. 
+
+=back
+
+=head2 FURTHER DISCUSSION
+
+
+
+Z<>

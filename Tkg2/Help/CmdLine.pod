@@ -1,0 +1,1153 @@
+
+=head2 Tkg2/Help/CmdLine.pod  (This file best viewed by %Tkg2 -help).
+
+Tkg2 -- An innovative and unique 2-D charting program. 
+
+% USAGE:
+
+         tkg2 [ options ] [ Tkg2filename(s) ]
+            Most common way to run Tkg2.
+            
+         Tkg2filename(s) [ options ] 
+            The Tkg2 file names will spawn the Tkg2 program for you
+            assuming that Tkg2 is found at /usr/local/bin/Tkg2.
+       
+% HELP:
+
+         Each Tkg2 sheet provides a HELP menu on the far right hand side.
+         Various help topics can be accessed via the command line (see
+         --help option below).  This command line help can be found at
+         /usr/local/Tkg2/Help/CmdLine.pod or spooled to the default
+         printer from the HELP menu.
+         
+% QUICKTIP:
+  
+  Perform the following command: Tkg2 -mktemp=p
+  Tkg2 starts up, creates a portrait sheet, creates a single plot, and
+  is now prompting you for a data file to read in.
+
+% TUTORIAL
+
+  Mouse Control
+  The Tkg2 mouse presently has some slightly different than expected
+  behaviors compared to other graphical user interfaces.  This is
+  primarily because your author has not figured out how to get Tk to
+  reliably distinguish between single and double clicks etc. The
+  general rule is that if the left or first button (Button-1) does not
+  do what you expect or want, try the right or third button (Button-3).
+
+  Mouse use primer:
+     o Menus --
+           All use Button-1.
+
+     o Plots --
+           Grab, Move, and Release using Button-3.  A double click
+             with the button might be required as the mouse event
+             listener sometimes miss them for unknown reasons.
+           Select, Resize with Button-1.
+           Launch the PlotEditor with a Double-Button-1.
+
+     o Explanation --
+           Grab, Move, and Release using Button-3.
+           Edit individual text entries with Double-Button-1.
+           Edit individual symbology with Double-Button-1.
+
+     o Axis --
+           Launch x, y, or y2 axis editors by Double-Button-1.
+
+     o Annotation --
+        Symbols and Text
+           Grab, Move, and Release using Button-1.
+           Edit and Delete with Double-Button-3.
+        Lines
+           Select, Resize by nodes, Release with Button-1.
+           Edit and Delete with Double-Button-3.
+
+% SUMMARY OF COMMAND LINE OPTION NAMES
+
+  --autoexit or --autoexit=<integer>
+ 
+  --batch 
+  --batchsave
+  
+  --checkcolors
+  --clear
+  --colormode=<color | mono>
+  --cycle=<integer --test>
+  
+  --debug=<stdout | file> 
+  --destination=<printer>
+  --display=[host]:server[.screen] or
+  --DISPLAY=[host]:server[.screen]
+  --dnload_data  ** NOT IMPLEMENTED YET
+  --drawdata or --nodrawdata
+  --dumpboxes
+  
+  --echocommandline
+  --exportfile[v]=<filename>
+  --exportrotate=<0 | 90>
+  --exportview=<integer, pixels per inch>?
+  
+  --fixcolors ** NOT IMPLEMENTED YET
+  --format=< (mif | MIF) |
+             (pdf | PDF) |
+             (png | PNG) |
+             ( ps |  PS) >
+  
+  --geometry=<'valid unix geometry string'>
+  --glob=<'pattern'>?
+  
+  --height=<X.X inches>
+  --help [optional topics]
+  --home=<directory path>
+ 
+  --importdata
+  --inst=<file name | - >
+  --instv=<file name | - >
+  --instb4data
+  
+  --justdisplay
+  --justdisplayone
+ 
+  --mkplot=<string of margins, #x#x#x#>?
+  --mktemp=<dimension string, #x#>
+  --megacmd_args=<string>
+  --megacmd_keep
+  --megacmd_show
+  --message=<string>
+ 
+  --nobind
+  --nodec
+  --nodialogrescale
+  --noexport
+  --nofieldcheck
+  --nomenus
+  --nomw
+  --noprint
+  --norulers
+  --nosave
+  --noundo
+  --nozoom2unity
+  
+  --optimize
+ 
+  --pause=<integer>
+  --presenter
+  --presentercolumns=<integer>
+  --presenterlabels=<string, delimited by :>
+  --presentersort
+  --pretty_data **  NOT IMPLEMENTED YET
+  --printer_queue=<string>
+ 
+  --readonly
+  --redodata 
+  --redoinst 
+  --relative_paths or
+  --norelative_paths ** NOT IMPLEMENTED YET
+
+  --scaling=<real no. > 0>
+  --showme=<real no. > 0>
+  --showmesubs
+  --splash or --nosplash
+  --stdin
+  --stdout  
+ 
+  --test=<integer>
+  --time_cache_delete
+  --time_cache_ignore
+  --time_cache_nosave
+  --time_cache_view
+  
+  --walkatree=<directory>?
+
+  --verbose or --noverbose
+  --version or --v or --V
+  --viewconfig
+  
+  --width=<X.X inches>
+  --withdraw
+  --withdrawmw or --nomw
+  
+  --zoom=<real no.>
+  
+
+% COMMAND LINE OPTIONS         
+  The following command line options are available to more precisely
+  control Tkg2 behavior and provide many powerful batch processing and
+  application control and development features.  The options are longer
+  in character length than those commonly seen in other packages.  This
+  is done for at least two reasons.  Most of the options will be used
+  by calling scripts--verbose options help to self document those
+  scripts.  Long options have a greater name space and hence are less
+  likely to change in the future.  Fortunately, options can be
+  abbreviated or shortened to the minimum number of starting letters 
+  for that option to be unique.
+  
+  Several options are mutually exclusive--for example, when --help is
+  applied all other options are ignored.  These are identified with a
+  '**' after the option name.  When a '?' follows an option value then
+  the value is optional and Tkg2 provides a default value.  Any
+  suggestions for further options are greatly encouraged.  Many of the
+  options are closely link to parameter settings in the Tkg2rc files, see
+  Tkg2/Tkg2rc.pod for further details.
+
+     --autoexit or --autoexit=<integer>
+           Automatically exits after all pending Tkg2 files are
+           processed.  If an integer argument is provided, then
+           Tkg2 will sleep for that many seconds before performing
+           the autoexit.  This can be a useful feature if you
+           want to quickly look at some Tkg2 files and then go
+           back to the command line.  This is also a handy feature
+           for your author as the development-test cycle is
+           slightly faster if the mouse is not required to 
+           quit the application.
+
+     --batch 
+           Starts Tkg2 in a batch processing input-output mode.
+           The main dialog box is not shown.  The menus, rulers,
+           and scrollbars are not generated during the session.  The
+           default behavior of --batch is to spool each of the *.Tkg2
+           files to the default printer.  The printer destination is
+           controlled using the --destination option.  If a postscript
+           file is desired instead, use the --exportfile=file option
+           with --format=ps.  The colormode of the postscript is
+           controlled using the --colormode option.  The Tkg2 files
+           will be shown on the screen unless the --withdraw option
+           is used too.  The --batch option uses --autoexit behind
+           the scenes so there is no need to include --autoexit.
+           Note, that the undo is turned off when running under
+           --batch to get just a bit more speed out of the
+           application.
+     
+     --batchsave
+           All opened Tkg2 files are automatically saved.  This is
+           a neat feature to help scripters of Tkg2 to bring their
+           templates to the current version.  The most common usage
+           is to incorporate --withdraw, --verbose, --autoexit, and
+           --glob.  For example:
+             % tkg2 -withdraw -verbose -a -glob -batchsave
+           All *.Tkg2 files in the current directory will be saved
+           in the current version.
+           
+     --checkcolors
+           Checking the system colors is advisable when you first
+           begin using Tkg2.  At runtime, Tkg2 looks at a
+           configuration file Tkg2/Tkg2rc for default colors and
+           in a \$HOME/.Tkg2rc file for additional colors.  These
+           color names are checked against the rgb.txt file--
+           Tkg2 is coded to look for it in the usual OS dependent
+           places--on the host system to see if they are valid.
+           Color names that are not found are removed.  However,
+           a bigger problem is that the colors might be valid on
+           the host system but not valid on the client.  Thus, Tk
+           must actually perform an evaluation.  For example, NT
+           boxes using Reflection X do not have the color lightgreen,
+           yet the Sun boxes do.  The --checkcolors option checks this
+           out, reports, and removes the color.  Still another problem
+           is that a *.Tkg2 file created on one system might request
+           colors that are not available on another system.  The
+           --fixcolors opion will change all nonvalid colors in a
+           *.Tkg2 file to black.
+           
+     --clear
+           Clears the terminal screen before execution begins.  Why?
+           Because it was easy to do.
+           
+     --colormode=<color | mono>
+           Set the postscript color mode in either color or mono.
+           There might be a bug with the greyscale option that is
+           makes it invalid for Tk.  Color mode is 'color' when unless
+           specified differently.
+           
+     --cycle=<integer --test>
+           --cycle sets the number of times that --test is to cycle
+           through and display the *.Tkg2 files.  This option is
+           available on only inconjunction with --test.  The integer
+           is mandatory.  This is handy as one can have Tkg2
+           cycling through example plots before a presentation
+           or training session gets underway.
+           
+     --debug=<stdout | file> 
+           Toggle the built-in reporting mechanism for Tkg2.  If
+           --debug=stdout, then debug messages printed along STDOUT
+           through the BUGS filehandle.  When --debug equals 'file'
+           then debug messages are appended to /tmp/Tkg2.bugs.  Debug
+           is an under implemented feature, but can be helpful in some
+           situations.  See --verbose and --showme.
+           
+     --destination=<printer>
+           Printer destination.  The default printer is used when
+           unspecified.  'lpstat -d' is used to determine the default
+           printer and 'lpstat -v' is used to determine the list of
+           available printers.  Of course lpstat is only used on 
+           those systems that support it.  If your system does not
+           then you will have to rely on the Tkg2rc files.
+           
+     --display=[host]:server[.screen] or
+     --DISPLAY=[host]:server[.screen]
+           The display that Tkg2 is to operate under can be changed
+           if and only if --display is the very first command line
+           option.  Tkg2 requires some special internal handling
+           of display before the other command line options can be
+           processed.  Using --display allows variations on the
+           following remote shell application:
+             % tkg2 -stdout -withdraw -autoexit -importdata \
+             tkg2file.tkg2 | rsh server.domain \
+             "tkg2 -display=local:0.0 -stdin"
+           This is a clear example of the shear power provided by
+           simple redirection of STDOUT and STDIN channels, and
+           why all good software should have both graphical and
+           commandline interfaces.
+     
+     --dnload_data  **                   NOT IMPLEMENTED YET
+           Dumps data from *.tkg2 files after any necessary dynamic
+           loading in a DataDumper format.
+     
+     --drawdata or --nodrawdata
+           Turn on or turn off whether the data portion of the plots
+           in a given Tkg2 file are to be redrawn.  If the option
+           is not given then the data is drawn with each update on
+           the canvas.  If the Tkg2 file is saved or printed then
+           the data is drawn regardless of the presence of
+           --nodrawdata.  Also at the first rendering of the
+           Tkg2 file on the screen the data is drawn although the
+           --nodrawdata option is set.  The data is not drawn on
+           subsequent updates of the canvas.
+     
+     --dumpboxes
+           Dump the statistics of each box plot to standard out.
+           Tkg2 boxplot capabilities are really powerful and utilize
+           a bunch of common and uncommon statistical measures of
+           the data including the incredible L-moments.
+           
+           Each time a box plot is generated the statistics of the
+           data set are echoed to standard output when --dumpboxes
+           is used.  Tkg2 can be turned into a powerful statistical
+           computing tool when --dumpboxes is used with its batch
+           processing, instruction capabilities, and your own calling
+           scripts to pick up the dumped statistics for use elsewhere.
+           The following is an example of the statistics dumped:
+           BEGIN BOX DUMP:
+                  -geometric_mean => 0.0456646656601944
+                  -harmonic_mean => 0.00740680625704875
+                  -kurtosis => undef
+                  -lower_centacile => undef
+                  -lower_decile => 0.00324416839535917
+                  -lower_detection_limit => undef
+                  -lower_pentacile => 0.0135160324480734
+                  -lower_quartile => 0.0248795878523217
+                  -lower_replace_value => undef
+                  -lower_tercile => 0.0612532373355434
+                  -max => 9.449
+                  -mean => 0.329944162436548
+                  -median => 0.050
+                  -min => 0.001
+                  -moment_calc_method => product
+                  -number_samples => 197
+                  -scale => 1.02161070400605
+                  -skew => 7.11001700943568
+                  -type1_outliers => 1.609,1.665,1.767,1.874
+                  -type2_outliers => 3.167,3.435,8.967,9.449
+                  -upper_centacile => undef
+                  -upper_decile => 1.8631064653856
+                  -upper_detection_limit => undef
+                  -upper_pentacile => 1.03825954469415
+                  -upper_quartile => 0.830952363155337
+                  -upper_replace_value => undef
+                  -upper_tercile => 0.598635087537553
+           END BOX DUMP:            
+           Brief details about some of the statistics are required.
+           Further information can be determined from the DrawDataEditor
+           (double click on the symbology in the explanation).
+           -scale = standard deviation when product moments are used.
+           -scale = L-scale when L-moments are used.
+           All upper and lower 'ciles are computed using order statistics.
+           Outliers have differing meanings depending upon user definition.
+           
+           Postprocessing of just simple observation of this output
+           could be cumbersome because the BEGIN BOX DUMP: is not able
+           to provide information about which box etc.  The --message
+           option can be used to replace BEGIN BOX DUMP: with
+           'Statistics for --message\n' in which --message is the 
+           string provided by the option.  This is handy because you
+           can do mass batch processing, spool continuous output
+           to a line printer, and use the message as a way to look
+           at the output and know something about what data the
+           statistics shown are for.  When the --message is present
+           the END BOX DUMP: is not shown.
+     
+     --echocommandline
+           Echos the command line back to the user, including the
+           Tkg2 executable.
+     
+     --exportfile[v]=<filename>
+           Export file name, whose --format can be either 
+           FrameMaker Interchange (MIF), Portable Document Format (PDF)
+           Portable Network Graphics (png), or Postscript (PS).
+           The exportfile will overwrite a prior file.  The addition
+           of the 'v' at the end of the option instructs Tkg2 to
+           launch the appropriate external viewing utility.  This
+           can be very helpful in debugging the calls to the image
+           generation software.  If a file name is not provided, then
+           the base name of the Tkg2 file is used and a ".ps"
+           extension is added.  All Tkg2 files provided on the command
+           line will be exported.
+           
+     --exportrotate=<0 | 90>
+           Controls the direction or orientation of the page. 
+           For example, by default 11x8.5 pages are set
+           to landscape, which just means to rotate the image
+           90 degrees counter clockwise.
+     
+     --exportview=<integer, pixels per inch>?
+           Instructs Tkg2 to launch the appropriate external viewing
+           utility.  This option is ignored unless --exportfile[v] is
+           used too.  The optional integer of pixels per inch sets the
+           scale or resolution of the view of the postscript output.
+           The viewing of the non-postscript export formats is not 
+           affected by the resolution.  Ghostscript is used to view
+           the postscript output and --exportview provides the value
+           for the Ghostscript '-r' argument.  See gs manpage for more
+           details.  If the resolution is left off the value used
+           for postscript view is 50.  Use smaller values to view pages
+           significantly larger than letter size.  This option is
+           a critical element of debugging image exporting.
+           
+     --fixcolors **                      NOT IMPLEMENTED YET
+           Will change all nonvalid colors in a *.tkg2 file to black.
+   
+     --format=< (mif|MIF) | (pdf|PDF) | (png|PNG) | (ps|PS) >
+           The default is postscript (PS) if not specified.  The MIF
+           format requires the external utility pstoedit.  pstoedit
+           requires Ghostscript.  The PDF and PNG rendering is performed
+           by Ghostscript.  An --autoexit is implied by --format.
+           
+           Each of the formats can take on additional arguments as
+           described below.  The syntax for giving additional arguments
+           is to separate each with a colon, ':', after the format type
+           has been given.  If the first argument is the word 'ask' a
+           file browser dialog box is launched; tkg2 will exit with a 
+           message if the Cancel button is pressed unless the type is MIF
+           in which a quiet exit is made.  Additional arguments after the
+           : are explained below.
+
+           It can be useful to --verbose Tkg2 and see the sequence of 
+           external commands and utilities that construct the export formats.
+                          
+             MIF:  Framemaker Interchange Format (not on Win32 or MacOSX)
+                   --format=mif
+                             
+             PNG:  Portable Network Graphics (PNG is Not GIF)
+                   --format=png [:ask[:resolution]]
+                             The pixels per inch count, which can be
+                             used for fine tuning the PNG output.
+                             tkg2 -format=png::250 yourplot.tkg2
+                               yourplot.png is produced at 250 pixels per inch.
+                             tkg2 -format=png:ask:300 yourplot.tkg2
+                               Prompt for the png file at 300 pixels per inch.
+             
+             PDF:  Portable Document Format
+                   --format=pdf [:ask[:zoom factor]]
+                             The zoom factor is a multiplier on the
+                             pixels per inch setting on the PDF
+                             generation, which can be used
+                             for fine tuning the PDF output.
+                             tkg2 -format=pdf:ask yourplot.tkg2
+                               Prompt for the pdf file with multiplier of 1.
+                             tkg2 -format=pdf yourplot.tkg2
+                               yourplot.pdf generated.
+                             tkg2 -format=pdf::2 yourplot.tkg2
+                               yourplot.pdf generated with a 2 multiplier.
+             
+             PS:   Postscript
+                   --format=ps
+                        This is the default format.  Only :ask is available.
+            
+           If the format is specified and the --exportfile is not,
+           then the Tkg2 file extension is dropped and .ps, .pdf, .png,
+           or .mif is added to the file, which avoids clobbering your
+           hard Tkg2 work.
+      
+     --geometry=<'valid unix geometry string'>
+           Control the window size and screen location of the Tkg2 sheet
+           with this option.  The main Tkg2 dialog or presenter dialog
+           are not controllable.  The format for the string is the usual
+           X-windows geometry string (\d+[x]\d+[+-]\d+[+-]\d+).  The '\d+'
+           denotes an integer.  The [x] is the character x and [+-]
+           indicates the plus or minus sign.  Here are some examples:
+             --geometry=300x450
+                300 pixel width and 450 pixel height
+                
+             --geometry=45x300-100+20
+                45 pixels by 300 pixels placed 100 pixels from left
+                and 20 pixels down from top.
+               
+             --geometry=+100-20
+                Default width and height placed 100 pixels from right
+                and 20 pixels up from bottom.
+           Some variation on whether you will detect the effects of the
+           geometry depend on the window manager that you are using and
+           the natural size of the Tkg2 sheet.
+           
+     --glob=<'pattern'>?
+           Globs the for the files matching the pattern in the current
+           directory.  If a pattern is not specified then '.tkg2$' is
+           used.  Other Tkg2 file names that are specified in the usual
+           place are catenated to the globbed files.  Glob is often used
+           with --walkatree to traverse down a directory for deep
+           globbing.  Other filenames can be listed in place of the
+           pattern.  Most Perl regular expression syntax is supported 
+           and regular shell regular expression syntax is not.
+     
+     --height=<X.X inches>
+           Specify the page height for all Tkg2 files on the command
+           line.  The margins of each plot and the coordinates of each
+           annotation and explanation are altered according to the
+           relative location or percentage from the origin of the
+           original page height.  The page height can also be controlled
+           using the Tkg2rc file with 'Tkg2*height:   4' for a 4 inch
+           height.  The command line option will override height values
+           seen in the Tkg2rc file.  Also, only the last occurrence of
+           Tkg2*height in the Tkg2rc file is used. 
+     
+     --help [optional topics]
+           This help.  When additional topics are provided, Tkg2 launches
+           the tkpod reader.  'pod' stand for plain old documentation.
+           Tkg2 appends a '.pod' to the topic name and looks in the
+           Tkg2/Help/ directory for the file to markup.  Tkg2 files can
+           still be loaded from the command line if they end in '.tkg2'.
+           
+           An usage example in which the prompt is shown as % is
+              % tkg2 -help FileMenu
+           
+           The help topics current available are:
+
+             About 
+                  Generalized description of tkg2.
+             
+             faqs
+                  General frequently ask questions.  You are welcome
+                  to contribute your own to the author.
+                  
+             --- Menus ---
+             
+             AnnoMenu
+                  Description of the Annotation menu and annotation
+                  in general.
+             
+             FileMenu
+                  Description of the File menu, features, and developer
+                  notes.
+             
+             EditMenu
+                  Description of the Edit menu, features, and developer
+                  notes.
+             
+             PlotMenu
+                  Description of the Plot menu, features, and developer
+                  notes.
+             
+             DataMenu
+                  Description of the Data menu, features, and developer
+                  notes.
+             
+             SettingsMenu
+                  Description of the Global Settings menu and developer
+                  notes.
+                  
+             --- Configuration and Operation ---
+             
+             CmdLine
+                  This exact help shown in the tkpod viewer.
+             
+             Instructions
+                  Detailed information and examples of the powerful
+                  external scripting language to control Tkg2 objects.
+                  
+             Tkg2rc
+                  Detailed information about the Tkg2rc file(s).
+                  
+             --- Dialog Boxes ---
+             
+             AddDataFile
+                  Description of the Add Data File to Plot dialog box.
+                  This dialog box is responsible for setting the various
+                  parameters required to read and parse inputted data
+                  files.  The choice between hard and soft loading of
+                  the data is also made.
+             
+             PlotEditor
+                  Detailed information about the plot editor.  This
+                  editor is used to control plot-wide parameters.
+             
+             ContinuousAxisEditor
+                  Detailed information about the continuous axis editor.
+                  This editor is used to edit linear, log, probability, 
+                  and time axis.
+                
+             DiscreteAxisEditor
+                  Detailed information about the continuous axis editor.
+                  This editor is used to edit discrete or categorical
+                  axis.
+
+             --- Utilities to improve your life ---
+             
+             GeneralUtilities
+                 Utilities that are of a general nature to aid in file
+                 parsing and other activities.  All the utilities are
+                 contained in the Tkg2/Util directory.
+             
+             NWISUtilities
+                 Utilities specific to the U.S. Geological Survey NWIS
+                 system or specific to USGS job needs.  All the
+                 utilities are contained in the Tkg2/Util directory.
+               
+     --home=<directory path>
+           Set an alternative home directory for Tkg2 interaction with
+           the file system.  When unspecified, the home directory
+           becomes the directory in which Tkg2 was launched.       
+     
+     --importdata
+           Toggles a global variable, which specifies whether or not
+           Tkg2 is to delete the loaded data whenever a given Tkg2
+           file is saved.  A Tkg2 file that normally uses dynamic
+           data loading can be copied to a file with hard loaded
+           data like this: 
+           % tkg2 -importdata --stdout \ 
+                  -autoexit test.tkg2 > test_hardload.tkg2
+           --importdata also is very important for a client-server
+           type model of operation with Tkg2.  For example,
+           % tkg2 --importdata \
+                  --stdout --autoexit test.tkg2 | tkg2 --stdin 
+           pipes test.tkg2 after loading of data to another Tkg2
+           process.  Without the --importdata, then the second
+           Tkg2 process would need access to the files specified by
+           test.tkg2 for its dynamic loading.  The option became 
+           obvious because of the need for Tkg2 to work in
+           unidirectional communication with itself on other
+           machines on the network.
+          
+     --inst=<file name | - >
+           Instructions, an extremely powerful scripting mechanism
+           to make changes to plots, datasets, data, reference lines,
+           quantile-quantile lines, and line, symbol, and test
+           annotation without resorting to using the mouse.  This
+           option can be repeated.  If the file name contains a
+           directory patch, then it will have to be quoted.
+           See the Instructions.pm module for details. If one
+           of the invocations of inst is '-', such as '--inst=-'
+           then the Instructions will also be read from STDIN to
+           that pipe and redirections are supported (at least on
+           Unix).  The Instructions are read once and only applied
+           at the last second before graphics begin rendering.
+           See --redoinst if a run-time dynamic Instruction session
+           is desired.  The Instructions are really quite simple,
+           but do not underestimate their power.
+      
+     --instv=<file name | - >
+           A verbose version of --inst along STDOUT.  The --verbose
+           option needs to be set for --instv to actually show output.
+           --instv is handy for debugging Instruction files. 
+           
+     --instb4data
+           Instructions before the data.  This option places the call
+           into the Instruction algorithms before the call into the 
+           dynamic data loading algorithms.  The default behavior is
+           for the Instructions to be executed immediately following
+           the loading of the data.  This execution sequence prevents
+           the Instructions from modifying how a data file is read
+           in.  For example, perhaps the data file delimiter has
+           changed from a tab to a comma.  The presence of this
+           option cause the Instructions to be executed immediately
+           before the loading of the data.
+           
+           Until the 0.72 release (Jan 6, 2002) and greater of Tkg2,
+           this option was not available.  Tkg2 has grown up with the
+           Instructions executed after the data is loaded only.
+           Because there are some wild (to say the least) things
+           going on behind the scenes, it is uncertain whether the
+           --instb4data option might cause unexpected problems.
+           None are know of at the present time however.  Please
+           exercise the option will careful testing and provide your
+           author some important feedback.
+     
+     --justdisplay
+           Turns Tkg2 into a multiple *.tkg2 file displayer in which
+           the user can only print to postscript or create MIF files
+           or simply exit each file using the Tkg2 Displayer menu->exit.
+           The Exit button on the main dialog totally exits the session.
+           A special SaveAs menu selection is provided in which the
+           display only Tkg2 file can be saved with the data hard
+           loaded into the new file name.  This new file can then
+           be shipped around and plotted without the concern of
+           having to ship the data files too.
+                            
+     --justdisplayone
+           Turns Tkg2 into a multiple *.tkg2 file displayer in which
+           the user can only print to postscript or create MIF files
+           or totally exit the entire session.  The --justdisplayone
+           is poorly named as multiple files are displayed but
+           the exit from the Tkg2 Display menu does a total exit.
+           A special SaveAs menu selection is provided in which the
+           display only Tkg2 file can be saved with the data hard
+           loaded into the new file name.  This new file can then
+           be shipped around and plotted without the concern of
+           having to ship the data files too.
+
+     --mkplot=<string of margins, #x#x#x#>?
+           Specifies the left, right, top, and bottom margins in inches
+           for a plot.  This option is used in optional conjunction with
+           --mktemp, and can be repeated to build multiple plots.  For
+           example, --mkplot=1x1x1x5.5 --mkplot=1x1x6x1.5 creates two
+           plots on the template, as specified by --mktemp.  Each plot
+           has side margins of 1 inch.  The first plot has a top margin
+           of 1 inch and a bottom margin of 5.5 inches; whereas, the
+           second plot has a top margin of 6 inches and a bottom margin
+           of 1.5 inches.  Either lower or upper case 'x' is used to
+           delimit the string.  After each plot is created, a dialog box
+           asking for data is provided for convenience.  Consult the
+           pre-built page generation scripts in Tkg2/Util/PreMades,
+           which are documented in GeneralUtilities.
+           
+     --mktemp=<dimension string, #x#>
+           Specifies that a template is to be generated on the fly with
+           the width and height, in inches, specified in an 'x' delimited
+           string.  For example, to create a typical letter sized template
+           in portrait orientation --mktemp=8.5x11.  Either lower or upper 
+           case 'x' can be used to delimit the string.  Only one --mktemp
+           is recognized at a time.  If the sister command, --mkplot is
+           not used then default plot margins are used instead.  After
+           each plot is created, a dialog box asking for data is provided
+           for convenience.  Two short aliases are provided for quick
+           creation of 8.5x11 and 11x8.5 templates, 'l' (8.5x11) and 'p'
+           (11.8.5) for letter and portrait, respectively.  Consult the
+           pre-built page generation scripts in Tkg2/Util/PreMades,
+           which are documented in GeneralUtilities.
+     
+     --megacmd_args=<string>
+           Additional arguments can be passed to any and all
+           megacommands called during a single Tkg2 session.  Underscores
+           (_) can be used to separate a list of arguments.  The
+           underscores are stripped and replaced with a single space
+           prior to the execution of the command.  For example,
+           --megacmd_args=-help_3 would add '-help' and '3' to the
+           command.  Use the --megacmd_show options to see how the
+           arguments are applied and the results of the command.  The
+           --verbose option provides a similar output to see what
+           command is built, but does not report the output of the 
+           command.  The --verbose option might be a preferred option
+           to debug megacommands.  It is unlikely in the future
+           that you will be able to pass differing arguments to 
+           different commands.  The megacommand itself is specified
+           instead of a data file from the 'Advanced' tab of the
+           AddDataToPlot dialog box.
+          
+     --megacmd_keep
+           Override the default behavior of deleting all generated
+           megacommand files when the Tkg2 process exits.  The list of
+           megacommand files are kept in the $::TKG2_ENV{-MEGACMD_FILES}
+           array and the basename of the files is kept in the 
+           $::TKG2_ENV{-MEGACMD_BASENAME} scalar.  A megacommand file name
+           looks something like the following: 'Tkg2_megacommand_file_1'.
+           
+     --megacmd_show
+           Provides a verbose reporting of the output of the megacommand
+           or megacommand pipeline by cat-ing the command output to STDOUT
+           using a system() call.
+     
+     --message=<string>
+           A user specified string identify the calling script or other
+           pertinent information for easier reading of the /tmp/tkg2.log
+           file.  For example, suppose the script go.pl called Tkg2
+           via a system call like this
+           
+             tkg2 --message="go.pl_is_the_parent"
+           
+           Then then string "# go.pl is the parent" would be
+           placed as the final entry on a line of the | delimited 
+           tkg2.log file.  Underscores are used to signify spaces and
+           will be stripped away before the line is written to the
+           log file.  When present --message is used by --presenter as
+           the dialog box title; short messages are preferred because
+           of visible dialog box title space limitations.  See
+           --dumpboxes for another use of the --message option.
+     
+     --nobind
+           Instructs Tkg2 to not construct mouse bindings on the canvas.
+           This is a handy feature because one can run Tkg2 in
+           --justdisplay, --justdisplayone, and --presenter display
+           modes in which the bindings used in regular interactive
+           sessions are left on although the menus are very limited.
+           So with --bind, the user sees a limited interface, but is
+           able to make adjustments to the graphics without having
+           to save them and then relaunch Tkg2.  When --nobind
+           is set, then all the mouse bindings are removed.  If
+           --nobind is used without the presence of --justdisplay,
+           --justdisplayone, or --presenter, then the --presenter mode
+           is turned on.  This avoids potentially confusing situations
+           for the user because a regular interactive session is seen
+           yet the mouse is incapable of interacting with the drawn
+           objects.
+           
+     --nodec
+           Removes all window decorations from the Tkg2 template window.
+           The window can not be minimized, closed, or even moved by the
+           window manager.  Tkg2 still retains control of the window,
+           however.
+     
+     --nodialogrescale
+           Normally Tkg2 rescales the font sizes seen in dialog boxes
+           so that the text is readable no matter what the scaling
+           factor on the drawing window is.  Because Tkg2 is tinkering
+           with what the user seen, it is felt that having this option
+           to turn this behavior off might be useful in some very
+           rare and odd technical support cases.
+     
+     --noexport
+           Disables the exporting of the Tkg2 file into another format by
+           removing the "Export" function from the File or Tkg2 Displayer
+           menu in the upper left hand corner.
+     
+     --nofieldcheck
+           Per line and per column field checking is not performed during
+           loading of data.  In other words, numbers should be numbers,
+           time should be time, and strings are everything else. For
+           large files this can provide a significant speed increase.
+           Tkg2 might throw run-time errors instead of politely providing
+           error trapping and an error dialog box.
+     
+     --nomenus
+           Disables the display and of course compiling of the menus that
+           are displayed along the top of a Tkg2 canvas.  The option can
+           be used with or without the --justdisplay, --justdisplayone, or
+           --presenter options.  When --nomenus is given, --noundo and
+           --nobind are toggled on.  This option is useful if you
+           absolutely do not want the user to be able to modify the 
+           plots or anything else.
+     
+     --nomw
+           Withdraws the main dialog box or technically the Tk MainWindow.
+           The main dialog box is the small horizontally oriented 
+           window containing just the buttons for New, Open, View ENV, and
+           others.  The option --withdrawmw does the same thing.  The
+           Exit action, which exits a single Tkg2 template as opposed
+           to the Exit Tkg2 action, is not shown when the --nomw is
+           used.  This is so that the user can not be left with a
+           running Tkg2 process yet now windows to close to kill the
+           process.  Further when used inconjunction with the
+           --justdisplay, the Total Exit from Tkg2 Displayer window
+           (the MainWindow) is not shown.  The Exit in the the TKG2
+           DISPLAYER menu does a total exit from Tkg2 even if more than
+           one Tkg2 file is open.
+
+           A further feature of the --nomw option is that if the close
+           toggle on the window decoration (usually an "X"-looking glyph)
+           is clicked then tkg2 is exited entirely.  The close toggle is
+           almost always in the upper right hand corner of the window.
+           Tkg2 windows that were opened by the same process as the
+           clicked window will naturally be destroyed.  This is an
+           important feature because it prevents a forked Tkg2 process
+           from hanging indefinitely. For example, the Perl command
+               
+               print `tkg2 -nomw frequency.tkg2 boxplots.tkg2`;
+           
+           will not wait forever as the following command would
+           
+               print `tkg2 frequency.tkg2 boxplots.tkg2`;
+           
+           if the user managed to minimize the six-button main dialog,
+           forgets that they did this, and then closes the frequency.tkg2
+           window by clicking on the close toggle of the window decoration.
+           Both frequency.tkg2 and boxplots.tkg2 will be closed
+           simultaneously as the tkg2 process quits.  This behavior is
+           equivalent to clicking on the close toggle of the six-button
+           main dialog box of Tkg2--all children tkg2 sheets will be 
+           exited.
+
+     --noprint
+           Disables postscript printing of the Tkg2 file by removing the
+           "Print" and "Print and Exit" functions from the File or
+           Tkg2 Displayer menu in the upper left hand corner.
+     
+     --norulers
+           Turns the rulers off, which saves noticeable time on drawing
+           a Tkg2 file.  Hence, if you require just a bit more speed
+           and do not think that the rulers are needed, then use this
+           feature.
+     
+     --nosave
+           Disables saving or creating Tkg2 files by removing the "Save",
+           "SaveAs", new "New" functions from the File or Tkg2 Displayer
+           menu in the upper left hand corner.
+           
+     --noundo
+           Turns the undo feature off, which saves a few seconds of
+           drawing time on a Tkg2 file.  Hence, if you require just a bit
+           more speed and no undo, then use this feature.  The speed
+           increase comes from not needing to clone the template (the Tkg2
+           file) in memory.
+                
+     --nozoom2unity
+           Turns off the default behavior that the --zoom is set to unity
+           during postscript rendering.  This option will change the
+           corresponding checkbutton on the Exporting and Printing dialog
+           box.  Nozoom2unity can be set to true (or even false) through
+           the Tkg2rc file with 'Tkg2*nozoom2unity:  #' where # is 1 for
+           truth or 0 for false (default anyway).  The command line option
+           will override Tkg2rc file.
+		
+     --optimize
+           Adds the following to the command line options:
+              --nofieldcheck, --norulers, and --noundo.        
+     
+     --pause=<integer>
+           After processing each file, Tkg2 will sleep(integer) seconds
+           before moving on to processing the next file. 
+
+     --presenter
+           Turns Tkg2 into a powerful multiple *.tkg2 file displayer
+           in which a scale widget appears and allows the user to
+           interactively control which of the Tkg2file(s) given by
+           the command line will be plotted.  One figure at a time
+           is display through the Tkg2 Displayer.  A special
+           SaveAs menu selection is provided in which the display
+           only Tkg2 file can be saved with the data hard loaded
+           into the new file name.  This new file can then be shipped
+           around and plotted without the concern of having to ship
+           the data files too.  Note that --autoexit and similar do
+           not work with the Tkg2 presenter.
+
+     --presentercolumns=<integer>
+           Specifies the number of columns that Tkg2 is to show in the
+           presenter dialog box.  The excess or remainder files are
+           packed into the far left grooved frame; this is hard wired.
+
+     --presenterlabels=<string, delimited by :>
+           Replaces the Tkg2 file names next to the radiobuttons in
+           the presenter frame with the labels provided by this option.
+           The ordering of the labels matches the ordering of the Tkg2
+           files specified.  A colon (:) is used to delimit between
+           the different labels.  If an entry is not provided for each
+           of the Tkg2 files, then Tkg2 uses the string
+           "no label provided" instead to prevent undefined value 
+           warnings.  The option will internally toggle --presenter.
+           In order for proper parsing of the string on the option,
+           please use underscore (_) in space of each space.  Tkg2
+           will perform an _ to space substitution with the presenter
+           frame is built up.
+
+     --presentersort
+           Sorts the Tkg2 file names.  Tkg2 does not assume that the
+           user desires alphabetical sorting unless told to do so.  This
+           permits someone to script Tkg2 in the presenter mode and be
+           assured what order the files are in; a useful feature for
+           training classes.
+
+     --pretty_data **                    NOT IMPLEMENTED YET
+           Dumps data from *.tkg2 files after any necessary dynamic
+           loading in an attractive row column format.
+
+     --printer_queue=<string>
+           Set the printer queue.  This is a work around on the
+           different printing mechanisms.  For example, if you use
+           'pdq' instead of 'lp' to handle print jobs, then say
+           --printer_queue=pdq.  The printer queue can also be
+           set using the environment variable PRINTER_QUEUE.  The
+           default is to use 'lp -c', which is on most Unix variants
+           though Linux uses 'lpr'.
+     
+     --readonly
+           Short cut for toggling of --noexport, --noprint, and
+           --nosave.  Consult the description of those options.
+           One can still modify the canva unless the --nobind option
+           is separately provided.
+     
+     --redodata  Redo the deletion and reloading of all dynamically
+           or run time loaded data.  Meaningless unless some of the
+           data was not imported into the Tkg2 file.  Redoing the
+           data loading turns Tkg2 into a highly flexible application
+           extension tool and real-time data visualization tool.  If
+           the data has changed after the data was loaded, then the
+           redo will update the plots with the new data.  Because
+           all internal data is deleted first, some protection against
+           memory overruns is provided at the expense of update speed.
+           When --redodata is operational a small vertical button
+           that performs the data deletion, reloading, and drawing
+           update is placed next to the File menu.  The button is
+           yellow when only the --redodata option is set.  The button
+           is red when both --redodata and --redoinst are set.
+           
+     --redoinst  Redo the --inst or --instv with every update of the
+           canvas.  Meaningless unless used in conjunction with 
+           one or more --inst or --instv.  Redoing the --inst turns
+           Tkg2 into a highly flexible application extension tool
+           because outside applications can alter -inst files even
+           after the entire template has been drawn for the first
+           time.   When --redoinst is operational a small vertical
+           button that updates the canvas is placed next to the
+           File menu.  The button is light blue when only the 
+           --redoinst option is set.  The button is red when both
+           --redoinst and --redodata are set.  Finally, it is hoped
+           that future versions of Tkg2 will support some sort of
+           signaling mechanism by which external processes can tell
+           Tkg2 to update the canvas.
+     
+     --relative_paths or --norelative_paths **    NOT IMPLEMENTED YET
+           Toggles entire *.tkg2 files to use relative_path names.
+     
+     --scaling=<real no. > 0>
+           Alters the start up scaling constant of Tk (and Tkg2) by
+           multiplying the constant by the option number.  So if
+           -scaling=0.9 is used, then the scaling constant of the
+           whole Tkg2 session is 10 percent smaller.  The scaling
+           constant represents the number of pixels per point where
+           point is 1/72 of an inch.  This switch can make it easier
+           to use Tkg2 on a low resolution monitor.  Tkg2 does have
+           some limited built rules to alter scaling dependent on 
+           the host resolution (see Tkg2/Base.pm, ResolutionHandler).
+           Another way to control the scaling constant is to add
+           an entry in one of the Tkg2rc files, 'Tkg2*scaling 0.9'.
+           The scaling value is used in place of the built in rules,
+           but is overridden by the command line option.  A value
+           of zero can be used within the Tkg2rc file to toggle
+           the scaling setting back to the built in rules without
+           having to delete or comment out a line from the Tkg2rc
+           file.
+           
+     --showme=<real no. > 0>
+           Traces program execution subroutine by subroutine by echoing
+           to standard error.  The real number is the 10ths of seconds
+           to pause the program with each echo.  The massively repeated
+           subroutines and anonymous subroutines are not traced.  The
+           following is an example of the --showme output.
+           
+           ## Tkg2::Base::routeBUG
+           ##   from /usr/local/bin/Tkg2
+           ##   on line 625
+           ##-2-args    undef 0
+ 
+           #### Benchmark: Tkg2::Base::routeVERBOSE to beginning of
+           ####            Tkg2::Base::routeBUG took:
+           ####  0 wallclock secs ( 0.00 usr +  0.00 sys =  0.00 CPU)
+           
+           
+     --showmesubs
+           Shows just the subroutine name, file origin, and line number
+           in that file calling the subroutine. The option is used in
+           conjunction with --showme and does not toggle --showme by
+           itself.  The information is reported along standard error.
+           The following is an example of the --showmesubs output.  
+             
+             Tkg2::Base::routeVERBOSE \ 
+             FROM /usr/local/bin/Tkg2.pl (623)     
+            
+           Subroutine name is Tkg2::Base::routeVERBOSE.
+           File containing that subroutine is /usr/local/bin/tkg2.pl.
+           Line number in file is 623.          
+           
+     --splash or --nosplash
+           Toggles a SPLASH filehandle to either /dev/null or
+           /dev/stderr.  Every module in Tkg2 prints to the SPLASH
+           filehandle when it is first compiled by Perl.  The SPLASH
+           filehandle is a mechanism by which the user can see that
+           Tkg2 is actually doing something.  SPLASH can also be
+           controlled using the Tkg2rc file(s) and toggling the
+           -SPLASH key.
+           
+     --stdin
+           Read the Tkg2 file along standard input (STDIN).  To avoid
+           getting Tkg2 confused between --inst=- and --stdin, Tkg2
+           ignores --inst=- when --stdin is used.  STDIN is read for
+           only a single Tkg2 file and then only after all other files
+           specified on the command line have been read in.
+           
+     --stdout  
+           The last Tkg2 file read in and displayed is dumped out along
+           STDOUT.  This feature allows a server to run Tkg2 and then
+           feed output to a client running Tkg2.
+     
+     --test=<integer>
+           Sets up a testing situation by showing the *.tkg2 files
+           for the specified number of seconds until a total exit.
+           
+     --time_cache_delete
+           Instead of retrieving the saved time cache hash from
+           ~Tkg2/Time/TimeCache/storable_time_cache, the file
+           is deleted.  It will be recreated upon exiting Tkg2
+           unless the --time_cache_ignore switch is also run.
+           
+     --time_cache_ignore
+           The presence of the time cache file is ignored entirely.
+           It is neither retrieved at startup or saved as the Tkg2
+           process dies.  The ~Tkg2/Time/TimeCache/storable_time_cache
+           file remains untouched.
+     
+     --time_cache_nosave
+           Does not perform a save on the time cache during program
+           exit.  Any additional date/times learned by Tkg2 will be
+           lost.  This is a handy feature to get a little more speed
+           when one does not care whether Tkg2 remembers new 
+           date/time combinations or knows that the time cache was
+           unchanged by the program.
+           
+     --time_cache_view
+           The key value pairs of the time cache hash are viewed.
+           The switch is only used during normal time cache retrievals
+           at startup.  Be prepared that the time cache can be a very
+           big hash, but no harm is done if the view switch is used.
+     
+     --walkatree=<directory>?
+           Walkatree identifies that a recursive search starting in
+           the specified directory is to be performed.  If no
+           directory is specified, then the current directory is used.
+           The current directory could have been altered by --home.
+     
+     --verbose or --noverbose
+           Turns on an off most Tkg2 messages along STDOUT.  STDERR
+           is left unaltered for your convenience.     
+           
+     --version or --v or --V
+           Prints a little message showing the Tkg2 version number,
+           build date, and other useful information.      
+           
+     --viewconfig
+           Prints out the current values of the Tkg2 environment and
+           its configuration after the .tkg2rc files are processed.
+     
+     --width=<X.X inches>
+           Specify the page width for all Tkg2 files on the command line.
+           The margins of each plot and the coordinates of each
+           annotation and explanation are altered according to the
+           relative location or percentage from the origin of the
+           original page width.  The page width can also be controlled
+           using the Tkg2rc file with 'Tkg2*width:   4' for a 4 inch
+           width.  The command line option will override Tkg2rc file
+           values of width.  Also, only the last occurrence of
+           Tkg2*width in the Tkg2rc file is used.
+           
+     --withdraw
+           Uses the Tk method withdraw to not display the main tk canvas
+           at all.  However the user DISPLAY must still be set as Tk
+           requires a connection to the X-server.  Research by the
+           Tkg2 user community has turned of the Xvfb screenless
+           X frame buffer.  They are reporting that Xvfb can be use
+           Tkg2 in cron jobs.
+     
+     --withdrawmw
+           See --nomw.
+     
+     --zoom=<real no.>
+           Poorly named, --zoom is a multiplier on font sizes
+           created by Tkg2 when rendering text on the canvas.  --zoom is
+           a neat feature to use in combination with --width or --height.
+           A regular pagesize (8.5x11) can easily be enlarged to say
+           20x20 and the fonts will be disproportionately small unless
+           zoomed by say by a factor of 2 (--zoom=2).  Zoom can be
+           controlled by the Tkg2rc file with 'Tkg2*zoom:  real no.'.
+           The command line option will override Tkg2rc file values of
+           zoom.  Like many other options, only the last value seen in the
+           tkg2rc file is used.
+
+
+
+Z<>

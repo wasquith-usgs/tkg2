@@ -1,0 +1,95 @@
+
+=head1 TKG2 MAIN DIALOG HELP
+
+This is an extremely brief summary of Tkg2.  More documentation can be found in the plain old documentation files (POD) found in the Tkg2/Help directory.  Help can be accessed from a HELP menu button and from the command line via the --help option.  The --help option does take arguments to help you find documention further.  The USGS internal Tkg2 web site I<http://tx.cr.usgs.gov/tkg2> should contains a large PDF and an HTML version of the documentation as well.  This documentation file is located at C<Tkg2/Help/main.pod>.
+
+
+=head2 WHAT IS TKG2?
+
+Tkg2 is a full featured, interactive, and batch processing capable 2-D charting package modeled after the venerable USGS-G2. Tkg2 is entirely written in Perl and the Tk graphics module. Other nonstandard Perl modules are required I<http://www.CPAN.org>. Tkg2 features include: linear; log; normal and Gumbel probability; time series; x, y and x-y error bar; x, y, and x-y error limit; bar, and text plots.  Other plot types include remarkably flexible boxplots, x or y accumulator plots, and time variation plots.  Other features include nearly unlimited ASCII file input types, hard loading or run-time loading of data, and use of absolute or relative path names in the input data files.  Exported graphics formats include Framemaker Interchange Format (MIF), Portable Network Graphics (PNG), Portable Document Format (PDF), and Postscript.  Nearly eighty command line options are available and an external instruction language to control Tkg2 objects is provided to support scripting and application glueing.  Tkg2 has a fantastic array of cool and unique features built because only the user base as suggested which features should be included.  Tkg2 might be rough on the edges, but it is extremely stable and very powerful.
+
+
+=head2 GETTING STARTED
+
+C<tkg2 --help> will provide a brief tutorial and list the available command line arguments.  You may view or print the command line help from /usr/local/Tkg2/Help/CmdLine.pod.  You might have to tweak line-wrapping on.
+
+
+=head2 ADDITIONAL RESOURCES
+
+The HELP menu button on the right hand side of every Tkg2 drawing sheet accesses additional help features.  Screen shots can be viewed with the SCREEN SHOTS menu to the left of the help menu.
+
+
+=head2 AUTHOR
+
+William H. Asquith, wasquith@usgs.gov, Austin, Texas, USA
+
+
+=head2 BUG REPORTS
+
+Please report bugs, suggestions, and thanks pertinent to Tkg2 only to wasquith@usgs.gov.  Please use whatever bug reporting mechanism exists for the systems that are dependent on Tkg2.
+
+
+=head2 REQUIREMENTS
+
+Tkg2 has been built and fully tested on B<Solaris>, B<Linux>, and B<MacOSX> with the following Perl and Perl modules:
+
+  perl 5.8.+
+  Tk800.027
+  Tk::Pod 4.26
+  Text::Wrap
+  Data::Dumper-2.101
+  Storable-2.08   
+  Date::Manip 5.42
+  Date::Calc 5.3
+  And the dependencies on these modules.
+  Other modules of the standard Perl distribution are used.
+
+The following external utilities provide additional features:
+
+  ghostscript (Postscript viewing and conversion engine)
+  
+  pstoedit    (postscript to MIF converter among other things)
+      http:/www.pstoedit.net/pstoedit/
+  
+  ps2pdf      (Postscript to PDF utility)
+       
+  acroread    (Acrobat Reader, PDF viewing)
+
+The C<pstoedit> version 3.21 for Solaris binary now (Jan, 11, 2002) requires a shared library for execution.  This library is distributed with the binary and is called C<libplotter.so.2>.  This library should be copied to C</usr/opt/lib> on the Solaris machines and then a soft link in C</usr/lib> need to be created C<ln -s /usr/opt/lib/libplotter.so.2 .>.  As long as the library can be found along the LD_LIBRARY_PATH environmental variable, C<pstoedit> should work.  Please make sure that the C<libplotter.so> name space is not already taken!
+ 
+ % cd /tmp
+ % unzip pstoedit_bin_solaris.zip
+ % echo "pstoedit is binary and libplotter.so.2 is a library"
+ % su
+ # cp /tmp/libplotter.so.2 /usr/opt/lib/.
+ # cd /usr/opt/lib
+ #  ls -l libplotter*
+ -rwx------   1 root     other    1209720 Jan 11 06:51 libplotter.so.2
+ # chmod 0755 libplotter.so.2
+ # chgrp root libplotter.so.2
+ # cd /usr/lib
+ # ln -s /usr/opt/lib/libplotter.so.2 .
+ # ln -s ./libplotter.so.2 libplotter.so 
+ # exit
+ % cd /tmp
+ % ./pstoedit
+ returning 1 for drvsvg
+ returning 1 for drvmif
+ returning 1 for drvcgm
+ returning 1 for drvcgm
+ returning 1 for drvcgm
+ pstoedit: version 3.31 / DLL interface 108 (build Jan  4 2002) :
+   Copyright (C) 1993 - 2001 Wolfgang Glunz
+   No backend specified
+
+ usage: pstoedit [-help] [-bo] [-df fontname] [-dt] [-adt] [-dis]
+ [-flat nn] [-fontmap mapfile] [-gstest] [-include file] [-merge]
+ [-pagesize pagesize(e.g. a4)]
+ [-scale nn] [-nb] [-nc] [-nomaptoisolatin1] [-noclip] [-nq] [-nfr]
+ [-page nn] [-psarg string] [-pti] [-pta] [-rgb] [-rotate angle]
+ [-sclip] [-split] [-ssp] [-t2fontsast1] [-uchar char ] [-v]
+ -f format [infile [outfile]]
+
+
+
+Z<>

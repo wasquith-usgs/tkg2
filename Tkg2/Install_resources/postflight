@@ -1,0 +1,80 @@
+#!/usr/bin/perl -w
+use strict;
+
+print "This is the Tkg2  PERL-based postflight script.\n";
+#print "\@ARGV: @ARGV\n";
+
+my ($path, $dest, $mount, $rootdir) = @ARGV;
+
+my $bin = "/usr/local/bin";
+
+print "   Perl is testing whether '$bin' exists on this system ..."; 
+if(! -d $bin) {
+  print "  \nERROR: '$bin' does not exist on this system\n",
+        "           SUGGESTION: as root user, create $bin such as by the\n",
+        "           following two commands\n",
+        "root# mkdir /usr/local/bin\n",
+        "root# chmod 755 /usr/local/bin\n";
+  print "This step of directory creation uses far higher permissions than author ",
+        "desires this package to need because most(?) MacOSX platforms should have ",
+        "a '$bin' directory already\n";
+  exit(1);
+}
+print " DONE.\n";
+
+if(-e "$bin/tkg2") {
+  print "  unlinking previous '$bin/tkg2' program... ";
+  unlink("$bin/tkg2") or die "DIED: could not unlink it because $!\n";
+  print "DONE.\n";
+}
+
+my $com = "ln -s $dest/tkg2.pl $bin/tkg2";
+print "  Making tkg2 link '$com' ... ";
+my $ln = `$com`;
+if($ln) {
+  print "ERROR: could not perform because '$ln'\n";
+  exit(1);
+}
+print "DONE.\n";
+exit(0);
+
+__END__
+
+#!/bin/bash
+#
+# This postflight script echoes the values of the available 
+# arguments and environmental variables.
+#
+echo "Start postflight script"
+echo ""
+echo "Arguments:"
+echo ""
+echo "\$1: full path to the installation package"
+echo "     $1"
+echo "\$2: full path to the installation destination"
+echo "     $2"
+echo "\$3: mountpoint of the destination volume"
+echo "     $3"
+echo "\$4: root directory \"/\" for the current System folder"
+echo "     $4"
+echo ""
+echo "Environment variables available to a postflight executable:"
+echo "     INSTALLER_TEMP, PACKAGE_PATH, RECEIPT_PATH, SCRIPT_NAME, and TMPDIR"
+echo ""
+echo "\$INSTALLER_TEMP: scratch area used by Installer for temporary work files"
+echo "     $INSTALLER_TEMP"
+echo ""
+echo "\$PACKAGE_PATH: full path to the installation package; should be same as \$1"
+echo "     $PACKAGE_PATH"
+echo ""
+echo "\$RECEIPT_PATH: full path to directory containing the file being executed"
+echo "     $RECEIPT_PATH"
+echo ""
+echo "\$SCRIPT_NAME: name of the file being executed"
+echo "     $SCRIPT_NAME"
+echo ""
+echo "\$TMPDIR: if set, a path to a location on a writable destination volume"
+echo "     $TMPDIR"
+echo ""
+echo "End postflight script"
+exit 0

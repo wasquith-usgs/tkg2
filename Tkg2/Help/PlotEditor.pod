@@ -1,0 +1,146 @@
+
+=head1 THE PLOT EDITOR
+
+This POD file provides detailed description of the B<Plot Editor> dialog.  The plot editor is accessed either by selecting a plot and using the C<Plot / Plot Editor> menu option or double clicking within the borders of a plot.  This documentation file is located at B<Tkg2/Help/PlotEditor.pod>.
+
+
+=head2 INTRODUCTION
+
+The Plot Editor is used to control plot-wide parameters such as plot margins, border color and thickness, and much of the explanation.  The Plot Editor consistents of three note book tabs: Plot, Plot Title, and Explanation.  Each of these tabs contains widgets to control applicable parameters.  The buttons at the bottom of the dialog: Apply, OK, Cancel, Edit X-Axis, Edit Y-Axis, and Help are always available.
+
+
+The B<Apply> button redraws the canvas and any potential changes in the dialog box are applied.  The B<OK> button is identical to Apply except that the dialog box is exited.  The B<Cancel> button exits the dialog box without redrawing, hence applying any changes.  The B<Edit X-axis> button launches the X axis editor and the B<Edit Y-axis> button launches the Y axis editor.  A button for the second or Y2 axis is not provided in the interests of space and its rare usage.  The all of the axis editors are accessable by either double clicking on the respective axis with the first mouse button or queried from the PLOT menu.
+
+=head2 PLOT tab
+
+=over 4
+
+=item Plot Margins
+
+The left, right, top, and bottom margins are set by the entry widgets.  The units are in inches and the 'i' can be left off when changing a setting.
+
+=item Page Color
+
+The page color is controlled by the 'Page: Color' widget.  The identical widget is made available through the plot editor of each plot on the page.
+
+=item Autoconfigure Axis Limits
+
+Tkg2 has a very powerful mechanism in which nice looking axis limits and other axis settings are determined on-the-fly as data is loaded.  By default this behavior is turned on.  If the user changes axis settings such as minimum, maximum, step length, or log cycles to label and does not turn the autoconfigure off, then the next time that tkg2 starts up the changes by the user will be overwritten.  This might be surprizing, but this is considered a feature.  If all the data was hard loaded into the plot, then this is not an issue.
+
+
+Either the automatic determination of either or both the minimum and maximum is possible.  When the center is toggled and an axis is linear, then the linear axis will have the origin in the center of the plot.  This is a neat feature for residual analysis.
+
+
+Often the user will start by have the auto turned on, load the data into their plots, turn the auto off, and then change the axis limits and other settings.  If the file is then saved and tkg2 re-opens the file, then the user's settings will be used.  This works whether the data is hard or soft loaded.
+
+
+The relavent code is found in C<Tkg2/Plot/AxisConfiguration.pm>.
+
+=item Square Axis
+
+On rare occassions it is desirable that the Y or Y2 axis be square relative to the X axis, that is the number of linear units per inch or log cycles per inch is the same for each axis.  If the checkbutton is toggled then Tkg2 will square the axis if and only if (iff) the axis types are equal or the same.  It is impossible to make a linear-log combination square.  Squareness can be applied separately for the first and second y axis.  The squareness feature is handy if you need to produce a map view of horizontal coordinates from a topographic survey.  User feedback indicates considerable need for square log plots as only when these are square can certain manual mathematical operations be performed from the graphs.
+
+=item Border Width and Color
+
+The border width or thickness and the color are controlled with the 'Border: Width and Color' widgets.
+
+=item Plot Background Color
+
+The back ground color of the plot is controlled with the 'Background: Color' widget.
+
+=item Switch X/Y Axis
+
+The X and Y axes are switched.  This is experimental and not yet fully implemented.  Sorry.
+
+=item All Axes to Percent Base
+
+The X, Y, and Y2 axes are converted to a percentage basis.  Each axis type is converted to linear.  The minimum is set to zero; the maximum is set to 100; the major tick interval is set to 10; and the no. of minor ticks is set to 4.
+
+=item All Axes to Frac. Percent Base
+
+The X, Y, and Y2 axes are converted to a factional percentage basis.  Each axis type is converted to linear.  The minimum is set to zero; the maximum is set to 1; the major tick interval is set to .1; and the no. of minor ticks is set to 4.
+
+=item Plot Name
+
+Tkg2 has a powerful external 'scripting' language provided by the C<Tkg2/DeskTop/Instructions.pm> module that can be used to control all tkg2 objects.  One of these objects is the plot object.  The Plot Name entry field is a means to attach a user defined string to the plot so that the instruction language can identify the plot.  The plot name will be written to the tkg2 file during a save.  There is no reason to name a plot unless the user want to use the external Instructions.  Further details about Instructions is available in the 'Instructions.pod' help file.
+
+=item DoIt
+
+The DoIt check buttons turns the drawing of this plot on and off.  A handy feature indeed, especially when tkg2 plots are modified by the external Instructions.  When the DoIt is turned off, then the plot will not be seen and hence not selectable by the mouse.  However the plot can be selected and the plot editor launched from the Plot menu using the 'Select Plot' feature.
+
+=back
+
+=head2 PLOT TITLE tab
+
+The Plot Title tab provides a quick and convenient method to add a text annotation to the plot.  The location of the text is set by a vertical and horizonal offset from the top middle border of the plot.  As the plot is moved or resized then text will be moved along as well.  Regular text annotation does not have a spatial connection to the plot.  The text is set by the B<Title> widget.  Multiple lines of text can be made by adding a literal '\n' to the string.
+
+
+The text font, size, weight, slant, and color are controlled by their respective widgets.  The horizonal (x) and vertical (y) offset is set by the Title X-offset and Y-offset entry fields.  The offset units are in inches, which is identified by the appended 'i'.  The Stack Text checkbutton will add a newline after each and every character in the title.  This is supposed to mitigate for the lack of text rotation capabilities by the Tk::Canvas.
+
+=head2 EXPLANATION tab
+
+=over 4
+
+=item Hide Explanation
+
+The checkbutton hides, but does not destroy, the explanation when toggled on.  The default is off so that the explanation is shown when a plot is first created.  Because it is so common to toggle a explanation on and off, menu short cuts are provided to make life a little easier.  These short cuts are found near the bottom of the PLOT menu, the Show explanation and Hide explanation commands.  Further short cuts for toggling on and off all explanations on the sheet are found in the DATA menu.
+
+=item Rest Position
+
+The right mouse button is used to move the explanation around on the sheet.  Sometimes though rarely the explanation can get lost on the sheet or moved off the edge.  When this happens, the 'Reset Position' button is handy to return the explanation to its default location near the middle right side of the plot.
+
+=item Number of columns
+
+The number of columns that the explanation will be drawn with is controlled by this entry field.  This is a very nice feature to have in many circumstances when plots becomes choked with data.  Many commericial plotting packages do not support mulitple columned explanations.  Tkg2 should also permit multiple independent explanations per plot, but such capability is unlikely to occur without substantial internal object reconstruction.
+
+=item Column spacing
+
+The spacing between two or more columns is controlled by this menubutton.  The values available range from 0.1 to 1.0 inches.  The Instructions language can give you arbitrary distances.
+
+=item Explanation Title
+
+Set the title of the explanation.  Usually this is 'Explanation', which is the default, but some might want 'Legend' or nothing at all.  The preferred style is to not title the explanation if it is shown within the confines of the plot and to title the explanation as 'Explanation' if it is shown outside the confines of the plot.
+
+=item Title X-offset
+
+Control the horizontal distance between the base of the explanation title and the remainder of the explanation components.  The preferred units are in inches.  For example, 0.2i for 0.2 inches.  The string 'auto' will trigger internal logic to determine a visually pleasing spacing based on the font size.
+
+=item Title Y-offset
+
+Control the vertical distance between the base of the explanation title and the remainder of the explanation components.  The preferred units are in inches.  For example, 0.2i for 0.2 inches.  The string 'auto' will trigger internal logic to determine a visually pleasing spacing based on the font size.
+
+=item Vertical spacing
+
+The vertical spacing or separation between successive lines of the explanation contents are controlled with this entry field.  The line spacing of multiple lines of text beside a plotting symbol are not controlled by the vertical spacing--that line spacing is predicated purely on the font size.  The vertical spacing controls the separation between what could be called 'explanation entries'.  Like the X and Y offset, the value is in inches or the string 'auto' will trigger internal logical to determine a visually please spacing based on the font size that is larger than the line spacing of multiple lines of text.
+
+=item Horizontal Gap
+
+The horizontal gap is the separation between the right edge of the symbology and the left edge of the beginning line of text explaining what the symbol means.  Again the value is in inches or the string 'auto' can be used (see discussion above).
+
+=item Border color, width, style
+
+The border color, line width, and style is controlled with these three menubuttons.
+
+=item Background color
+
+The background color of the explanation is controlled with this menubutton.
+
+=item Font, Size, Weight, Slant, Color
+
+The text font, size, weight, slade, and color is set by these four menubuttons and on entry field.
+
+=item Show/Hide Explanation Entries
+
+This button launches another dialog box in which individual columns of data plotted from a data file can be toggled on or off from the explanation or all (all of the columns) of the data plotted from z file can be toggled on or off.  The actual drawing of the data in the plot is still drawn.  Drawing of the data is controlled in the symbology configuration dialog better known as the DrawDataEditor.  This is another neat feature of Tkg2.  It can be extremely handy to hide specific entries in the explanation to make more room for really important entries.  Although this mechansim is a little cumbersome, it does work.  The NameIt buttons can be used to give a user name to each of the entries.  This can be very important when using the Instructions language for tkg2 application building be developers.
+
+=back
+
+=head2 FURTHER DISCUSSION
+
+Developers interested in the Plot Editor should consult the following module:
+
+ Tkg2/Plot/Editors/PlotEditor.pm
+
+
+
+Z<>

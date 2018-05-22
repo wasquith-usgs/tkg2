@@ -1,0 +1,52 @@
+
+=head1 TKG2 BY WILLIAM H. ASQUITH
+
+In the beginning there was a free charting package called USGS-G2 (G2) by the remarkable Jim Fulton of the Water Resources Division of the U.S. Geological Survey.  Though I never knew him, some of those who knew him said that he was nearly immortal.  For nearly a decade G2 was the defacto standard for the data visualization and charting needs of hundreds of USGS scientists in thousands of reports and journal articles.  The number of figures both published and unpublished using G2 is likely uncountable.  G2 inconjunction with Abobe FrameMaker were a devastating combination for scientific pursuits.  Furthermore, G2 files when coupled with Perl or shell programming provided a very powerful scripting environment without having to learn some archaic graphics library.  Scripting G2 was not the most trivial activity.  However, it was not unusual for a single G2 template to be used to generate hundreds of publication ready figures by a dozen line Perl program and hundreds of ASCII data files.  This was made possible because G2 could be linked to external data files and was relatively easy to use for simple to incredibly complex batch processing jobs.
+
+
+Sadly, due to technological changes and agency-wide move toward shrink wrapped software, in-house development and distribution of software packages fell out of favor.  Thus, G2 and the G2 graphics model were allowed to gradually disappear.  G2 was not going to be ported from its SmallTalk environment on Data General Unix to other operating systems namely NT and Solaris.
+
+
+I was heartbroken and worried extensively since I first learned of the demise of G2.  I simply could not see how I could execute my job duties without a package like G2 and now Tkg2.  My concerns were so great that over 1,000 personnel hours have been devoted to Tkg2 since the Fall of 1998 in studying Perl and actual programming and over 3,000 hours of total time have been devoted to Tkg2.  The fact of the matter is that G2 was the mission critical tool for me and many other USGS scientists.  G2 represented a complete package for nearly all 2-D charting needs and G2 could have nicely fit into the bag-of-tricks for nearly all scientists without ever needing to be upgraded and it was totally FREE.  Unfortunately, because it was in SmallTalk it was hard to modify and extend.
+                              
+
+In the spirit of the original G2 package, I have resurrected G2 in Perl/Tk from scratch coping (with many deviations both purposeful and otherwise) of the published G2 interface.  A fantastic number of functions and features not found in the original G2 have been built into Tkg2 by feedback from the user community.  It is my hope that Tkg2 will someday see widespread open source (free) use on all Perl capable operating systems including those embedded in my beloved agency.  Tkg2 has become a serious application, just spend sometime sand push its limits.  With Headquarters support over the last couple of years, Tkg2 has become the main graphic rendering engine for ADAPs and other custom applications built on top of the NWIS system.
+
+
+I can truly say that it has been a pleasure to serve mother Survey and to show that the best software can only be designed by the users themselves.
+
+ 
+  William H. Asquith, wasquith@usgs.gov
+    Hydrologist, Statistician, Atmospheric Scientist,
+    Computer Programmer, Student, Teacher,
+    Husband, and Father. . .
+  USGS, Austin, Texas, January 2002
+  
+
+=head2 WHAT IS TKG2?
+
+Tkg2 is a full featured, interactive, and batch processing capable 2-D charting package whose goals are to provide professional quality camera-ready charts for immediate publication. The intended users of Tkg2 are nonprogrammers who need to exploit several of its unique features, such as producing hundreds of charts without having to possess programming skills beyond elementary Perl or some other scripting language.  Through more complex scripting, Tkg2 is easily extended by many intermediate to advanced Perl or Shell programmers into a powerful charting engine.
+
+
+=head2 TKG2 IS PERL
+
+Tkg2 is written entirely in Perl and has in excess of 90 written-from-scratch modules. The Tk graphics module provides the graphical foundation of the application, and provides widgets for over 30 dialog boxes and the canvas for drawing.   Several other modules are used for data persistence, date and time calculations, and other internal features.  The primary output of Tkg2 is postscript as that is the native output of the Tk::Canvas.  However additional formats are supported by some non-Perl utilities, which provide support for MIF, PDF, and PNG.
+
+
+=head2 PLOTS AND ANNOTATION
+
+Tkg2 can produce one or more charts on a single canvas, and charts are permitted to overlap. Tkg2 supports numerous plot types and most can be combined. Tkg2 has five continuous axis types: linear, log, normal probability, Gumbel probability, and time; and has two categorical axis types: stacked discrete and clustered discrete. Time axis support provides professional looking ticking and labeling from years down to seconds.  Tkg2 supports several plot styles which include variations of: scatter, line, bar, Y-error line, X-Y error line, text (annotation), accumulation, and shade.  Tkg2 supports very fine granular control of each linear, log, probability, and time axis.  Line, symbol, and text annotation is supported, and numerous symbol types are provided.  Finally, Tkg2 has the beginnings of incredible box plot power.  
+
+
+=head2 INPUT DATA
+
+ASCII Data is inputted into Tkg2 through simple text files, but the format of the text files can vary greatly as long as the data is delimited in a column and row fashion.  Missing values are appropriately supported.  Data can either be hard loaded or loaded at run-time, and files can be specified in either an absolute or a relative fashion. Tkg2 can either dynamically determine variable (a column of input data) types, which are number, string, or time, or variable types can be directly specified to increase performance.  Tkg2 can recognize virtually any time format.  The C<checktime.pl> program at Tkg2/Util can help you learn what time formats can be parsed by the Date::Manip module and hence Tkg2 itself.  
+
+
+=head2 BATCH PROCESSING AND APPLICATION GLUE
+
+A wide variety of tasks can be performed with Tkg2 using the command line including file name globbing, printer spooling, exporting, and recursive directory processing. Tkg2 has full support for reading Tkg2 files from STDIN and producing them along STDOUT; thus, Tkg2 can be inserted in to pipelines.  Tkg2 even has three simple display modes that permit only the viewing and exporting of graphics and does not permit interaction with them as permitted in its normal operational mode.  Finally, Tkg2 has an operational mode that traces program entry of the major methods and subroutines to assist other developers in understanding the underlying data model.
+
+
+
+Z<>

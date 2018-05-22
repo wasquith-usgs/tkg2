@@ -1,0 +1,9 @@
+NOTES FOR MACOSX BUILD
+
+1) Run the perl insSUtkg2.pl script, which lays down the Tkg2 tree in /usr/local/Tkg2 (this is the same installation location as the package installer will also install in, so watch out that this step is made each time a package is built.)
+
+2) Tkg2BUILD.pmproj (double click)
+
+3) Build
+
+4) Run

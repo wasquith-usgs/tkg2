@@ -1,0 +1,77 @@
+
+=head1 THE GLOBAL SETTINGS MENU
+
+This POD file provides detailed description of the B<Global Settings> menu available at the top of each template container.  This documentation file is located at B<Tkg2/Help/SettingsMenu.pod>.
+
+
+=head2 INTRODUCTION
+
+The Tkg2 global settings menu is used to control several global variables. 
+These settings across all templates in the currently running tkg2 process (see
+Further Discussion). The menu has the following entries:
+
+ Draw Data on Canvas Update
+ Delete Loaded Data when Saved
+ Snap to Grid
+ ---------
+ Edit some Global Variables
+
+=head2 THE ACTIONS
+
+The following are the actions or commands supported by the menu.
+
+=over 4
+
+=item Draw Data on Canvas Update
+
+When the variable is turned B<on>, then data are drawn on their respective
+plots.  When the variable is turned B<off>, then data is not drawn.  Regardless
+of the variable setting, data is drawn on the first rendering of the canvas and
+if the canvas is exported or printed.  Turning data drawing on and off is a
+means to make editing of plots and annotation easier when a large amount of data
+make the rendering process take more than a couple of seconds to complete. The
+variable can be controlled from the command line with C<--drawdata or
+--nodrawdata> and the tkg2rc file with C<Tkg2*redrawdata>, see CmdLine.pod 
+and Tkg2rc.pod help files.    Relevant code is found in
+C<Tkg2/TemplateUtilities.pm::UpdateCanvas>.  The variable is named
+C<$::TKG2_CONFIG{-REDRAWDATA}>.
+
+=item Delete Loaded Data when Saved
+
+When the variable is turned B<on>, then any dynamically loaded data is deleted when a
+template is save.  The data will be re-read from the files during the next
+opening of the file.  This is the default procedure.  However, there are
+circumstances in which it is needed that the data be hard loaded or permanently
+loaded into a tkg2 file even though it was originally dynamically loaded. 
+Turning the variable B<off> will turn the internal key C<-dataimported> on (set it
+equal to one) for each data set.  The variable can be controlled from the
+command line with C<--importdata> and the tkg2rc file with
+C<Tkg2*delete_loaded_data>, see CmdLine.pod and Tkg2rc.pod help files.  Relevant code is found in
+C<Tkg2/TemplateUtilities.pm::DataOnTheFly> and
+C<Tkg2/DeskTop/Batch.pm::DeleteLoadedData>.  The variable is named
+C<$::TKG2_CONFIG{-DELETE_LOADED_DATA}>.
+
+=item Snap to Grid
+
+The grid snapping is toggled on an off.  Like the other two global variables,
+the toggle applies to all templates.  It is not possible to alter the grid
+snapping distance.  The distance is 0.125 inch.  Relavent code is found in
+C<Tkg2/TemplateUtilities.pm::snap_to_grid> and
+C<Tkg2/MenusRulersScrolls/Rulers.pm::_drawRulers>.
+
+=item Edit some Global Variables
+
+Edit some Global Variables launches an entry based editor to change the values of some of the global variables.  Currently, the only global variables that make sense to configure once tkg2 is up a running is the plotting position coefficient for direct probability axis support and the zoom factor on the fonts.
+
+=back
+
+=head2 FURTHER DISCUSSION
+
+It is perhaps a bad design decision that these variables are truly global across
+the tkg2 process.  This issue has a deep legacy.  Future versions of tkg2 might
+have just 'Settings' and not 'Global Settings', which will apply on a per
+template basis.
+
+
+
+Z<>

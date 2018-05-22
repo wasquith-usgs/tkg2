@@ -1,0 +1,74 @@
+
+=head1 NEW FEATURES IN THIS VERSION SERIES
+
+Tkg2 is written by
+
+  William H. Asquith, Ph.D., P.G., wasquith@usgs.gov
+    Research Hydrologist, Statistician,
+    USGS Diver, Computer Programmer, Teacher,
+    Husband, and Father. . .
+    USGS, Lubbock, Texas, Fall 2010
+    wasquith@usgs.gov
+
+
+=head2 VERSION 1 series (MacOSX Compatability Release, Spring 2005)
+
+Framemaker MIF support things stripped when operating under MacOSX (darwin).  Added PDF support for darwin--ps2pdf is used instead of ghostscript. PNG support is provided by ghostscript.  Minor changes to library paths needed for darwin.
+
+BUG FIX: Added to the Plot::Plot2D::convertUnitsToPixels the following keys: on the -plot (-yumargin, -xrmargin, -xlmargin, -ylmargin) and on the -explanation (-xorigin, -yorigin).  These keys were somehow forgotten as Instructions language developed.  Thanks to Wil Sadler (Wyoming) for finding these in September 2004. However, a new bug was introduced in the fix because a variable name was mistyped.  This bug caused the offsets on text plots to be set to zero on opening of the Tkg2 file; the bug was detected and fixed in August 2005.
+
+BUG FIX: EditGlobalVars did not allow a zero plotting position coefficient--it should.  Fixed.
+
+BUG FIX: The plotting position formula had an extra +1 in both the numerator and denominated.  Fixed.
+
+BUG FIX/ENHANCEMENT: Wil Sadler (Wyoming) reported that he desparately needed to turn off the default behavior that --zoom is set to unity prior to postscript rendering.  A --nozoom2unity command line option (also availabe through Tkg2*nozoom2unity in the tkg2rc files) was added to bypass the switch to --zoom=1.  The checkbuttons on the Exporting and Printing dialog boxes are properly switched off--nice touch.
+
+BUG FIX: Missing data on a leap day mistakenly was being inserted (actually good data was being thrown out) by Tkg2 when the common date-time conversion was used. This bug was reported by Aub N. Ward (Louisiana) on November 29, 2004; a preprocessing hack around the "use noon" feature had been developed in Louisiana so there was not a desparate need for a fix. The fix was trivial within a conditional inside TimeMethods::_Array_DecodeTkg2DateandTime. This fix corrects a true logic error.
+
+ENHANCEMENT: From communication with Joe Nielsen (Maine) and Jeanne Robbins (North Carolina), it became necessary that the --presenter should have multiple columns.  Therefore Tkg2/Desktop/Presenter had some changes, and the --presentercolumns command line options was added.  Karl Winters (Texas) on reviewing the presentation of the new presenter commented about alphabetical sorting of the file names.  Therefore, --presentersort was added to give the user more freedom.
+
+ENHANCEMENT: Added *.csv recognition in the AddDataToPlot dialog box spawned file browser.  This should have been in place years ago.
+
+ENHANCEMENT: Added rug plotting capabilities.  Feature is self vivicating to older Tkg2 files as expected.  The new rug plotting switches are seen in the Points tab in the DrawDataEditor dialog box.  There are no known risks to previous Tkg2 operations.  Rug plotting was added based on observation of R/S-Plus functionality.
+
+BUG FIX: tkg2-NWISGEN/15377 trapping window closure hangs in --justdisplayone, --nomw, --withdraw, and --presenter operational modes.
+
+=head2 VERSION 1.01 (Fall 2006)
+
+ENHANCEMENT: Gen-tkg2/13482 Added horizonal and vertical scrollbars to the widget holding the explanation entries in Tkg2/Plot/Editors/ShowHideExplanEntries.pm. Previous versions could only hold about 15 entries, and users were not able to see more. Fixed. This has been a long outstanding example of one of the last incomplete features of tkg2 dating from October 4, 2000 (from cvs logs). Wade Walker was needing this feature on some of his graphics tasks.
+
+PARTIAL BUG FIX: The buttons (Apply, Ok, Cancel, Help) at the bottom of the Tkg2/Plot/Editors/ContinuousAxisEditor would not size properly if the plot type was changed from linear to log because the original rendering of the window extent was not large enough. The fix is the insertion of an empty frame just above the frame containing the buttons. The problem appears resolved, but is a hack.
+
+ENHANCEMENT: The FILE menu contained two exits. One to close the current template ('Exit') and another to exit Tkg2 ('Exit Tkg2'). This was confusing and should have been fixed years ago. The template is now closed with a proper 'Close'.
+
+ENHANCEMENT: Finally added the font changes to the standard configuration on the menu buttons for color and line width for the Boxplot dialog editors. Further font change made to the Tkg2/Help/ViewENV.pm dialog.
+
+ENHANCEMENT: Added the Arrow, Phoenix, ThinBurst, Burst, and FatBurst symbols to the Tkg2/Draw/DrawPointStuff.pm and Tkg2/DataMethods/Set/DrawDataEditor.pm at the request for Arrow by Wade Walker. I figured that one might as well add a few more---first addition to symbols since summer of 1999.
+
+ENHANCEMENT: Added Tkg2/Util/fastgaprdb.pl as a highly optimized data gap insertion tool for certain types of RDB files. This program is an alternative to the more general application Tkg2/Util/dtgaprdb.pl. These scripts help preprocess RDB files so that Tkg2 can 'lift the pen' on line plots. Joseph Nielsen and Wade Walker were need a serious speed increase at the expense of flexibility
+
+ENHANCEMENT: The outline and fill color menubuttons in the Anno/Symbol.pm, where backwards relative to rest of Tkg2 (fill then outline)--the order was swapped.
+
+ENHANCEMENT: Point (scatter) plots can now have variable sized symbols, through specification of a scaling factors on the symbol size. This feature is implemented through the Text plot because that plot type supports a third column of data. To use this feature, add data to a text plot. The text column should have values the mimic the following pattern: pscale:1.05.   The phase 'pscale:' is the trigger, and the following number is multiplied on the symbol size setting. A usual text plot will result---so if the text is not desired (likely in this case), toggle the doit button on the DrawDataEditor. The term pscale is not expected to interfer with potential phrases that users might desire in a conventional Text plot. I got this feature idea from the R software system.
+
+ENHANCEMENT: Added the arrow capabilities to line plots with a similar interface to that seen in the line annotation. Backwards compatabilities issues are involved, but autovivication of the four arrow settings (-arrow, -arrow1, -arrow2, and -arrow3) is made---there are no apparent risks to backwards compatability. This feature added because Wade Walker had a need, which was related to his need for an arrow symbol.
+
+
+=head2 VERSION 1.10 (Fall 2007 -- Fall 2010)
+
+ENHANCEMENT: Experimental METAPOST support.
+
+ENHANCEMENT: Path breaking triggers on the read data modules ReadDelimitedFile.pm, ReadFiles.pm, and ReadRDBFile.pm to support the proper exporting of massive unit-value files.  There are apparent limits in either the postscript engine or the PDF conversion via ghostscript and ultimate importation of a PDF into Illustrator for post processing. For several years I have had complaints about Tkg2 not "finishing" the printing of large time series. This issue has been traced to some sort of limit to the number of line segments in a path. Therefore, Tkg2 quietly breaks lines by insertion of empty values for lines longer than the value in the variable Tkg2::DataMethods::Class::ReadFiles::PATH_BREAKING_THRESHOLD, which has been set to 17,280 or 1 year of 15 minute data. Tkg2 breaks the line beyond this. If the values are truly continuous then the user should not see any substantial jumps in the plot.
+
+=head2 VERSION 1.20 (November 2010)
+
+BUG FIX (October 6, 2010): In pursuit (see BUG FIX of November 4, 2010) of incomplete major and minor ticking and grid lines that is apparently related to non-integer location on the axis, which showed up with NWIS4.10 release based on a migration to perl 5.10.1, WHA discovered the LinearLabels.pm that 'creatLineMetaPost' was being called in two locations for special ticks. The correct function is 'createLineMetaPost'. What a coincidence to find this as it is unrelated to the perl 5.10.1 problem just related to the reader.
+
+BUG FIX (October 6, 2010): In further testing after the previous BUG FIX, it was discovered that a createLine call in LinearLabels.pm was using a hash reference of @lineattr, which is wrong and how long this single example has been in place is unknown. The createLineMetaPost uses this hash reference; perhaps the source is WHA accidently adding the {} during development of the METAPOST support. If this is true, then no public release of this bug has ever been seen. WHA has scanned DiscreteLabels.pm, LogLabels.pm, and ProbLabels.pm for this bug and none are seen.
+
+BUG FIX (November 4, 2010): In further inspection on LinearLabels.pm, a final explicit print to the METAPOST filehandle was found in the plotting of special minor ticks on the primary -y axis, this was switched to the createLineMetaPost.
+
+BUG FIX (November 8, 2010): Gen-tkg2/25457, On September 7, 2010, Richard Verdi and Jeanne Robbins reported a problem on ticks and gridlines not being plotted for some plots and these would come and go as axis editors used to make adjustments. However, the ticks and gridlines are being plotted ontop of each other in positions hinting towards integer based math---the decimal portions(?) were being truncated. Jeff East and Mark Kasmarek reported exactly similar problems for an independent tkg2 file about a month later. Both reports immediately followed NWIS4.10 upgrade that included Perl5.10 from Perl5.8 upgrades. Perhaps 60 hours of research tracked the behavior to the vectors of @majortick and @minortick in LinearLabels.pm. For reasons that are unknown and actually quite disturbing, a fix could include packing a ".0" to $YMIN if $YMIN is an integer in GraphTransform.pm **AND** simply printing "@majortick" or printing "@minortick" to standardout. The simple printing of the vector CAUSES a change in Perl's treatment of later numerical computations! An apparent generalized fix is of the form 'foreach (@majortick) { $_ = "$_"; }' So simply taking a number and stringing it via inplace modification of the vectors fixes the problem. Additional writeup is provided in LinearLabels.pm and by extension LogLabels.pm, ProbLabels.pm, and DiscreteLabels.pm might be subject to similar problems. Look for the string "NWIS4.10/Perl5.10 BUG FIX" in the identified modules.
+
+Z<>
+

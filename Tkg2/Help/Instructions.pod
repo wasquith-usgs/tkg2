@@ -1,0 +1,473 @@
+
+=head1 THE TKG2 INSTRUCTIONS LANGUAGE
+
+This POD file provides detailed description of the external language to control Tkg2 objects.  The Instructions are fed into Tkg2 using the --inst command line option that either reads an instruction file or reads from standard input.  See also --inst and --instv within the command line help.  This documentation file is located at B<Tkg2/Help/Instructions.pod>.
+
+
+=head2 INTRODUCTION
+
+For lack of better term, B<Instructions> is a powerful external scripting language--better yet a configuration language--that provides runtime access to all Tkg2 objects.  Each Tkg2 object is just a large complex data structure of hashes, lists, and scalars.  These hashes contain all the relevant information to draw plots, annotation, and load data etc.
+
+
+With the Instructions the user can access every element in the hashes, but for some of the elements it is very difficult to make meaningful access and field element modifications as Tkg2 really prefers to edit certain fields on its own to keep things from crashing.  For the time being it is possible to clobber a Tkg2 file with the Instructions to a state that either Tkg2 crashes entirely or Tkg2 is not able to render your graphics.  Because the Instructions are applied to the Tkg2 file contents after they have been read into memory, there is a nature safety factor in the Instructions language.
+
+
+Instructions are provided by instruction files with the suggested, but not mandatory C<.inst> extension.  The Instructions are applied at the last moment before plots and annotation are rendered on the canvas for the first time.  The C<--redoinst> command line option provides a means to re-apply Instructions to already opened Tkg2 files.  The redo of the Instructions can be really handy at times.
+
+
+The internal code that applies the Instructions do not currently and are unlikely to ever have the field checking that the dialog boxes have.  Thus, the instruction user should be careful otherwise figures will potentially be unrenderable.  Fortunately because there is no permanent adjustment to Tkg2 file unless the template is saved after the Instructions are applied, there is little immediate danger that bad Instructions would mess things up.
+
+
+=head2 BASIC INSTRUCTION FORMAT
+
+The instruction format is simple and easily parsed by Tkg2.  The basic format looks like this:  C<Object / Name of object given by user :>  The C</> is used as a field separator and the C<:> indicates the end of the object identification component.  Spaces can be liberally used for readability except in the object name field.  Tkg2 considers spaces when trying to match on that field.  After the C<:> comes a suite of progressively deeper hash keys that are use to identify which parameter of the object is to be changed.  The key list is terminated by a double equal sign string, C<==>.  The value(s) for the parameter are listed next.  Here is how an instruction for a plot named MY DATA would change the x axis type to logarithmic and set the y axis minimum and maximums (assuming that the auto limit configuration is turned off).
+
+ 
+ Plot2D / MY DATA :
+  x type == log
+  y min  == 0.034
+  y max  == 134
+
+As mentioned earlier, the instruction format is very space insensitive.  In the example above, multiple adjustments to the x and y axis hashes are made to the MY DATA plot.  The Instructions remember the object type and name until a line containing an other object name is encountered.  Thus, the following is equivalent to the preceding example.
+
+ 
+ Plot2D / MY DATA :x type == log
+ Plot2D / MY DATA :  y min  ==0.034 
+
+ Plot2D/MY DATA :y max  == 134
+
+Comment lines can be inserted into the instruction file by placing C<#> or C<!> at the beginning--that is the first character--of a line.  Empty lines as in the above example are ignored.
+
+
+The instruction file can be prematurely terminated by line containing the __END__ token starting as the first character in the file.
+
+ 
+ Plot2D / MY DATA :
+   x type == log
+   y min  == 0.034
+ __END__
+  y max  == 134
+
+All lines following an __END__ are ignored.
+
+
+Some values in the object hashes are arrays or lists and not simple scalars, such as those in the examples so far.  Arrays are provided as a space delimited list and blank arrays are set with double brackets [].  The brackets can have spaces between them.
+
+ 
+ Plot2D / MY DATA:
+    x major == 0.45 12
+    y major == [ ]
+
+
+=head2 OBJECT TYPES
+
+The following is an exhaustive list of the eight object type (class) labels and their hierarchy.  The C<**> is where the users would insert their names for the preceding object type.
+
+  
+  Plot2D / ** /:
+
+  Plot2D / ** / DataSet / ** /:
+
+  Plot2D / ** / DataSet / ** / Data / ** /:
+
+  Plot2D / ** / RefLine / ** /:
+
+  Plot2D / ** / QQLine:
+
+  AnnoLine / ** /:
+
+  AnnoSymbol / ** /:
+
+  AnnoText / ** /:
+
+
+=head2 OBJECT NAMES (-username)
+
+Each object is classified as one of eight types, which were presented in the previous section.  Since any Tkg2 file can have one or more of the object types a mechanism is needed in which an object of a given type can be distinguished from others of the same type.  The mechanism is known as the user name for the object.  The user gives the object a persistent string that names or otherwise identifies the object.  Internally, the object name is contained in the C<-username> hash field.
+
+
+The objects are named through their respective editors, except for the DataSet and Data objects.  Plot2D objects are named using the B<Plot Name> entry at the bottom of the Page tab.  Annotation objects are named with the B<User Name> entry field at the bottom using their respective annotation editors.  Annotation editors are typically launched by double clicking on the annotation with the third or right mouse button.  Reference lines are named using the Reference line editors accessible through the Data menu.  Quantile-Quantile lines do not require a user name since there are exactly two or four quantile-quantile lines per plot.  The syntax in the previous section for the QQLine thus is missing a trailing name field.
+
+
+=head1 INSTRUCTIONS TUTORIAL
+
+This section presents a brief tutorial to assist the first time instruction user.  First we create two plots on the canvas.  The first plot is has left, right, top, and bottom margins of 1.5, 2, 1, and 6 inches, respectively.  The second plot has left, right, top, and bottom margins of 1.5, 3, 5.5, 2 inches, respectively.  The creation of these plots is readily accomplished and most often is using the graphical interface, but in the interests of this tutorial, the plots can be created directly from the command line.  The page is 8.5x11 inches.
+
+ 
+ % tkg2 --mktemp=8.5x11 --mkplot=1.5x2x1x6 --mkplot=1.5x3x5.5x2
+
+After the command finishes running, the user will be presented with two nearly identical B<Add Data File to Plot: plot dimensions> dialog boxes.  These dialog boxes are requesting data files to load into each of the plots.  Please create the following data files that are one or more space (\s+) delimited.
+
+
+I<test1.out>
+
+ X_Data  Y1_Data  Y2_Data
+ 56       34       35
+ 24       32       28
+ 16       24       27
+ 
+
+I<test2.out>
+
+ Date_Time  Streamflow
+ 10/04/2000   15000
+ 10/05/2000   16000
+ 10/30/2000   3500
+
+Each of the data files is 4 lines long, with the first line being a 'label' line in Tkg2 parlance.  The default settings of the dialog box are to read a one or more space delimited file with one label line into a scatter plot on the first y axis.
+
+
+In the B<Add Data File to Plot: 1.5x3x5.5x2> dialog box, change the plot type to 'X-Y Line' and hit ok.  The B<Open a Data File> dialog box is then launched.  Selected the data file I<test1.out> and hit ok.  The B<Load Data into first y-axis X-Y Line Plot> dialog box is shown.  Select C<X_Data:number> in the left list box and hit the arrow to the Abscissa entry.  This will use the X_Data field for the X axis.  Next select the C<Y1_Data:number> entry and hit the lower arrow to make this the first column of data for the Y axis.  Do the same for the C<Y2_Data:number> entry.  Tkg2 does not requires that each and every column in a data file be loaded into a plot, unlike some other charting software.  For this tutorial, we will loaded all the data never the less.  Hit the ok button.  Finally, this data will be loaded and plotted as a line plot on the bottom (1.5x3x5.5x2) plot.
+
+
+Repeat the previous suite of data loading steps for the remaining B<Add Data File to Plot: 1.5x2x1x6> dialog box.  This time note that the first column 'Date_Time' was recognized as date or time field, and Tkg2 appends the C<:time> in the left list box on the B<Load Data into first y-axis Scatter Plot> dialog box.  Load the C<Date_Time:time> into the Abscissa and load the C<Streamflow:number> into the Ordinate Variables.  Hit the ok button.  If all went well, then the top plot on the page should have three circles plotted on it as a Scatter plot was just created.
+
+=over 4
+
+
+=item Naming the Plots
+
+The next step toward applying Instructions is to name the plot objects.  This is most easily done by double clicking with the first (left) mouse button on each of the plots and launching the Plot Editor (see PlotEditor.pod).  Launch the Plot Editor for the top plot and name this plot TIME PLOT in the B<Plot Name> entry field near the bottom of the B<Plot> tab.  Hit the ok button.  The user will see no change when the canvas is updated.  Your author prefers that object names be given in all capital letters for visual clarity when reading and writing instruction files, but capital letters are not required.
+
+
+Name the bottom plot ANALYSIS in the same fashion by double clicking on the bottom plot and setting the B<Plot Name> entry to ANALYSIS.  Instead on hitting the ok button and moving on, lets name the data objects for this plot.
+
+
+=item Naming the Data Objects
+
+Naming the data objects is slightly more complicated as there are two levels of nesting of data objects.  With the Plot Editor still open, select the B<Explanation> tab.  Next hit the B<Show/Hide Explanation Entries> button.  The B<Hide/Show Entries> dialog box is launched.  It will show three checkbuttons.  The checkbuttons control whether the data from a particular file is to be hidden from the explanation or whether individual entries in the explanation will be hidden.  The checkbuttons are not really relevant to our instruction tutorial, but we will be using the Instructions to toggle them.
+
+
+The first checkbutton B<test1.out> is the dataset object, I<DataSet / ** /> corresponding to the C<test1.out> data file (see Object Types section).  The remaining checkbuttons are for the individual entries in the explanation and are offset to the right to show that they are contained in the C<test1.out> file.  These are I<DataSet / ** / Data / ** /> objects (see Object Types section).
+
+
+The B<NameIt> buttons on the right side of the dialog box, provide access to the object naming entry fields.  First, let us name the DataSet object.  A dataset object is a container for all the data from a single reading of a file.  If a file is read a second time (or more), a new dataset object will be created.  Since we have read just one file, C<test1.out>, into the ANALYSIS plot, there is only one dataset shown in the dialog box.  It is left justified in the window and has a raised B<NameIt> button on the right side.  Hit the raised B<NameIt> button associated with the test1.out line, and name the DataSet object, C<DATA FROM TEST1.OUT>.  Next name the C<Y1_Data:number_from...> data object, C<Y1 DATA> and name the C<Y2_Data:number_from...> data object, C<Y2 DATA>.  Yes it is a slight hassle to name the objects similar to what they might be commonly referenced as, but more flexibility is garnered if the user can name objects any thing they so desire.  Hit the Exit button and they exit the Plot Editor by the B<Cancel> button.
+
+
+Finally, save the file as C<test.tkg2> using B<File / SaveAs> and exit Tkg2.  We are now ready to write our first official Tkg2 instruction file.  However, let us look at the instruction command line first and the Instructions file itself second.
+
+
+=back
+
+
+=head2 INSTRUCTIONS COMMAND LINE
+
+The relevant command line options for the Instructions are C<--inst> and C<--instv>.  These are equivalent commands except that the addition of the C<v> turns on C<--verbose> so that the user can see a verbose application of the Instructions on the Tkg2 objects.  Because the effects of the Instructions on the Tkg2 files can be small or perhaps not even seen by the user, it can be difficult to see problems in the parsing and applications of individual lines of Instructions.  The C<--debug> command line option can toggle extremely detailed tracing of the instruction parsing.  Assume that we have a Tkg2 file titled C<junk.tkg2> and Instructions in the file C<junk.inst>, here are some examples of verbose and debug operation.
+
+
+Use the verbose reporting mechanism.
+
+  
+ % tkg2 --instv=junk.inst junk.tkg2
+
+
+Use even more verbose reporting with a verbose dump to standard output.
+
+ 
+ % tkg2 --instv=junk.inst --debug=stdout junk.tkg2
+
+
+Read in the Instructions using --inst=- by standard input.
+
+  
+ % cat junk.inst | tkg2 --inst=- junk.tkg2
+
+
+=head2 WRITING THE INSTRUCTIONS FILE
+
+To avoid any possible confusion, the reader is reminded that any configuration performed by the Instructions can be done using the graphical interface.  Again, the Instructions are a means in switch Tkg2 files can be glued into other applications.  Most users will not require the Instructions when they use Tkg2.
+
+
+It is assumed for this section that the following files have been created from the previous sections: C<test1.out>, C<test2.out>, and C<test.tkg2>.  These will be needed to test or see the effects of the Instructions developed here.  Using your favorite text editor, create a file called C<test.inst> in the same directory as the three above mentioned files.  Next add a header or comments to the beginning of the file that looks something like this:
+
+ 
+ # Instruction file for test.tkg2
+ # test.tkg2 reads data from test1.out and test2.out
+ # test.tkg2 has two plots named TIME PLOT and ANALYSIS
+ # The ANALYSIS plot is at the bottom of the page and has
+ # one DataSet object named DATA FROM TEST1.OUT and two
+ # data objects in that set named Y1 DATA and Y2 DATA.
+ # The data objects for TIME PLOT are unnamed.
+
+Let us first use the Instructions to manipulate the TIME PLOT.  Suppose we wanted to change the y axis type from linear to log.
+
+
+Begin section on configuring TIME PLOT
+
+ 
+ Plot2D / TIME PLOT :
+    y type == log
+
+Save the C<test.inst> instruction file and lets test it out by invoking Tkg2.
+
+ 
+ % tkg2 --instv=test.inst test.tkg2
+
+
+The following output will be seen in the terminal.
+
+ 
+ Tkg2 processing test.tkg2
+    DataOnTheFly Plot name 'TIME PLOT':
+       Loading 'test2.out' 4 lines
+    DataOnTheFly Plot name 'ANALYSIS':
+       Loading 'test1.out' 4 lines
+       Reading Instructions from file 'test.inst'
+        --inst: on plot 'TIME PLOT'
+        --inst: TIME PLOT => -y -type = log
+      Inst Message: calling routeAutoLimits because one or more
+                    axis types were changed for plot 'TIME PLOT'.        
+        --inst: on plot 'ANALYSIS'   
+
+For our example, the line
+
+ 
+ --inst: TIME PLOT => -y -type = log
+
+is the most important as it shows that the instruction was parsed and then applied to the TIME PLOT.  The previous line C<--inst: on plot 'TIME PLOT'> shows that the instruction algorithm identified a plot named TIME PLOT in the C<test.tkg2> file.  The message line C<Inst Message:> line shows 
+
+
+Lets continue to make our instruction file more complex.  Let say we want to (1) reverse the y axis, (2) label the y axis on the right as well as the default left, (3) add commas to the y axis numbers, and (4) change the number font size to 12 points.  Add the following lines to C<test.inst>.
+
+ 
+    y reverse == 1
+    y doublelabel == 1
+    y numcommify == 1
+    y numfont size == 20
+
+
+Try loading C<test.tkg2> again with the above y axis configuration settings.  The TIME PLOT should have the y axis reversed, y axis number on the left and right, comma inserted into the numbers, and the number font size increased to 20 points.
+
+
+The instruction parser is smart enough to apply the values on the right hand side of the double equal sign (==) in either scalar or list context.  For example, there is a key for each axis hash called C<-basemajortolabel>, which is used to control the density of labeling on an logarithmic or probability axis.  This key is an anonymous array and thus multiple simultaneous values are possible.  An empty list is specified by double brackets [].  Here is the usage for the second y axis:
+
+ 
+   y2 basemajortolabel == 1 2 3 4 5 6 7 8
+
+
+So the y2 axis, assuming it is logarithmic, will be labeled at .., 1, 10,.. and ..,2, 20, 200,.. and so on.  The C<-basemajortolabel> provides tremendous flexability in the density hence resolution of the logarithmic axis to a degree beyond that provided by other software. 
+
+
+=head2 OBJECT PARAMETER REFERENCE
+
+This section provides a comprehensive overview of the various parameters that can be configured using the Instructions.
+
+
+=over 4
+
+=item Plot2D / ** /:
+
+Not yet written sorry, you could consult any .tkg2 file and look at the various key values pairs.  I will get around to this part of the documentation.
+
+Here is a brief example showing how the margins of a plot named HYD2 might look.  Two ensembles are not required, but the author believes that some important concepts of the Instructions parser are represented.  The leading pound is a comment.  The first ensemble changes the left margin and lower margins by 50 and 46 pixels, respectively.  The second ensemble changes the upper and right margins by 3.055 inches and 0.69444 inches, respectively.  Note that a point is 1/72 of an inches and since the --scaling multiplier is the same division of the pixels by 72 yields equivalent inches when the graphics are actually rendered on the screen.
+
+  Plot2D / HYD2 :
+  #yumargin == 220
+  #xrmargin == 50
+  xlmargin == 50
+  ylmargin == 46
+
+  Plot2D / HYD2 :
+  yumargin == 3.055i
+  xrmargin == .69444i
+  #xlmargin == .69444i
+  #ylmargin == .63888i
+
+
+=item Plot2D / ** / DataSet / ** /:
+
+Not yet written sorry, you could consult any .tkg2 file and look at the various key values pairs.  I will get around to this part of the documentation.
+
+=item Plot2D / ** / DataSet / ** / Data / ** /:
+
+Not yet written sorry, you could consult any .tkg2 file and look at the various key values pairs.  I will get around to this part of the documentation.
+
+=item Plot2D / ** / RefLine / ** /:
+
+Not yet written sorry, you could consult any .tkg2 file and look at the various key values pairs.  I will get around to this part of the documentation.
+
+=item Plot2D / ** / QQLine:
+
+Not yet written sorry, you could consult any .tkg2 file and look at the various key values pairs.  I will get around to this part of the documentation.
+
+=item AnnoLine / ** /:
+
+Not yet written sorry, you could consult any .tkg2 file and look at the various key values pairs.  I will get around to this part of the documentation.
+
+=item AnnoSymbol / ** /:
+
+Symbol annotation has the following keys and values that are built during object construction.  The range of possible values or suggested values are shown to the right of the double equal sign.
+
+ 
+ -xorigin == 72
+ -yorigin == 3i
+ 
+Sets the coordinate of the annotation in canvas units, which are basically pixels.  If the coordinate ends in 'i' for inches, then the inches are internally converted to canvas coordinates.  Tkg2 stores the coordinates in canvas units.
+
+ 
+ -doit         == 1 | 0, true or false
+
+Toggles the drawing of the annotation object on and off.  It does not delete or remove the object from storage in the Tkg2 file.
+
+ 
+ -username     == IMPORTANT POINT LOCATION ON PLOT
+
+The name of the symbol annotation object given by the user.  See the detailed discussion of object naming in C<Object Names>.
+
+ 
+ -symbol       == Circle | Square | Triangle | Cross |
+                  Star   | Horz Bar | Vert Bar
+
+ -outlinewidth == 0.01i
+
+Sets the outline or border width of the symbol.  Width is in inches and
+must end in 'i'.
+
+ 
+ -outlinecolor == black,
+
+ -fillcolor    == white
+
+Sets the fill color of the inside of the symbol, if applicable.  Colors can be and usually are expressed by names found in the C<rgb.txt> file of the X server.  Alternatively, hex representation of a color, even those not in C<rgb.txt>, is possible.
+
+ 
+ -fillstyle    == experimental
+
+Sets the filling style of the color in the inside of the symbol, if applicable.
+ 
+ 
+ -dashstyle    == experimental
+
+Sets the dash style of the border.  The dash style has no effect if the outline color is none.
+
+ 
+ -size         == 10
+
+Sets the size of the symbol in either canvas units, which are basically pixels.  If the size ends in 'i' for inches, then the inches are internally converted to canvas units.  Tkg2 stores the size in canvas units.
+
+ 
+ -angle        == 0
+
+Sets the angle of the symbol in degrees clockwise.  Angle has no effect on circle, cross, star, or either of the bar symbols.
+
+=back
+
+=head2 AnnoText / ** /:
+
+=over4
+
+Text annotation has the following keys and values that are built during object construction.  The range of possible values or suggested values are shown to the right of the double equal sign.
+
+ 
+ -xorigin      == 72
+ -yorigin      == 3i
+
+Sets the coordinate of the annotation in canvas units, which are basically pixels.  If the coordinate ends in 'i' for inches, then the inches are internally converted to canvas coordinates.  Tkg2 stores the coordinates in canvas units.
+
+ 
+ -doit         == 1 | 0, true or false
+
+Toggles the drawing of the annotation object on and off.  It does not delete or remove the object from storage in the Tkg2 file.
+
+ 
+ -username     == STATION NUMBER
+
+The name of the text annotation object given by the user.  See the detailed discussion of object naming in C<Object Names>.
+
+ 
+ -text         == String \n to show.
+
+The string of text to display.  As with most other text strings draw on the canvas, multiple lines are possible.  The Instructions pick up on new lines by internally performing a substitution of the characters '\n' with the "\n" new line character.  See the above example.  Leading and trailing white space is stripped.
+
+ 
+ -justify      == left | right | center
+
+Controls the justification of multiple lines of text.   Justification has little to no effect when the text is a single line.
+
+ 
+ -anchor       == nw | n | ne | e | se | s | sw | w | center
+
+Controls the location of the origin of the text relative to a hypothetical box encompassing the text.  The default and recommended value is 'nw', or northwest, which means that the text will start drawing from the upper left hand corner.
+
+ 
+ -borderwidth  == 0.025i
+
+Sets the border width of a box surrounding the text.  Border width is in inches and must end in 'i'.  If the outline color is none, then a border will not be seen regardless of the border width.
+
+ 
+ -dashstyle    == -- . --
+
+Sets the dash style of the border.  The dashstyle has no effect if the outline color is none.  Tk uses a neat non-graphical method to denote the dashing type.  Hyphens, dots, and spaces are used to set up the pattern.  Please consult the C<getDashList> subroutine in the C<Tkg2::Base> module for more details.  If in doubt, you are sure to get a solid line with 'Solid' or 'solid' and '--' makes a reasonable dash.
+
+ 
+ -outlinecolor == black
+
+Sets the outline color of the border.  Colors can be and usually are expressed by names found in the C<rgb.txt> file of the X server.  Alternatively, hex representation of any color, even those not in C<rgb.txt>, is possible.
+
+ 
+ -fillcolor    == blue
+
+Sets the fill color of the inside of the box.  Colors can be and usually are expressed by names found in the C<rgb.txt> file of the X server.  Alternatively, hex representation of a color, even those not in C<rgb.txt>, is possible.
+
+ 
+ -fillstyle    == experimental
+
+Sets the filling style of the color in the inside of the box.  This is none operational as of the 0.++ series of Tkg2.
+
+ 
+ -font -family    == courier, helvetica, symbol
+       -size      == 10 (pts), avail. pt's depend on X server
+       -weight    == normal | bold
+       -slant     == roman | italic
+       -color     == blue
+       -rotation  == 0 -- Not used in current version of Tkg2
+       -stackit   == 1 | 0, true or false
+       -custom1   == not used
+       -custom2   == not used
+
+The font of the text annotation is controlled by the nine keys in the C<-font> hash.  Possible or suggested values are shown.  The C<-rotation> key is reserved for forward compatibility.  The rotation in the Tk::Canvas is not well supported at this time.
+
+=back
+
+
+=head2 FURTHER DISCUSSION
+
+Developers interested in the Instructions should consult the following module:
+
+ 
+ Tkg2/DeskTop/Instructions.pm
+
+A note about changing axis types using the Instructions is needed.  When an axis type is changed say from linear to log with the following:
+
+ 
+ -x -type == log
+
+Tkg2 is geared to make a call to the algorithm that automatically sets the axis limits depending upon the values of the data.  This is not always desired.  Thus, a very subtle trick is provided.  If the axis type is requested twice, then the automatic limit algorithm is bypassed.
+
+ 
+ -x -type == log
+ -x -type == log
+
+If the autoconfiguration algorithms are bypassed, the user is responsible for providing a minimum and maximum that are appropriate for the plot.  (For example, no negative limits when a linear axis is changed to log).  Tkg2 will throw a run-time error with a suitably verbose warning message if the limits are not suitable.  You have been warned.  The warning is not that big a deal since the Instructions themselves do not adjust the original Tkg2 file.
+
+
+Unfortunately that is not the whole story as the Instructions have wide ranging effects that connect to the darkest reaches of the Tkg2 code base.  The Instructions module is really just a parser and linker of the language into the Tkg2 objects.
+
+
+=head2 INSTRUCTIONS SYNTAX EXAMPLES
+
+This section provides examples of instruction files and how the syntax can be varied.
+
+
+  Plot2D/MAIN PLOT/DataSet/FILE1/Data/MEAN:
+   attributes lines doit == 0
+     attributes points symbol == Square
+   attributes points doit == 1
+  __END__
+  Plot2D/MAIN PLOT/QQLine:
+   one2one y doit == 1
+  Plot2D / MAIN PLOT : plottitle == Title of my\nFAVORITE PLOT
+
+
+
+Z<>
